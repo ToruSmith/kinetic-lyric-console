@@ -1,22 +1,11 @@
 /* ===== [FX-ENTER-EXIT] 退場表 EXTRA_EX / 持續特效表 FXH（wave shimmer gradient-flow chromatic outline-pulse highlight-word）/ ring 輔助 / 版型 B：scroll orbit diagonal marquee circle-badge zoom-tunnel split-screen ===== */
 let scr=[],curFont="";
 const HOLD=[{opacity:1,filter:"none"},{opacity:1,offset:.85},{opacity:0}];
-const EXTRA_EX={dissolve:[{opacity:1,filter:"blur(0)"},{opacity:0,filter:"blur(10px)"}],shatter:HOLD,
- "glitch-out":[{opacity:1,transform:"none"},{opacity:1,transform:"translateX(14px) skewX(20deg)",filter:"hue-rotate(90deg)",offset:.3},{opacity:.6,transform:"translateX(-18px)",filter:"hue-rotate(200deg)",offset:.6},{opacity:0,transform:"translateX(6px)"}]};
+const EXTRA_EX={shatter:HOLD};
 const EXTRA_FK={};
 const EXIT_C={};   /* 逐字退場：EXIT_C[名稱]=(字元素,索引,總字數,種子亂數)=>{kf,dur(占退場長度比例,預設.6),at(延遲比例),ease}；整句版放在 EXTRA_EX 當沒有 .ch 時的退路 */
 const tel=fw=>[...fw.querySelectorAll('[style*="font-family"]')],cl=fw=>[...fw.querySelectorAll(".ch")];
-const FXH={
- wave(fw){let l=cl(fw);if(!l.length)l=[fw];l.forEach((c,i)=>A(c,[{translate:"0 0"},{translate:"0 -1.2cqh"},{translate:"0 0"},{translate:"0 1.2cqh"},{translate:"0 0"}],{duration:1800,delay:0,iterations:Infinity,easing:"ease-in-out",iterationStart:(i*.12)%1}))},
- shimmer(fw){const d=document.createElement("div");d.style.cssText="position:absolute;top:0;bottom:0;width:30cqw;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);mix-blend-mode:overlay;pointer-events:none";fw.appendChild(d);
-  A(d,[{transform:"translateX(-40cqw) skewX(-20deg)"},{transform:"translateX(130cqw) skewX(-20deg)",offset:.3},{transform:"translateX(130cqw) skewX(-20deg)"}],{duration:4000,iterations:Infinity,easing:"linear"})},
- "gradient-flow"(fw){/* 有逐字 .ch 時，漸層要畫在每個字上：background-clip:text 不會穿過帶動畫的 inline-block 子框，套在父層字會整句消失（只剩光暈） */
-  const ch=cl(fw),els=ch.length?ch:tel(fw);
-  els.forEach((e,i)=>{e.style.cssText+=";background-image:linear-gradient(90deg,#fff,var(--a),#fff,var(--a));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent";
-  A(e,[{backgroundPosition:"0 0"},{backgroundPosition:"300% 0"}],{duration:4000,delay:ch.length?-i*350:0,iterations:Infinity,easing:"linear"})})},
- chromatic(fw){tel(fw).forEach(e=>A(e,[{textShadow:"-1px 0 rgba(255,0,0,.8),1px 0 rgba(0,200,255,.8)"},{textShadow:"-4px 0 rgba(255,0,0,.8),4px 0 rgba(0,200,255,.8)"}],{duration:60000/CONFIG.bpm,iterations:Infinity,direction:"alternate",easing:"ease-in-out"}))},
- "outline-pulse"(fw){tel(fw).forEach(e=>A(e,[{textShadow:"0 0 0 transparent"},{textShadow:"0 0 16px var(--a),0 0 2px var(--a)",offset:.1},{textShadow:"0 0 0 transparent"}],{duration:60000/CONFIG.bpm,iterations:Infinity,easing:"ease-out"}))},
- "highlight-word"(fw,dur){const l=cl(fw);if(!l.length)return;const t=dur*1000/l.length;l.forEach((c,i)=>A(c,[{color:"var(--c)"},{color:"var(--a)",offset:.3},{color:"var(--c)"}],{duration:t*1.6,delay:i*t,easing:"linear"}))}};
+const FXH={};
 const ring=(c,txt,n,css,R,cfg)=>{const r=document.createElement("div");r.className="w";c.appendChild(r);
  const t=[...txt];while(t.length<n)t.push(...[...txt,"・"]);t.length=Math.max(n,1);
  t.forEach((ch,i)=>{const a=cfg.arc?(i/(t.length-1||1)-.5)*cfg.arc:i*360/t.length,e=txtEl(`left:50%;top:50%;${css};transform:translate(-50%,-50%) rotate(${a}deg) translateY(-${R}cqh)`);e.textContent=ch;r.appendChild(e);A(e,[{opacity:0},{opacity:1}],{duration:D()*.5,delay:i*(cfg.step||40)})});return r};
@@ -37,7 +26,7 @@ Object.assign(NL,{
   [[t.slice(0,k).join(""),`bottom:calc(50% + ${z*.3}px)`,-1],[t.slice(k).join(""),`top:calc(50% + ${z*.3}px)`,1]].forEach(([x,top,d],i)=>{const e=txtEl(`left:0;right:0;${top};text-align:center;font-size:${z}px;line-height:1.1`);e.textContent=x;c.appendChild(e);A(e,[{opacity:0,translate:`${d*25}cqw 0`},{opacity:1,translate:"0 0"}],{duration:D(),delay:i*150})});
   const l=document.createElement("div");l.className="ln";l.style.cssText="position:absolute;left:10cqw;right:10cqw;top:50%";c.appendChild(l);A(l,[{transform:"scaleX(0)"},{transform:"scaleX(1)"}],{duration:D()})}});
 LAYOUTS.push("scroll","orbit","diagonal","marquee","circle-badge","zoom-tunnel","split-screen");
-ENTERS.push("scramble","split-reveal");EXITS.push("dissolve","shatter","glitch-out");FXS.push("wave","shimmer","gradient-flow","chromatic","outline-pulse","highlight-word");
+ENTERS.push("scramble","split-reveal");EXITS.push("shatter");
 /* ===== 階段 2（JIZURA 移植）：新增進場／退場／保持。只往表裡加，不改既有項目；進場的表在 04-anim.js 的 enter()。
    來源對照（JIZURA key）：blur-stagger＝blurStagger／track-in＝trackIn／skew-in＝skewIn／wipe＝wipe／clock-wipe＝clockWipe／neon-on＝neonOn；
    vacuum＝vacuumOut／sweep-cover＝sweepCover／wipe-out＝wipe／clock-out＝clockOut；breathe＝breathe／track-breathe＝trackBreathe／zoom-slow＝zoomSlow／focus-rack＝focusRack。
@@ -51,23 +40,6 @@ const CLOCK_KF=inn=>{const a=[];for(let k=0;k<=36;k++){const d=(10*k).toFixed(0)
 /* 退場 */
 {const BAR="linear-gradient(var(--a),var(--a))";
 Object.assign(EXTRA_EX,{
- vacuum:[{opacity:1,transform:"none",filter:"blur(0)"},{opacity:0,transform:"scale(0)",filter:"blur(6px)"}],   /* 收向舞台中心（取不到文字中心） */
- "sweep-cover":[{clipPath:"inset(0 0 0 0)",backgroundImage:BAR,backgroundRepeat:"no-repeat",backgroundSize:"0 100%",backgroundPosition:"0% 0",offset:0},
-  {clipPath:"inset(0 0 0 0)",backgroundImage:BAR,backgroundRepeat:"no-repeat",backgroundSize:".3cqw 100%",backgroundPosition:"0% 0",offset:.02},
-  {clipPath:"inset(0 0 0 99.7%)",backgroundImage:BAR,backgroundRepeat:"no-repeat",backgroundSize:".3cqw 100%",backgroundPosition:"100% 0",offset:1}],   /* 一根強調色細條由左掃到右，條左側的字被 clipPath 隱藏；條與裁切同在整句容器上，所以長度一致 */
- "wipe-out":[{clipPath:"inset(0)"},{clipPath:"inset(0 0 0 100%)"}],
  "clock-out":CLOCK_OK?CLOCK_KF(0):[{clipPath:CLOCK_DIAG[1]},{clipPath:CLOCK_DIAG[0]}]})}
 /* 保持 */
-Object.assign(FXH,{
- breathe(fw){A(fw,[{scale:1},{scale:1.03},{scale:1}],{duration:4000,iterations:Infinity,easing:"ease-in-out"})},   /* 用獨立的 scale 屬性，不和進場的 transform 打架 */
- "track-breathe"(fw){tel(fw).forEach(e=>{const cs=getComputedStyle(e),fs=parseFloat(cs.fontSize)||16,ls=parseFloat(cs.letterSpacing)||0;   /* 字距寫在各文字元素上，不會從父層繼承，所以逐元素加動畫 */
-  A(e,[{letterSpacing:(ls-.03*fs)+"px"},{letterSpacing:(ls+.03*fs)+"px"}],{duration:2500,iterations:Infinity,direction:"alternate",easing:"ease-in-out"})})},
- "zoom-slow"(fw,dur){A(fw,[{scale:1},{scale:1.06}],{duration:dur*1000,easing:"linear"})},
- "focus-rack"(fw,dur){const l=cl(fw);if(!l.length)return;const t=dur*1000/l.length;l.forEach((c,i)=>A(c,[{filter:"blur(0)"},{filter:"blur(1.5px)",offset:.5},{filter:"blur(0)"}],{duration:t*1.6,delay:i*t,easing:"linear"}))}});
-Object.assign(FXH,{   /* 鏡頭型（概念參考 JIZURA 鏡頭，MIT）：只動字幕容器 fw，用獨立屬性 scale／translate，位移 <3% 畫面 */
- "cam-pull"(fw,dur){A(fw,[{scale:1.06},{scale:1}],{duration:dur*1000,easing:"linear"})},
- "cam-pan-l"(fw,dur){A(fw,[{translate:"1.5cqw 0"},{translate:"-1.5cqw 0"}],{duration:dur*1000,easing:"linear"})},
- "cam-pan-r"(fw,dur){A(fw,[{translate:"-1.5cqw 0"},{translate:"1.5cqw 0"}],{duration:dur*1000,easing:"linear"})},
- "cam-tilt-up"(fw,dur){A(fw,[{translate:"0 1.5cqh"},{translate:"0 -1.5cqh"}],{duration:dur*1000,easing:"linear"})}});
-FXS.push("cam-pull","cam-pan-l","cam-pan-r","cam-tilt-up");
-ENTERS.push("blur-stagger","track-in","skew-in","wipe","clock-wipe","neon-on");EXITS.push("vacuum","sweep-cover","wipe-out","clock-out");FXS.push("breathe","track-breathe","zoom-slow","focus-rack");
+ENTERS.push("blur-stagger","track-in","skew-in","wipe","clock-wipe","neon-on");EXITS.push("clock-out");

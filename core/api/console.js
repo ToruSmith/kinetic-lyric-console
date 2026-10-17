@@ -43,7 +43,7 @@ const Console=(()=>{
     if(d.perChar!==undefined&&!(isObj(d.perChar)&&isFn(d.perChar.keyframes)&&kf(d.perChar.fallback)))bad(d,"perChar 必須是 {keyframes:(i,n)=>影格陣列, fallback:影格陣列, gap?:毫秒}");
     if(d.play!==undefined&&!isFn(d.play))bad(d,"play(ctx) 必須是函式");
     if(ENTERS.includes(d.id)||ENTER_X[d.id])bad(d,"與既有進場同名");break;
-   case"exit":one(["keyframes","perChar"]);
+   case"exit":if(d.keyframes===undefined&&d.perChar===undefined)bad(d,"keyframes／perChar 至少要提供一個（可同時提供：有逐字元素用 perChar，沒有就用整句 keyframes）");
     if(d.keyframes!==undefined&&!kf(d.keyframes))bad(d,"keyframes 必須是至少兩個影格的陣列");
     if(d.perChar!==undefined&&!isFn(d.perChar))bad(d,"perChar(ctx) 必須是函式，回傳 {kf,dur?,at?,ease?}");
     if(EXITS.includes(d.id)||EXTRA_EX[d.id]||EXIT_C[d.id])bad(d,"與既有退場同名");break;
@@ -61,7 +61,8 @@ const Console=(()=>{
   checkRand(d)}
 
  /* ---- 給卡帶的窄介面（凍結；新增欄位不算破壞，改名或移除要升 apiVersion）---- */
- const baseCtx=()=>({apiVersion:API,anim:A,speed:+CONFIG.speed||1,beatMs:()=>60000/(+CONFIG.bpm||120),colors:Object.freeze({accent:"var(--a)",text:"var(--c)"})});
+ const baseCtx=()=>({apiVersion:API,anim:A,speed:+CONFIG.speed||1,beatMs:()=>60000/(+CONFIG.bpm||120),colors:Object.freeze({accent:"var(--a)",text:"var(--c)"}),
+  config:Object.freeze({get bpm(){return+CONFIG.bpm||120},get speed(){return+CONFIG.speed||1},get spacing(){return+CONFIG.spacing||0}}),computed:el=>getComputedStyle(el)});
  const layoutCtx=(sb,c,w,big,sm,dur,list)=>Object.freeze({...baseCtx(),sentence:sb,host:c,root:w,duration:dur,charEls:list,width:SWd(),height:SHd(),bigSize:big,smallSize:sm,
   text:txtEl,splitChars:chars,centered:css=>CE(c,css),fitSize:()=>fit(sb,big),random:sr,enterMs:D,enter:(el,kind,l)=>enter(el,kind||sb.en||"fade",l)});
  const AD={
@@ -74,11 +75,11 @@ const Console=(()=>{
    ENTERS.push(d.id)},
   exit(d){
    if(d.keyframes)EXTRA_EX[d.id]=d.keyframes;
-   else EXIT_C[d.id]=(c,i,n,R)=>d.perChar(Object.freeze({el:c,index:i,count:n,random:R}));
+   if(d.perChar)EXIT_C[d.id]=(c,i,n,R)=>d.perChar(Object.freeze({el:c,index:i,count:n,random:R}));
    EXITS.push(d.id)},
   fx(d){
    if(d.keyframes)EXTRA_FK[d.id]=[d.keyframes,d.duration,d.easing||"ease-in-out"];
-   else FXH[d.id]=(fw,du)=>d.play(Object.freeze({...baseCtx(),el:fw,duration:du,charEls:()=>cl(fw)}));
+   else FXH[d.id]=(fw,du)=>d.play(Object.freeze({...baseCtx(),el:fw,duration:du,charEls:()=>cl(fw),textEls:()=>tel(fw)}));
    FXS.push(d.id)},
   style(d){
    if(d.scope==="element")ST[d.id]=e=>d.apply(Object.freeze({...baseCtx(),el:e,vertical:isV(e),shadow:s=>addSh(e,s),perChar:()=>_lv(e)}));

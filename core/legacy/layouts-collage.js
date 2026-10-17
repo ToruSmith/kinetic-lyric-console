@@ -20,6 +20,5 @@ Object.assign(NL,{
    if(kw){const hl=document.createElement("span");hl.style.cssText="position:absolute;left:-.1em;right:-.1em;top:48%;bottom:2%;background:var(--a);opacity:.55;transform-origin:left";sp.appendChild(hl);
     A(hl,[{transform:"skewX(-8deg) scaleX(0)"},{transform:"skewX(-8deg) scaleX(1)"}],{duration:D()*.8,delay:D()+(k++)*250,easing:"cubic-bezier(.7,0,.3,1)"})}
    const tx=document.createElement("span");tx.style.position="relative";tx.textContent=kw?p.slice(1,-1):p;sp.appendChild(tx);e.appendChild(sp);A(sp,[{opacity:0},{opacity:1}],{duration:D()})})}});
-FXH.stopmotion=fw=>A(fw,[{translate:"0 0",rotate:"0deg"},{translate:"2px 1px",rotate:".6deg"},{translate:"-1px 2px",rotate:"-.5deg"},{translate:"1px -2px",rotate:".3deg"}],{duration:400,iterations:Infinity,easing:"steps(3)"});
-LAYOUTS.push("collage","handwrite","marker");FXS.push("stopmotion");
+LAYOUTS.push("collage","handwrite","marker");
 LAYOUTS.push("center","ripple-pool","constellation","particle-form","hud-frame","parallax-depth","polaroid","page-flip","ink-bleed","laser-scan","split-flap","wave-path","mirror-reflect","cylinder","iris-frame","annotate");ENTERS.push("iris");

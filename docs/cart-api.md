@@ -23,7 +23,7 @@
 |---|---|---|
 | `layout` | `render(ctx)`、`flags?{brace,full,lab,ownSub}` | 排版＋進場。`brace`：`{}` 當關鍵字；`full`：滿版（不套安全邊界）；`lab`：實驗版型；`ownSub`：自己畫副文字 |
 | `enter` | `keyframes`／`perChar{keyframes:(i,n)=>[...],fallback,gap?}`／`play(ctx)`，`easing?` | 進場動畫 |
-| `exit` | `keyframes`／`perChar(ctx)=>{kf,dur?,at?,ease?}` | 退場動畫（整句或逐字） |
+| `exit` | `keyframes`、`perChar(ctx)=>{kf,dur?,at?,ease?}`（至少一個，可同時提供：有逐字元素用 `perChar`，否則用整句 `keyframes`） | 退場動畫 |
 | `fx` | `keyframes`＋`duration`（毫秒）／`play(ctx)`，`easing?` | 持續特效 |
 | `style` | `scope: 'element'｜'sentence'`、`apply(ctx)` | 文字樣式 |
 | `scene` | `layer: 'under'｜'over'`、`group`、`amount 0–100`、`cost: 輕｜中｜重`、`lab?`、`draw(g,f,u)` | canvas 場景層 |
@@ -31,14 +31,14 @@
 
 ## `ctx`（唯一介面，凍結）
 
-共通：`apiVersion`、`anim(el, keyframes, opts)`（時間驅動、可暫停的動畫；**唯一的動畫入口**）、`speed`、`beatMs()`、`colors`（`var(--a)` 強調、`var(--c)` 文字）。
+共通：`apiVersion`、`anim(el, keyframes, opts)`（時間驅動、可暫停的動畫；**唯一的動畫入口**）、`speed`、`beatMs()`、`colors`（`var(--a)` 強調、`var(--c)` 文字）、`config`（唯讀：`bpm` `speed` `spacing`）、`computed(el)`（= `getComputedStyle`）。
 
 - **layout.render**：`sentence`（`.plain` `.sub` `.hl` …）、`host`（放內容的容器）、`root`、`duration`（秒）、`charEls`（把逐字元素 push 進來，特效才找得到）、`width` `height` `bigSize` `smallSize`、`text(css)`、`splitChars(str, el)`、`centered(css)`、`fitSize()`、`random(seed)`、`enterMs()`、`enter(el, kind?, list?)`
 - **enter.play**：`el`、`charEls`、`duration`
 - **exit.perChar**：`el`、`index`、`count`、`random`
-- **fx.play**：`el`、`duration`、`charEls()`
+- **fx.play**：`el`、`duration`、`charEls()`、`textEls()`（帶字體樣式的文字元素）
 - **style（element）**：`el`、`vertical`、`shadow(css)`、`perChar()`；**（sentence）**：`host`、`sentence`、`duration`、`textEls()`、`splitChars()`、`enterMs()`
-- **scene.draw(g, f, u)**：`g` canvas 2D；`f = {t, W, H, a, lite, R, C, bp, env}`；`u = {fade(g,f,v), TAU}`
+- **scene.draw(g, f, u)**：`g` canvas 2D；`f = {t, W, H, a, lite, R, C, bp, env, r, seed, G1, G2}`；`u = {fade(g,f,v), TAU, random(種子), hash(字串), bpm()}`
 
 ## `rand` 適配
 

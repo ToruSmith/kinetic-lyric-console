@@ -40,8 +40,8 @@
 | `src/23-lay-j.js` | `core/legacy/layouts-jizura-typography.js` |
 | `src/23-lay-k.js` | `core/legacy/layouts-jizura-editorial.js` |
 | `src/23-lay-l.js` | `core/legacy/layouts-jizura-frames.js` |
-| `src/23-motion-k.js` | `core/legacy/motion-jizura-1.js` |
-| `src/23-motion-l.js` | `core/legacy/motion-jizura-2.js` |
+| `src/23-motion-k.js` | 進場／退場／保持已拆成 `carts/{enter,exit,fx}/*.cart.js`；`core/legacy/motion-jizura-1.js` 只剩 6 個文字樣式 |
+| `src/23-motion-l.js` | 進場／退場／保持／鏡頭已拆成卡帶；`core/legacy/motion-jizura-2.js` 只剩 6 個文字樣式 |
 | `src/23-styles.js` | `core/ui/style-pack-panel.js` |
 | `src/24-decor-k.js` | 已拆成 `carts/scene/{crop-marks,crosshair,dimension-lines,edge-ticks}.cart.js` |
 | `src/24-misc.js` | `core/kernel/boot.js` |
