@@ -1,0 +1,18 @@
+{
+ "name": "kinetic-lyric-console",
+ "version": "0.1.0",
+ "description": "動態歌詞字幕「遊戲機」：主機＋可插拔卡帶（版型、進退場、特效、樣式、場景、風格包）",
+ "private": true,
+ "type": "module",
+ "license": "MIT",
+ "engines": { "node": "^20.19.0 || ^22.13.0 || >=24" },
+ "scripts": {
+  "build": "node tools/build.mjs",
+  "lint": "node test/lint.mjs",
+  "test:carts": "node test/carts.mjs",
+  "check": "npm run build && npm run lint && node test/carts.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/scene.mjs && node test/beatfx-layouts.mjs && node test/styles.mjs && node test/sentence-opts.mjs",
+  "regress": "node test/regress.mjs legacy/index.html dist/index.html"
+ },
+ "dependencies": { "playwright": "^1.64.0" },
+ "devDependencies": { "eslint": "^10.12.0", "globals": "^17.13.0" }
+}

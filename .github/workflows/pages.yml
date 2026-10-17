@@ -1,0 +1,31 @@
+# 只在 main 且主機／卡帶有變動時部署一次到 GitHub Pages（需在 Settings → Pages 選 Source: GitHub Actions）。
+name: pages
+on:
+  push:
+    branches: [main]
+    paths: ['core/**', 'carts/**', 'tools/build.mjs', 'legacy/thumbs/**', '.github/workflows/pages.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node tools/build.mjs          # 建置只用 Node 內建模組，不需 npm ci
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: dist }
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -37,6 +37,7 @@
  "core/legacy/motion-jizura-2.js",
  "core/ui/style-pack-panel.js",
  "core/legacy/scenes-jizura-decor.js",
+ "core/api/console.js",
  "@carts",
  "core/kernel/boot.js",
  "core/ui/quick-menu.js",

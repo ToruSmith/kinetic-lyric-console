@@ -53,6 +53,7 @@ function selfCheck(){
   ["#fs","#fm","#demo","#rec","#ed","#rnd","#unlock","#tg","#play","#qkb","#qk","#cfgImport"].forEach(q=>$(q)||out.push("缺少元素："+q));
   QK_SECS.forEach(id=>$('#panel [data-sec="'+id+'"]')||out.push("面板缺少區段錨點："+id))}
  out.push(...rndCheck());
+ Console.errors.forEach(e=>out.push("卡帶登記失敗："+e));
  {const m=thMissing();m.length&&console.info("[selfCheck] 這些項目沒有縮圖（不影響功能；node test/make-thumbs.mjs 重拍）："+m.join(" "))}
  out.length?console.warn("[selfCheck] 發現 "+out.length+" 項：\n"+out.join("\n")):console.info("[selfCheck] 登記一致");return out}
 if(/[?&]check=1(&|$)/.test(location.search))window.addEventListener("load",selfCheck);

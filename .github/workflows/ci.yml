@@ -1,0 +1,46 @@
+# 省額度守則（見 docs/architecture-plan.md 第 8 節）：
+# 只在 PR（相關路徑有變動）或手動觸發時跑；不在每次 push 跑，不用 cron。
+# 只用 pull_request（不用 pull_request_target），所以來自 fork 的卡帶 PR 拿不到任何 secret。
+name: ci
+on:
+  pull_request:
+    paths: ['core/**', 'carts/**', 'tools/**', 'test/**', 'render/**', 'package*.json', '.github/workflows/ci.yml']
+  workflow_dispatch:
+    inputs:
+      full:
+        description: '跑完整測試（check）與新舊像素對照（regress），較耗時'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm run build
+      - run: npm run lint            # 不需瀏覽器，最先跑，卡帶違規在這裡就擋下
+      - name: 安裝 Chromium（快取）
+        uses: actions/cache@v4
+        id: pw
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+      - run: npx playwright install --with-deps chromium
+        if: steps.pw.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps chromium
+        if: steps.pw.outputs.cache-hit == 'true'
+      - name: 卡帶驗證（合約、確定性、九宮格位置、不連網）
+        run: node test/carts.mjs
+      - name: 完整測試與新舊像素對照（僅手動）
+        if: github.event_name == 'workflow_dispatch' && inputs.full
+        run: |
+          npm run check
+          npm run regress

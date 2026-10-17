@@ -9,13 +9,15 @@
 
 ## 進度與規劃
 
+貢獻者請看 [`CONTRIBUTING.md`](CONTRIBUTING.md) 與 [`docs/cart-api.md`](docs/cart-api.md)。
+
 完整規劃（目錄、命名規則、卡帶合約、安全分級、里程碑）：[`docs/architecture-plan.md`](docs/architecture-plan.md)
 
 | 里程碑 | 內容 | 狀態 |
 |---|---|---|
 | M0 | 舊資料快照上傳、規劃文件、授權標示 | ✅ |
-| M1 | 骨架：`core/`、建置工具、卡帶登記層、省額度的 CI | ⏳ |
-| M2 | `ctx` 外觀層、卡帶驗證工具、新舊逐像素對照 | ⏳ |
+| M1 | 骨架：`core/`、建置工具、卡帶登記層、省額度的 CI | ✅ |
+| M2 | `ctx` 外觀層、卡帶驗證工具、新舊逐像素對照 | ✅ |
 | M3 | 各類代表性卡帶示範，舊內容分批搬入 `carts/` | ⏳ |
 | M4 | 貢獻文件與範本、刪除 `legacy/` | ⏳ |
 

@@ -12,14 +12,14 @@ const RND_SCN_TH={   /* 場景主題：neutral＝任何版型都能搭；tech／
 const RND_LAY_TH={   /* 版型除了 neutral 之外還接受哪種場景主題 */
  tech:"glitch hud-frame laser-scan split-flap typewriter constellation danmaku formula",
  grunge:"ink-bleed handwrite marker collage polaroid page-flip annotate hanko scatter crayon-shatter victim-outline shatter-text noise-text"};
-const RND_SPARSE="ripple-pool particle-form constellation";   /* 自己就是滿畫面特效的版型（再加上 FULLBLEED）：只配「文字之下」的場景，不配蓋在文字上的 over 場景 */
-const RND_TEXT_CANVAS="particle-form ripple-pool";             /* 文字畫在 canvas 上：要 DOM 文字的特效（RND_FX_DOM）對它們沒有作用 */
-const RND_STRONG_LAY="slam bounce glitch flash-words zoom-tunnel danmaku shatter-text noise-text scatter falling crayon-shatter";   /* 高能量版型：才會配 RND_FX_STRONG */
-const RND_FX_STRONG="shake flicker rainbow chromatic stopmotion drum beat-jump";   /* 強烈特效（閃爍、抖動、變色、重拍彈跳）：只配高能量版型 */
-const RND_FX_DOM="gradient-flow chromatic outline-pulse track-breathe highlight-word focus-rack dangle wind-gust";   /* 只作用在 DOM 文字（找 .ch 或帶 font-family 的元素） */
+let RND_SPARSE="ripple-pool particle-form constellation";   /* 自己就是滿畫面特效的版型（再加上 FULLBLEED）：只配「文字之下」的場景，不配蓋在文字上的 over 場景 */
+let RND_TEXT_CANVAS="particle-form ripple-pool";             /* 文字畫在 canvas 上：要 DOM 文字的特效（RND_FX_DOM）對它們沒有作用 */
+let RND_STRONG_LAY="slam bounce glitch flash-words zoom-tunnel danmaku shatter-text noise-text scatter falling crayon-shatter";   /* 高能量版型：才會配 RND_FX_STRONG */
+let RND_FX_STRONG="shake flicker rainbow chromatic stopmotion drum beat-jump";   /* 強烈特效（閃爍、抖動、變色、重拍彈跳）：只配高能量版型 */
+let RND_FX_DOM="gradient-flow chromatic outline-pulse track-breathe highlight-word focus-rack dangle wind-gust";   /* 只作用在 DOM 文字（找 .ch 或帶 font-family 的元素） */
 const RND_FX_GRP={cam:"breathe zoom-slow cam-pull cam-pan-l cam-pan-r cam-tilt-up pulse heartbeat drum jelly beat-jump small-circle stretch-beat tilt-down dolly-in step-zoom",color:"rainbow gradient-flow chromatic shimmer outline-pulse shadow-sway",char:"wave track-breathe focus-rack highlight-word noise-drift",jitter:"shake flicker stopmotion",rot:"slow-rotate sway-char dangle wind-gust"};   /* 同組互斥（float 單獨一組）。cam＝對整句容器動 scale／translate 的特效：同屬性的動畫會互相覆蓋，所以一次只配一個 */
-const RND_NEED_SUB="ruby footnote";   /* 版型自己畫副文（SUB_OWN）：這句有副文（||）才會被抽到；沒有副文時 ruby 只剩小圓點、footnote 沒註腳 */
-const RND_NO_EN="slam bounce";   /* build() 不套用這些版型的 en（見 05-build.js），隨機時進場留空，不寫沒用的標記 */
+let RND_NEED_SUB="ruby footnote";   /* 版型自己畫副文（SUB_OWN）：這句有副文（||）才會被抽到；沒有副文時 ruby 只剩小圓點、footnote 沒註腳 */
+let RND_NO_EN="slam bounce";   /* build() 不套用這些版型的 en（見 05-build.js），隨機時進場留空，不寫沒用的標記 */
 const edRandOpt={lay:true,anim:true,fx:true,scn:true,lab:false};   /* 隨機哪些內容；lab＝含實驗室版型與場景 */
 
 const rndSet=s=>new Set(String(s).split(/\s+/).filter(Boolean));

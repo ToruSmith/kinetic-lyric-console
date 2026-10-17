@@ -32,7 +32,7 @@ kinetic-lyric-console/
 │  ├─ ui/              面板、句子編輯器、匯出精靈、快捷選單
 │  └─ shell/           index.template.html、style.css
 ├─ carts/              卡帶：一檔一個，資料夾＝種類
-│  ├─ layout/ enter/ exit/ exit-char/ fx/ style/ scene/ pack/
+│  ├─ layout/ enter/ exit/ fx/ style/ scene/ pack/   （逐字退場併入 exit）
 │  └─ _template/       每種的範本
 ├─ render/             離線渲染（Playwright＋ffmpeg）
 ├─ tools/              build、new-cart、make-thumbs、gen-docs
@@ -107,8 +107,8 @@ Console.cart({
 | | 內容 |
 |---|---|
 | M0 | 舊資料快照（`legacy/`）、規劃文件、授權標示 ✅ |
-| M1 | 骨架：`core/`、建置工具（取代 `build.mjs`）、卡帶登記層、省額度的 CI 與 Pages 部署 |
-| M2 | `ctx` 外觀層、卡帶驗證工具、與 `legacy/` 的逐像素對照 |
+| M1 | 骨架：`core/`、建置工具（取代 `build.mjs`）、卡帶登記層、省額度的 CI 與 Pages 部署 ✅ |
+| M2 | `ctx` 外觀層、卡帶驗證工具、與 `legacy/` 的逐像素對照 ✅（`test/carts.mjs`、`test/regress.mjs`；範本與 11 個示範卡帶） |
 | M3 | 每種各一個代表性卡帶，舊內容分批搬遷（每批跑回歸，有差異就退回那批） |
 | M4 | `CONTRIBUTING`、卡帶範本與 `new-cart` 工具、manifest 產生手冊／縮圖／隨機適配表、刪除 `legacy/` |
 
