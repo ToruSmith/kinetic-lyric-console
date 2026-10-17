@@ -25,7 +25,7 @@
 | `src/14-ambient.js` | `core/kernel/ambient.js` |
 | `src/15-overlay.js` | `core/kernel/overlay.js` |
 | `src/15-scene.js` | `core/kernel/scene-engine.js` |
-| `src/15-scene2.js` | `core/legacy/scenes-extra.js` |
+| `src/15-scene2.js` | 已拆成 `carts/scene/*.cart.js`（31 個）；其餘已無內容 |
 | `src/16-beatfx.js` | `core/kernel/beat-fx.js` |
 | `src/16-lay-c.js` | `core/legacy/layouts-keyword-fx.js` |
 | `src/17-lay-d.js` | `core/legacy/layouts-collage.js` |
@@ -43,7 +43,7 @@
 | `src/23-motion-k.js` | `core/legacy/motion-jizura-1.js` |
 | `src/23-motion-l.js` | `core/legacy/motion-jizura-2.js` |
 | `src/23-styles.js` | `core/ui/style-pack-panel.js` |
-| `src/24-decor-k.js` | `core/legacy/scenes-jizura-decor.js` |
+| `src/24-decor-k.js` | 已拆成 `carts/scene/{crop-marks,crosshair,dimension-lines,edge-ticks}.cart.js` |
 | `src/24-misc.js` | `core/kernel/boot.js` |
 | `src/25-quick.js` | `core/ui/quick-menu.js` |
 | `src/25-wizard.js` | `core/ui/export-wizard.js` |
@@ -53,3 +53,7 @@
 | `src/28-thumbs.js` | `core/ui/thumbs.js` |
 | `build.mjs` | `tools/build.mjs` |
 | `render/*` `test/*` | `render/*` `test/*`（檔名同，路徑改指向 `dist/`、`legacy/`） |
+
+## 過渡墊片
+
+`core/api/legacy-order.js` 凍結舊版各登記表的名稱順序，`core/api/finalize.js` 在卡帶載完後排回舊順序，使逐句隨機、面板清單、縮圖索引的結果與舊版完全相同。M4 移除（接受一次性的隨機結果改變）。逐句隨機的主題表（`RND_*`）暫時仍在 `core/ui/randomizer.js`。

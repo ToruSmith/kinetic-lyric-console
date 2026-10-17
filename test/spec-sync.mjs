@@ -4,13 +4,13 @@ import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 const PAGE = process.env.PAGE || 'dist/index.html';   // 建置結果；可用環境變數 PAGE 指定別的檔
-// 過渡期：功能手冊還在 legacy/（M4 起改由卡帶 manifest 產生清單）；卡帶（Console.carts）不要求寫進手冊
+// 過渡期：功能手冊還在 legacy/（M4 起改由卡帶 manifest 產生清單）；新卡帶（不在 LEGACY_ORDER 內）不要求寫進手冊；由舊版搬成卡帶的部件仍必須有手冊
 const MANUAL = process.env.MANUAL || 'legacy/動態歌詞字幕工具_功能手冊與SRT標記指南.md';
 const md = fs.readFileSync(MANUAL, 'utf8');
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, args: ['--no-sandbox'] });
 const p = await browser.newPage(); await p.goto(pathToFileURL(resolve(PAGE)).href + '?render=1'); await p.evaluate(() => window.__ready);
 const I = await p.evaluate(() => ({ L: LAYOUTS.filter(l => !LAB_LAYOUTS.has(l)), LAB: [...LAB_LAYOUTS], S: SCENE_NAMES.filter(n => !SCENES[n].lab), SL: SCENE_NAMES.filter(n => SCENES[n].lab), P: [...STYLE_PACKS], EN: ENTERS, EX: EXITS, FX: FXS, K: ['sceneAll', 'layoutPool', 'sceneMax', 'sceneBudget', 'beatShake', 'beatZoom', 'beatTilt', 'beatHue', 'autoAccent'] }));
-{ const CN = new Set(await p.evaluate(() => Console.carts.map(c => c.name))); for (const k of ['L', 'LAB', 'S', 'SL', 'P', 'EN', 'EX', 'FX']) I[k] = I[k].filter(n => !CN.has(n)); }
+{ const CN = new Set(await p.evaluate(() => Console.carts.filter(c => !(LEGACY_ORDER[c.kind] || []).includes(c.name)).map(c => c.name))); for (const k of ['L', 'LAB', 'S', 'SL', 'P', 'EN', 'EX', 'FX']) I[k] = I[k].filter(n => !CN.has(n)); }
 let fail = 0, pass = 0; const has = n => md.includes('`' + n + '`'), t = (c, m) => { c ? pass++ : (fail++, console.log('✗ ' + m)) };
 I.L.forEach(n => t(has(n), '規格書缺版型 ' + n)); I.S.forEach(n => t(has(n), '規格書缺場景 ' + n)); I.EN.forEach(n => t(has(n), '規格書缺進場 ' + n)); I.EX.forEach(n => t(has(n), '規格書缺退場 ' + n)); I.FX.forEach(n => t(has(n), '規格書缺特效 ' + n));
 I.K.forEach(n => t(has(n), '規格書缺設定鍵 ' + n)); I.P.forEach(n => t(md.includes('`' + n + '`'), '規格書缺風格包 ' + n));

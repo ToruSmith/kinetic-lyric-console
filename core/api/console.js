@@ -85,7 +85,7 @@ const Console=(()=>{
    else STC[d.id]=(c,sb,du)=>d.apply(Object.freeze({...baseCtx(),host:c,sentence:sb,duration:du,textEls:()=>tEls(c),splitChars:()=>charify(c),enterMs:D}))},
   scene(d){regScene(d.id,d.layer,d.group,d.amount,(g,f)=>d.draw(g,f,SCENE_UTIL),{lab:!!d.lab,cost:d.cost})},
   pack(d){regPack(d.label.zh,d.config)}};
- const SCENE_UTIL=Object.freeze({fade:al,TAU:PI*2});   /* 場景用：u.fade(g,f,v)＝套上淡入淡出包絡後的 globalAlpha */
+ const SCENE_UTIL=Object.freeze({fade:al,TAU:PI*2,random:q=>sr(q),hash:s=>hashN(s),bpm:()=>+CONFIG.bpm||120});   /* 場景用：u.fade(g,f,v)＝套上淡入淡出包絡後的 globalAlpha；u.random(種子)＝確定性亂數；u.hash(字串)＝穩定雜湊；u.bpm()＝目前 BPM */
 
  /* ---- rand：卡帶宣告的「適配」資料，併進逐句隨機的表（見 ui/randomizer.js）。檢查在登記之前做（checkRand），避免半登記 ---- */
  const TH=["neutral","tech","grunge"],RAND_ALLOW={layout:["sceneThemes","sparse","textCanvas","strong","noEnter","needSub"],scene:["theme"],fx:["group","strong","domOnly"],enter:[],exit:[],style:[],pack:[]};

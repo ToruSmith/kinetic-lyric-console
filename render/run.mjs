@@ -9,6 +9,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync, mkdirSync, writeFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { build } from '../tools/build.mjs';
 import { analyzeAudio } from './audio.mjs';
 import { parseKey, applyChroma } from './chroma.mjs';
 import { resolvePost, postFilter, missingFilters, describe as describePost } from './post.mjs';
@@ -95,6 +96,8 @@ async function open() {
     die('無法啟動 Chromium：' + e.message + '\n請先執行 npx playwright install chromium'));
   const page = await (await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1 })).newPage();
   page.on('pageerror', e => console.error('頁面錯誤：', e.message));
+  // 渲染永遠吃「剛從 core/＋carts/ 建置出的 dist/index.html」；沒有就自動建置（只需 Node，不需 npm 套件）
+  if (!existsSync(join(here, '..', 'dist', 'index.html'))) { build(); console.log('已自動建置 dist/index.html'); }
   await page.goto(pathToFileURL(join(here, '..', 'dist', 'index.html')).href + `?render=1&fps=${rfps}`);
   await page.evaluate(() => window.__ready);
   const meta = await page.evaluate(p => window.__loadProject(p), project);

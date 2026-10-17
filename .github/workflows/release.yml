@@ -1,0 +1,34 @@
+# 手動或推 v* 標籤時，把建置好的單檔 index.html 附到 GitHub Release，給「想直接下載桌面版」的人。
+# 不在每次 push 跑；只花一次很短的建置（無 npm 安裝）。
+name: release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag: { description: '要建立的標籤，例如 v0.2.0', required: true }
+permissions:
+  contents: write
+concurrency:
+  group: release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node tools/build.mjs
+      - name: 打包（單檔 index.html＋縮圖精靈圖）
+        run: |
+          cd dist && zip -qr ../kinetic-lyric-console.zip . && cd ..
+          cp dist/index.html kinetic-lyric-console.html
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          generate_release_notes: true
+          files: |
+            kinetic-lyric-console.html
+            kinetic-lyric-console.zip
