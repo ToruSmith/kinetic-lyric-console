@@ -116,11 +116,17 @@ const plan = c => {
   }
 };
 const pageForPack = await open();
+// 開發用：ONLY=style:strike,layout:cross 只跑指定卡帶的渲染檢查（合約與登記檢查仍全跑）
+const ONLY = process.env.ONLY ? process.env.ONLY.split(',') : null;
 for (const c of carts) {
+  if (ONLY && !ONLY.includes(c.kind + ':' + c.name)) continue;
   const P = plan(c), name = c.kind + ':' + c.name;
   const cfg = P.cfg ? await pageForPack.p.evaluate(n => ({ ...PRESETS[n] }), c.name) : {};
   const [a, a2, base] = [await shot(P.tag, P.t, cfg), await shot(P.tag, P.t, cfg), await shot(P.base, P.t)];
-  if (!(KNOWN_SAME[aspect] || []).includes(name)) ok(a.sha !== base.sha, `${name} 應改變畫面（與基準相同）`);
+  let changed = a.sha !== base.sha;
+  // 樣式：text-decoration 這類屬性不會穿過逐字的 inline-block，#center 看不出來；改用單一文字元素的 #wipe 再比一次
+  if (!changed && c.kind === 'style') { const [b2, c2] = [await shot(`#wipe@${c.name} ${TXT}`, P.t), await shot(`#wipe ${TXT}`, P.t)]; changed = b2.sha !== c2.sha }
+  if (!(KNOWN_SAME[aspect] || []).includes(name)) ok(changed, `${name} 應改變畫面（與基準相同）`);
   ok(a.sha === a2.sha, `${name} 逐幀確定性（兩次渲染不同）`);
   ok(a.errs.length === 0 && a2.errs.length === 0, `${name} 渲染不應丟錯：` + a.errs.join(' | '));
   ok(a.net.length === 0, `${name} 不應連網：` + a.net.join(' '));

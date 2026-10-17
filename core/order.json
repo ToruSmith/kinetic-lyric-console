@@ -32,8 +32,6 @@
  "core/legacy/layouts-jizura-typography.js",
  "core/legacy/layouts-jizura-editorial.js",
  "core/legacy/layouts-jizura-frames.js",
- "core/legacy/motion-jizura-1.js",
- "core/legacy/motion-jizura-2.js",
  "core/ui/style-pack-panel.js",
  "core/api/legacy-order.js",
  "core/api/console.js",

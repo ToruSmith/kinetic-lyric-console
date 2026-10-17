@@ -28,7 +28,7 @@ for (const f of files) {
 Object.assign(helperText, MANUAL_HELPER);
 
 const GLOBAL_OK = new Set(['Math', 'Array', 'Number', 'String', 'Object', 'JSON', 'isFinite', 'isNaN', 'Infinity', 'NaN', 'Set', 'Map', 'parseInt', 'parseFloat', 'Boolean', 'document', 'undefined']);
-const CTX_BOUND = { A: 'const A = ctx.anim;', sp: 'const sp = () => ctx.speed;', spL: 'const spL = () => ctx.speed;', bt: 'const bt = () => ctx.beatMs();', btL: 'const btL = () => ctx.beatMs();', cl: 'const cl = () => ctx.charEls();', tel: 'const tel = () => ctx.textEls();', getComputedStyle: 'const getComputedStyle = ctx.computed;' };
+const CTX_BOUND = { A: 'const A = ctx.anim;', sp: 'const sp = () => ctx.speed;', spL: 'const spL = () => ctx.speed;', bt: 'const bt = () => ctx.beatMs();', btL: 'const btL = () => ctx.beatMs();', cl: 'const cl = () => ctx.charEls();', tel: 'const tel = () => ctx.textEls();', _lv: 'const _lv = () => ctx.perChar();', addSh: 'const addSh = (el, s) => ctx.shadow(s);', getComputedStyle: 'const getComputedStyle = ctx.computed;' };
 const textFix = t => t.replace(/60000\s*\/\s*CONFIG\.bpm/g, 'ctx.beatMs()').replace(/\bCONFIG\.spacing\b/g, 'ctx.config.spacing').replace(/\bCONFIG\.bpm\b/g, 'ctx.config.bpm').replace(/\bCONFIG\.speed\b/g, 'ctx.config.speed');
 const freeOf = (code, params = []) => { const sc = eslintScope.analyze(parse(`(function(${params.join(',')}){${code}})`), { ecmaVersion: 2022 }); return [...new Set(sc.globalScope.through.map(r => r.identifier.name))] };
 
@@ -72,7 +72,7 @@ for (const f of files) {
       if (table === 'EXTRA_EX') addEntry({ ...base, kind: 'exit', part: 'keyframes', src: S(v) });
       else if (table === 'EXIT_C') { const fn = fnParts(v); addEntry({ ...base, kind: 'exit', part: 'perChar', ...fn }) }
       else if (table === 'FXH') { const fn = fnParts(v); addEntry({ ...base, kind: 'fx', part: 'play', ...fn }) }
-      else if (table === 'ST' && !ST_ONLY) { /* 樣式暫不搬 */ }
+      else if (table === 'ST') { const fn = fnParts(v); addEntry({ ...base, kind: 'style', part: 'apply', ...fn }) }
     }
   };
   for (const n of statements) {
@@ -104,8 +104,8 @@ for (const [key, parts] of groups) {
   const { kind, id, file } = parts[0];
   let outerAll = [], fields = [], ok = true, why = '';
   const bodyOf = (kindName, e) => {
-    const ctxMap = { enter: ['el', 'charEls', 'duration'], fx: ['el', 'duration'], perChar: ['el', 'index', 'count', 'random'] }[kindName];
-    const allow = kindName === 'perChar' ? ['A'] : ['A', 'sp', 'spL', 'bt', 'btL', 'cl', 'tel', 'getComputedStyle'];
+    const ctxMap = { enter: ['el', 'charEls', 'duration'], fx: ['el', 'duration'], perChar: ['el', 'index', 'count', 'random'], style: ['el'] }[kindName];
+    const allow = kindName === 'style' ? ['_lv', 'addSh'] : kindName === 'perChar' ? ['A'] : ['A', 'sp', 'spL', 'bt', 'btL', 'cl', 'tel', 'getComputedStyle'];
     const params = e.params, code = e.body;
     const r = resolve(code, params, allow);
     if (r.unknown.length) { ok = false; why = r.unknown.join(','); return null }
@@ -124,6 +124,7 @@ for (const [key, parts] of groups) {
       const r = resolve(`return [${e.pc},${e.fb}]`, [], []); if (r.unknown.length) { ok = false; why = r.unknown.join(','); break }
       outerAll.push(...r.outer); fields.push(`perChar: {\n    gap: ${e.gap}, // 每字延遲（毫秒）\n    keyframes: ${e.pc},\n    fallback: ${e.fb},\n  },`);
     } else if (e.kind === 'enter' && e.part === 'play') { const b = bodyOf('enter', e); if (!ok) break; fields.push(`play${b},`) }
+    else if (e.kind === 'style' && e.part === 'apply') { const b = bodyOf('style', e); if (!ok) break; fields.push(`scope: 'element',`, `apply${b},`) }
     else if (e.kind === 'fx' && e.part === 'play') { const b = bodyOf('fx', e); if (!ok) break; fields.push(`play${b},`) }
     else if (e.kind === 'exit' && e.part === 'keyframes') {
       const r = resolve(`return (${e.src})`, [], []); if (r.unknown.length) { ok = false; why = r.unknown.join(','); break }
@@ -161,7 +162,7 @@ for (const f of files) {
   f.out = src;
 }
 // 第二輪：重新解析，清掉空的 Object.assign(…,{}) 與 push 清單裡已搬的名稱
-const migratedBy = { enter: new Set(), exit: new Set(), fx: new Set() }; for (const k of doneSet) { const [kd, id] = k.split(':'); migratedBy[kd].add(id) }
+const migratedBy = { enter: new Set(), exit: new Set(), fx: new Set(), style: new Set() }; for (const k of doneSet) { const [kd, id] = k.split(':'); migratedBy[kd].add(id) }
 for (const f of files) {
   let src = f.out;
   for (let pass = 0; pass < 3; pass++) {

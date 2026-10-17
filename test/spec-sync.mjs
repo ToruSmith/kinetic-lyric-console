@@ -10,7 +10,10 @@ const md = fs.readFileSync(MANUAL, 'utf8');
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, args: ['--no-sandbox'] });
 const p = await browser.newPage(); await p.goto(pathToFileURL(resolve(PAGE)).href + '?render=1'); await p.evaluate(() => window.__ready);
 const I = await p.evaluate(() => ({ L: LAYOUTS.filter(l => !LAB_LAYOUTS.has(l)), LAB: [...LAB_LAYOUTS], S: SCENE_NAMES.filter(n => !SCENES[n].lab), SL: SCENE_NAMES.filter(n => SCENES[n].lab), P: [...STYLE_PACKS], EN: ENTERS, EX: EXITS, FX: FXS, K: ['sceneAll', 'layoutPool', 'sceneMax', 'sceneBudget', 'beatShake', 'beatZoom', 'beatTilt', 'beatHue', 'autoAccent'] }));
-{ const CN = new Set(await p.evaluate(() => Console.carts.filter(c => !(LEGACY_ORDER[c.kind] || []).includes(c.name)).map(c => c.name))); for (const k of ['L', 'LAB', 'S', 'SL', 'P', 'EN', 'EX', 'FX']) I[k] = I[k].filter(n => !CN.has(n)); }
+{ // 新卡帶（不在舊版名單內）不要求寫進手冊；依「種類」分開比對，避免不同種類同名（例：版型 marker 與樣式 marker）互相誤傷
+  const NEW = await p.evaluate(() => { const o = {}; for (const c of Console.carts) { const old = c.kind === 'style' ? [...LEGACY_ORDER.st, ...LEGACY_ORDER.stc] : (LEGACY_ORDER[c.kind] || []); if (!old.includes(c.name)) (o[c.kind] ||= []).push(c.name) } return o });
+  const kindOf = { L: 'layout', LAB: 'layout', S: 'scene', SL: 'scene', P: 'pack', EN: 'enter', EX: 'exit', FX: 'fx' };
+  for (const k of Object.keys(kindOf)) { const ex = new Set(NEW[kindOf[k]] || []); I[k] = I[k].filter(n => !ex.has(n)); } }
 let fail = 0, pass = 0; const has = n => md.includes('`' + n + '`'), t = (c, m) => { c ? pass++ : (fail++, console.log('✗ ' + m)) };
 I.L.forEach(n => t(has(n), '規格書缺版型 ' + n)); I.S.forEach(n => t(has(n), '規格書缺場景 ' + n)); I.EN.forEach(n => t(has(n), '規格書缺進場 ' + n)); I.EX.forEach(n => t(has(n), '規格書缺退場 ' + n)); I.FX.forEach(n => t(has(n), '規格書缺特效 ' + n));
 I.K.forEach(n => t(has(n), '規格書缺設定鍵 ' + n)); I.P.forEach(n => t(md.includes('`' + n + '`'), '規格書缺風格包 ' + n));
