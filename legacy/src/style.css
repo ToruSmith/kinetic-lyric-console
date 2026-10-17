@@ -1,0 +1,170 @@
+:root{--c:#fff;--a:#7aa8ff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#050608;color:var(--c);overflow:hidden;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+#bg{position:fixed;inset:0;background:linear-gradient(120deg,#07080d,#10162a,#0a0a12,#171026);background-size:300% 300%;animation:flow 24s ease infinite}
+@keyframes flow{50%{background-position:100% 50%}}
+#m{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;display:none}
+#mimg{position:fixed;inset:0;width:100%;height:100%;object-fit:contain;display:none}
+#mask{position:fixed;inset:0;background:rgba(0,0,0,.5)}
+#pulse{position:fixed;inset:0}
+#L{position:absolute;inset:0}
+.w{position:absolute;inset:0}
+.ch{display:inline-block;white-space:pre}
+[data-dl]{position:relative}[data-dl]::after{content:attr(data-dl);position:absolute;left:0;top:0;white-space:pre;color:transparent;-webkit-text-stroke:.03em var(--c);paint-order:normal}
+#bar{position:fixed;top:0;left:0;right:0;display:flex;gap:8px;align-items:center;padding:8px 12px;background:rgba(10,12,20,.85);font-size:13px;z-index:5}
+button,select,input[type=file]{font:inherit;color:#fff;background:#232a44;border:1px solid #3a4470;border-radius:4px;padding:4px 10px}
+#seek{flex:1}
+#bar,#panel,#edm,#note,#projbox{color:#fff}   /* 工具介面固定白字：不跟著「文字顏色」(--c) 走 */
+#panel{position:fixed;top:44px;right:0;width:230px;bottom:0;background:rgba(10,12,20,.85);padding:10px;font-size:12px;overflow:auto;z-index:5;transition:transform .3s}
+#panel.off{transform:translateX(100%)}
+#panel label{display:block;margin:6px 0 2px}#panel input[type=range]{width:100%}
+body.rec #bar,body.rec #panel,body.rec #note,body.rec #edm,body.rec #edgrip{display:none}
+#note{position:fixed;left:12px;bottom:10px;font-size:12px;opacity:.7;z-index:5;max-width:60vw}
+#cd{position:fixed;inset:0;display:none;align-items:center;justify-content:center;font-size:30vh;background:#000;z-index:9}
+.ln{height:2px;background:rgba(255,255,255,.6)}
+#guides{position:absolute;inset:0;pointer-events:none;display:none}
+#guides.on,#guides.drag{display:block}
+#guides i{position:absolute;background:rgba(122,200,255,.35)}
+#guides i.hit{background:#ffd23a;box-shadow:0 0 6px #ffd23a}
+#vc,#vl,#vr{top:0;bottom:0;width:1px}#hc,#ht,#hb{left:0;right:0;height:1px}#vc{left:50%}#hc{top:50%}
+body.rec #guides,html.rendering #guides{display:none!important}
+#stage{touch-action:none}
+#cv,#cv2{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.kb #bg{animation:flow 24s ease infinite,kb 30s ease-in-out infinite alternate}.kb #m{animation:kb 30s ease-in-out infinite alternate}@keyframes kb{to{transform:scale(1.12)}}
+#stage{--avw:calc(100vw - var(--edr,0px));--avh:calc(100vh - var(--edt,0px) - var(--edh,0px));position:fixed;inset:var(--edt,0px) var(--edr,0px) var(--edh,0px) 0;margin:auto;overflow:hidden;contain:layout paint;container-type:size;background:#050608}
+/* 透明背景 / 只輸出字：預覽時以棋盤格表示透明；離線渲染時真正透明 */
+html.nobg,html.nobg body{background:repeating-conic-gradient(#2b2b2b 0 25%,#3c3c3c 0 50%) 0 0/24px 24px}
+html.nobg #stage{background:transparent}
+html.nobg #bg,html.nobg #m,html.nobg #mimg,html.nobg #mask{display:none!important}
+html.alpha #cv,html.alpha #cv2{display:none}
+html.ambonly #pulse{visibility:hidden}   /* --layers 的氛圍層：隱藏文字、保留背景／遮罩／粒子／暗角／噪點／疊加特效 */
+html.rendering.nobg,html.rendering.nobg body{background:transparent}
+body.tshadow #L{text-shadow:var(--tsh,0 .185cqh 1.11cqh rgba(0,0,0,.35))}
+body.tshadow #L [style*="background-clip"]{text-shadow:none!important;filter:var(--dsh,drop-shadow(0 .185cqh 1.11cqh rgba(0,0,0,.35)))}
+/* 綠幕（離線渲染 --chroma，CONFIG.chroma＝顏色）：背景只剩純色；畫布、遮罩、影片、整頁濾鏡、各種陰影與發光一律關閉，避免把顏色混進背景 */
+html.chroma,html.chroma body,html.chroma #stage,html.chroma #bg{background:var(--ck)!important;animation:none!important}
+html.chroma #m,html.chroma #mimg,html.chroma #mask,html.chroma #cv,html.chroma #cv2{display:none!important}
+html.chroma body,html.chroma #L,html.chroma #L path{filter:none!important}
+html.chroma #L,html.chroma #L *{text-shadow:none!important;box-shadow:none!important}
+/* 頂欄精簡：檔案欄位改成按鈕式（原生 input 隱藏，功能不變），窄視窗可橫向捲動不擠壞 */
+.fb{font:inherit;background:#232a44;border:1px solid #3a4470;border-radius:4px;padding:4px 10px;cursor:pointer;white-space:nowrap}
+.fb:hover{background:#2c3558}.fb input{display:none}
+#bar{overflow-x:auto;scrollbar-width:none}#bar button{white-space:nowrap}#seek{min-width:60px}
+/* 面板分組（可收合） */
+#panel details.ps{border:1px solid #2a3252;border-radius:6px;margin:0 0 6px;background:rgba(255,255,255,.03)}
+#panel summary{cursor:pointer;padding:7px 8px;font-weight:700;list-style:none;display:flex;justify-content:space-between;user-select:none}
+#panel summary::-webkit-details-marker{display:none}
+#panel summary::after{content:"▸";opacity:.6;transition:transform .15s}
+#panel details[open]>summary{border-bottom:1px solid #2a3252;position:sticky;top:-10px;background:#10152a;z-index:1;border-radius:6px 6px 0 0}
+#panel details[open]>summary::after{transform:rotate(90deg)}
+#panel .pb{padding:2px 8px 10px}
+#panel .pt{display:flex;gap:6px;margin-bottom:6px}#panel .pt button{flex:1;font-size:11px;padding:3px}
+/* 句子編輯器分隔線（可拖曳調整預覽／編輯器比例） */
+#edgrip{position:fixed;left:0;right:240px;height:8px;cursor:ns-resize;z-index:7;background:rgba(122,168,255,.25);touch-action:none}
+#edgrip:hover,#edgrip.drag{background:rgba(122,168,255,.65)}
+/* ===== [QUICK] 快捷選單 ===== */
+#qk{position:fixed;top:44px;right:8px;width:340px;max-height:calc(100vh - 56px);display:none;flex-direction:column;background:rgba(10,12,20,.97);border:1px solid #3a4470;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.55);z-index:8;font-size:13px;color:#fff}
+#qk.on{display:flex}
+#qks{margin:8px;width:calc(100% - 16px);font:inherit;color:#fff;background:#141a30;border:1px solid #3a4470;border-radius:4px;padding:6px 8px;outline:none}
+#qks:focus{border-color:var(--a)}
+#qkl{overflow:auto;padding:0 6px 8px}
+.qg{margin:8px 4px 2px;font-size:11px;letter-spacing:.08em;opacity:.55}
+.qi{display:flex;justify-content:space-between;gap:10px;padding:6px 8px;border-radius:5px;cursor:pointer}
+.qi.act{background:#2a3566}
+.qi.dis{opacity:.4}
+.qh{opacity:.55;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48%}
+.qe{padding:12px 8px;opacity:.6;text-align:center;line-height:1.6}
+body.rec #qk,html.rendering #qk{display:none!important}
+
+.chips{display:flex;flex-wrap:wrap;gap:3px;margin:4px 0}.chip{padding:1px 6px;font-size:11px;border-radius:10px;opacity:.75}.chip.on{opacity:1;background:#3a4a9a;color:#fff;border-color:#7aa8ff}
+.scpop{position:fixed;z-index:60;width:360px;max-height:250px;overflow:auto;background:rgba(10,12,20,.97);border:1px solid #3a4470;border-radius:8px;padding:8px;font-size:12px;color:#dfe6ff}
+body.rec .scpop,html.rendering .scpop{display:none!important}
+
+/* ===== 頂欄分區（載入／播放／編輯／匯出）與浮出選單 ===== */
+#bar .grp{display:flex;gap:6px;align-items:center;padding-right:8px;border-right:1px solid #2a3252;flex:none}
+#bar .grp:last-child{border-right:0;padding-right:0}
+#bar .grp.grow{flex:1;min-width:150px}
+#bar button.primary{background:#2c4fd0;border-color:#5b82ff}#bar button.primary:hover{background:#3a60e8}
+.menu{position:fixed;display:none;flex-direction:column;gap:2px;z-index:9;min-width:230px;max-width:92vw;padding:6px;background:rgba(10,12,20,.98);border:1px solid #3a4470;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.55);font-size:13px;color:#fff}
+.menu.on{display:flex}
+.menu .mi{text-align:left;border:0;background:transparent;padding:7px 10px;border-radius:5px;white-space:nowrap;cursor:pointer;display:block}
+.menu .mi:hover{background:#2a3566}.menu .mi:disabled{opacity:.4;cursor:default}.menu .mi:disabled:hover{background:transparent}
+body.rec .menu,html.rendering .menu{display:none!important}
+
+/* ===== 句子編輯器：上方工具列＋左列表／右詳細欄 ===== */
+#edm{position:fixed;inset:auto 240px 0 0;display:flex;flex-direction:column;background:rgba(10,12,20,.95);z-index:6;overflow:hidden;font-size:12px}
+.edtb{flex:none;padding:6px 10px;border-bottom:1px solid #3a4470;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:rgba(10,12,20,.98)}
+.edtb .sep{width:1px;height:18px;background:#3a4470;margin:0 2px}
+.edtb label{display:inline-flex;gap:4px;align-items:center;margin:0}
+.edbatch{flex:none;border-bottom:1px solid #3a4470;background:rgba(255,255,255,.03)}
+.edbatch>summary{cursor:pointer;padding:5px 10px;opacity:.85;user-select:none}
+.edbatch .in{padding:4px 10px 8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.edbody{flex:1;min-height:0;display:flex}
+.edlist{flex:1 1 58%;min-width:0;overflow:auto;outline:none}
+.edside{flex:0 0 min(420px,44%);min-width:260px;overflow:auto;border-left:1px solid #3a4470;padding:8px 10px}
+.er{display:flex;gap:8px;align-items:center;padding:4px 8px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.05)}
+.er:hover{background:rgba(255,255,255,.05)}.er.sel{background:#26336b}.er.now{box-shadow:inset 3px 0 0 #ffd23a}
+.er .n{width:26px;flex:none;text-align:right;opacity:.5}
+.er .t{width:118px;flex:none;opacity:.8;font-variant-numeric:tabular-nums}
+.er .x{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.er .g{flex:none;display:flex;gap:3px;max-width:46%;overflow:hidden}
+.tg{padding:0 6px;border-radius:9px;font-size:10px;line-height:16px;background:#2a3252;white-space:nowrap}
+.tg.l{background:#2d4a9a}.tg.s{background:#6a3a8a}.tg.c{background:#2f6a52}.tg.p{background:#7a5a2a}.tg.a{opacity:.5}
+.edside .hd{font-weight:700;margin:0 0 6px;display:flex;justify-content:space-between;gap:8px}
+.edside details{border:1px solid #2a3252;border-radius:6px;margin:0 0 6px;background:rgba(255,255,255,.03)}
+.edside summary{cursor:pointer;padding:6px 8px;font-weight:700;list-style:none;user-select:none;display:flex;justify-content:space-between}
+.edside summary::-webkit-details-marker{display:none}.edside summary::after{content:"▸";opacity:.6}
+.edside details[open]>summary{border-bottom:1px solid #2a3252}.edside details[open]>summary::after{content:"▾"}
+.edside .gb{padding:4px 8px 8px}
+.edf{margin:5px 0}.edf>label{display:block;opacity:.7;margin:0 0 2px;font-size:11px}
+.edside select,.edside textarea,.edside input[type=text],.edside input[type=number]{font:inherit;color:#fff;background:#141a30;border:1px solid #3a4470;border-radius:4px;padding:4px 6px;width:100%}
+.edside textarea{resize:vertical;min-height:54px}
+.edrow2{display:flex;gap:6px;align-items:flex-end}.edrow2>.edf{flex:1;min-width:0}
+.edbtns{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}.edbtns button{font-size:11px;padding:2px 7px}
+.edhint{opacity:.65;font-size:11px;line-height:1.5;margin:3px 0}.edwarn{color:#ffb86b}
+.edside .chips .chip{font-size:11px}
+.packs{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}.packs button{font-size:11px;padding:2px 8px}
+
+/* ===== 匯出精靈 ===== */
+#exwiz{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.55)}
+#exwiz.on{display:flex}
+#exwiz .xb{width:min(940px,94vw);max-height:90vh;display:flex;flex-direction:column;background:#0d1224;border:1px solid #3a4470;border-radius:10px;color:#fff;font-size:13px;box-shadow:0 12px 40px rgba(0,0,0,.6)}
+#exwiz .xh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid #2a3252;font-size:15px;font-weight:700}
+#exwiz .xm{display:flex;min-height:0;flex:1}
+#exwiz .xl{flex:0 0 300px;overflow:auto;padding:10px;border-right:1px solid #2a3252}
+#exwiz .xr{flex:1;min-width:0;overflow:auto;padding:12px 16px;line-height:1.7}
+#exwiz .xo{display:block;width:100%;text-align:left;margin:0 0 6px;padding:8px 10px;border-radius:7px;background:#161d38;border:1px solid #2a3252}
+#exwiz .xo:hover{background:#1e2850}#exwiz .xo.on{background:#26336b;border-color:#7aa8ff}
+#exwiz .xo b{display:block}#exwiz .xo span{opacity:.65;font-size:11px}
+#exwiz .xr h3{margin:0 0 4px;font-size:15px}
+#exwiz .xr .why{opacity:.8;margin:0 0 8px}
+#exwiz .xr .opt{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0}
+#exwiz .xr label{display:inline-flex;gap:4px;align-items:center}
+#exwiz .xr ul{margin:6px 0 6px 18px;padding:0;opacity:.85}
+#exwiz .cmd{font-family:Consolas,Menlo,monospace;background:rgba(255,255,255,.08);padding:6px 8px;border-radius:5px;word-break:break-all;user-select:all;margin:6px 0}
+#exwiz .go{background:#2c4fd0;border-color:#5b82ff}
+@media (max-width:720px){#exwiz .xm{flex-direction:column}#exwiz .xl{flex:none;max-height:38%;border-right:0;border-bottom:1px solid #2a3252}}
+body.rec #exwiz,html.rendering #exwiz{display:none!important}
+#bar{z-index:7}   /* 浮出選單屬於 #bar 的堆疊層，要壓過右側面板（z 5）與編輯器（z 6） */
+/* 縮圖預覽（28-thumbs.js）：懸停小視窗、🖼 按鈕、縮圖挑選窗；錄製／離線渲染時一律隱藏 */
+#thtip{position:fixed;z-index:90;display:none;pointer-events:none;padding:5px;background:rgba(10,12,20,.97);border:1px solid #3a4470;border-radius:6px;box-shadow:0 6px 20px rgba(0,0,0,.55);color:#dfe6ff;font-size:11px;text-align:center}
+#thtip .thc{margin-top:3px}
+.thtile{flex:none;background-color:#05070d;background-repeat:no-repeat;border-radius:3px}
+.thtile.none{display:flex;align-items:center;justify-content:center;width:128px;height:72px;font-size:11px;opacity:.55;text-align:center}
+.throw{display:flex;gap:4px;align-items:center}.throw select{flex:1;min-width:0}
+.thbtn{flex:none;padding:1px 6px;font-size:12px;line-height:1.4}
+.thpop{position:fixed;z-index:70;overflow:auto;padding:8px;background:rgba(10,12,20,.97);border:1px solid #3a4470;border-radius:8px;box-shadow:0 8px 28px rgba(0,0,0,.55);font-size:12px;color:#dfe6ff}
+.thpop .thh{opacity:.7;margin-bottom:6px}
+.thgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:6px}
+.thcard{cursor:pointer;padding:2px;border:1px solid transparent;border-radius:5px;text-align:center}.thcard:hover{background:#1a2142}.thcard.on{border-color:#7aa8ff;background:#232c5a}
+.thcard .thtile{margin:0 auto}.thcard .thl{margin-top:2px;font-size:11px;word-break:break-all}
+.thpop.nothumb .thtile:not(.none){display:none}
+body.rec #thtip,html.rendering #thtip,body.rec .thpop,html.rendering .thpop{display:none!important}
+/* pv-vertical（src/23-lay-g.js）：直排容器。writing-mode 用 class 而不是 inline style，避免 18-style.js 的 isV() 誤判 */
+.pvv{writing-mode:vertical-rl}
+
+/* 鍵盤焦點：搜尋框與編輯器列表原本把 outline 關掉，補上可見的焦點框（只在鍵盤操作時出現） */
+#qks:focus-visible{outline:2px solid var(--a);outline-offset:-1px}
+.edlist:focus-visible{outline:2px solid var(--a);outline-offset:-2px}
+/* 面板最上方：現在這一句實際生效的設定（唯讀，見 09-ui-panel.js 的 curInfo） */
+#curinfo{margin:0 0 6px;padding:6px 8px;border:1px solid #2a3252;border-radius:6px;background:rgba(122,168,255,.08);font-size:11px;line-height:1.6;color:#cfe0ff;word-break:break-all}
