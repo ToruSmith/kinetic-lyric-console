@@ -4,7 +4,7 @@
 
 `core/legacy/` 裡是「尚未拆成一檔一卡帶」的舊版型／動畫／場景，M3 起分批搬進 `carts/`。
 
-> **M3-d 進度**：76 個版型已搬進 `carts/layout/`（轉換工具與 `legacy/` 快照已在 M4 刪除；基準改為 `test/golden/` 指紋）。下列 layouts-*.js 檔裡剩下的是：尚未搬的 6 個版型（text-mask、hanko、ink-bleed、ripple-pool、constellation、particle-form，依賴 `$`／`CSS.registerProperty`／水面 GL 等）、已被卡帶取代的重複輔助函式、以及全域表與旗標（M4 清理）。
+> **M3-d 進度**：76 個版型已搬進 `carts/layout/`（轉換工具與 `legacy/` 快照已在 M4 刪除；基準改為 `test/golden/` 指紋）。**決定：這 6 個版型不卡帶化，維持在 `core/legacy/`**（它們要注入 SVG 濾鏡、註冊 CSS 屬性或使用水面 GL）。下列 layouts-*.js 檔裡剩下的是：尚未搬的 6 個版型（text-mask、hanko、ink-bleed、ripple-pool、constellation、particle-form，依賴 `$`／`CSS.registerProperty`／水面 GL 等）、已被卡帶取代的重複輔助函式、以及全域表與旗標（M4 清理）。
 
 | 舊檔 | 新檔 |
 |---|---|
