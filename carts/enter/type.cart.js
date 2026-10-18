@@ -4,7 +4,6 @@ Console.cart({
   label: { zh: '打字機：逐字瞬間出現' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   play(ctx) {
     const A = ctx.anim;
     const sp = () => ctx.speed;

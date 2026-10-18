@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'jigsaw-grid', apiVersion: 1,
   label: { zh: '拼圖格' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'neutral' },
   layer: 'under', group: 'jig', amount: 40, cost: '中',
   lab: true,
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

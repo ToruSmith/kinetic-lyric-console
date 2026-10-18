@@ -3,7 +3,7 @@ Console.cart({
   kind: 'layout', id: 'scatter', apiVersion: 1,
   label: { zh: '散落字：每字在格內隨機偏移、旋轉、縮放，由四方飛入' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { sceneThemes: ['grunge'], strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const { _chs } = ctx.lib;

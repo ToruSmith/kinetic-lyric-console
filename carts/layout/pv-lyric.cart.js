@@ -4,7 +4,6 @@ Console.cart({
   label: { zh: '**吃 `{}`**：橫排、靠左（預設落在畫面左側、約 54% 高度）。一般字是細黑體小字，`{}` 內的字變成**毛筆大字**（約 1.9 倍大，發光、色差收斂、帶淡墨暈影）。`(註解)` 會出現在關鍵字右下角，前面帶 `‹‹‹`。**沒寫 `{}` 時，自動把句尾 2 個字當關鍵字。**' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   flags: { brace: true },
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const SHd = ctx.sh;

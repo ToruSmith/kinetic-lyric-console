@@ -4,7 +4,6 @@ Console.cart({
   label: { zh: '**吃 `{}`**：海報式大字（取第一個 `{}`，沒有就用整句）＋細線＋小字' },
   author: 'kinetic-lyric-console', license: 'MIT',
   flags: { brace: true },
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize;
     const CE = ctx.centerIn;

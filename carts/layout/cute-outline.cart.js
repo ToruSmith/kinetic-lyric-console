@@ -4,7 +4,6 @@ Console.cart({
   label: { zh: '圓潤白色厚描邊貼紙字＋彩色字心，逐字彈跳、交替傾斜' },
   author: 'kinetic-lyric-console', license: 'MIT',
   flags: { lab: true },
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const { _fz } = ctx.lib;

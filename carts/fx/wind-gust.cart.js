@@ -4,7 +4,7 @@ Console.cart({
   label: { zh: '突風：約每 2.2 秒一陣風，字由左而右被吹歪再彈回' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { group: 'rot', domOnly: true },
   play(ctx) {
     const cl = () => ctx.charEls();
     const A = ctx.anim;

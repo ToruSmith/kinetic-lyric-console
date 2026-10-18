@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'web-lines', apiVersion: 1,
   label: { zh: '蛛網連線' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'neutral' },
   layer: 'under', group: 'web', amount: 45, cost: '中',
   lab: true,
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

@@ -50,7 +50,7 @@ kinetic-lyric-console/
 | 建置出的 `index.html` | 每個 PR 會在 240KB 檔案上衝突。改由 CI 建置並部署 Pages |
 | `thumbs/sheet.webp`、`28-thumbs-idx.js` | 二進位檔無法合併。改為每個卡帶自帶小縮圖，精靈圖建置時組 |
 | `baseline.html`（176KB 凍結副本） | 以 `test/golden/` 指紋當逐像素基準（M4 前為 `legacy/` 快照；同機器／同版 Chromium 才可比對） |
-| 手寫的清單表（`RND_*`、手冊清單） | 由卡帶 manifest 產生 |
+| 手寫的清單表（`RND_*`、手冊清單） | 由卡帶 manifest 產生（M4 完成：隨機適配＝卡帶的 `rand`，清單＝`docs/catalog.md`；`RND_*` 只剩尚在 `core/` 的版型與內建特效） |
 | `node_modules`、`input/`、`output/` | 忽略 |
 | 真實歌詞、音樂、影片 | 著作權；測試只用合成內容 |
 | CJK 字體檔 | 檔案大、授權各異；只放說明 |
@@ -110,7 +110,7 @@ Console.cart({
 | M1 | 骨架：`core/`、建置工具（取代 `build.mjs`）、卡帶登記層、省額度的 CI 與 Pages 部署 ✅ |
 | M2 | `ctx` 外觀層、卡帶驗證工具、與 `legacy/` 的逐像素對照 ✅（`test/carts.mjs`、`test/regress.mjs`；範本與 11 個示範卡帶） |
 | M3 | 每種各一個代表性卡帶，舊內容分批搬遷（每批跑回歸，有差異就退回那批） |
-| M4 | `CONTRIBUTING`、卡帶範本與 `new-cart` 工具、manifest 產生手冊／縮圖／隨機適配表、刪除 `legacy/` ✅（new-cart、自動卡帶清單、順序過渡層移除已完成；隨機適配表改由卡帶宣告：待辦） |
+| M4 | `CONTRIBUTING`、卡帶範本與 `new-cart` 工具、manifest 產生手冊／縮圖／隨機適配表、刪除 `legacy/` ✅（new-cart、自動卡帶清單、順序過渡層移除、隨機適配表改由卡帶 `rand` 宣告，皆已完成） |
 
 ## 10. 待確認
 

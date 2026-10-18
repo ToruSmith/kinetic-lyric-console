@@ -3,7 +3,7 @@ Console.cart({
   kind: 'layout', id: 'collage', apiVersion: 1,
   label: { zh: '拼貼風：每個字像剪貼的貼紙，隨機底色與字體（同一句固定）' },
   author: 'kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { sceneThemes: ['grunge'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const sr = ctx.random;

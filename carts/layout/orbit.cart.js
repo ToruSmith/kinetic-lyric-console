@@ -3,7 +3,6 @@ Console.cart({
   kind: 'layout', id: 'orbit', apiVersion: 1,
   label: { zh: '文字沿圓弧排列並緩慢旋轉' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;
     const txtEl = ctx.text;

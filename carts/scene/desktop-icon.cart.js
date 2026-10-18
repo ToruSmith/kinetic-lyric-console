@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'desktop-icon', apiVersion: 1,
   label: { zh: '桌面圖示（左側一排）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'tech' },
   layer: 'over', group: 'icon', amount: 40, cost: '輕',
   lab: true,
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

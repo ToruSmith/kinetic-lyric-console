@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'hud-info', apiVersion: 1,
   label: { zh: 'HUD 資訊面板（右上）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'tech' },
   layer: 'over', group: 'hudi', amount: 50, cost: '輕',
   lab: true,
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

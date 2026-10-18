@@ -3,7 +3,7 @@ Console.cart({
   kind: 'fx', id: 'chromatic', apiVersion: 1,
   label: { zh: '色差抖動（隨 BPM）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { group: 'color', strong: true, domOnly: true },
   play(ctx) {
     const tel = () => ctx.textEls();
     const A = ctx.anim;

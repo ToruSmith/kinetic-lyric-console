@@ -2,23 +2,23 @@
    入口：edRandomize(索引陣列,選項)。單句按鈕在編輯器詳細欄「動畫」群組，批次按鈕在批次區（勾選的句子）；選項 edRandOpt 由兩處共用。
    結果只是寫進該句的標記欄位（lay／en／ex／fx／scene），所以匯出 SRT、project.json、離線渲染完全沿用既有機制；本檔不碰渲染、RENDER 時不會被呼叫。
    這是「編輯時的動作」，可以用 Math.random（和 12-ui-editor 的全域 randomize 一樣）；渲染結果仍是標記的純函數，不受影響。
-   「適配」＝下面 RND_* 表＋ rndFit() 規則（全是字串清單，空白分隔）。新增版型／場景／特效後請回來補表（見 CLAUDE.md「新增項目要補的表」）；
+   「適配」＝下面 RND_* 表＋ rndFit() 規則（全是字串清單，空白分隔）。卡帶的適配資料寫在卡帶自己的 `rand`（見 docs/cart-api.md），載入時併進這些表；這裡只留尚未卡帶化的核心項目（slam、bounce、constellation 等）。
    沒補也不會壞：場景未歸類＝當 neutral、特效未歸類＝當 calm 且不互斥、版型未列＝一般版型；selfCheck() 會列出沒歸類的場景與特效。
    初版規則偏保守、只依名稱／層／成本／程式碼可確認的事實制定，並未逐一目視確認，請以縮圖（🖼）與實際播放驗收後再調整表。 ===== */
 const RND_SCN_TH={   /* 場景主題：neutral＝任何版型都能搭；tech／grunge＝只和 RND_LAY_TH 指定主題的版型搭 */
- neutral:"halftone dots checker burst radial-rects flow-lines stripes hatch diag-split blocks breathing-blocks squares glow-ring rings pulse-circle color-wash gradient-fade pink-stripes diag-fill diag-structure organic-blob edge-clouds scattered-shapes diamond-shapes shadow-shapes balancing-circles web-lines cross-pattern triangle-grid pink-grid jigsaw-grid texture-bg star-trail light-spot screen-border scalloped-border planet",
- tech:"perspective-grid glitch-bars guides dashed-lines ruler target crop-marks crosshair dimension-lines edge-ticks hud-corners hud-info hud-status data-monitors pixel-window desktop-icon pixel-bg",
- grunge:"smear-brush paper-tear blood-splatter crime-tape"};
+ neutral:"halftone dots checker burst radial-rects flow-lines stripes hatch diag-split blocks breathing-blocks squares glow-ring rings pulse-circle color-wash gradient-fade",
+ tech:"perspective-grid glitch-bars guides dashed-lines ruler target",
+ grunge:""};
 const RND_LAY_TH={   /* 版型除了 neutral 之外還接受哪種場景主題 */
- tech:"glitch hud-frame laser-scan split-flap typewriter constellation danmaku formula",
- grunge:"ink-bleed handwrite marker collage polaroid page-flip annotate hanko scatter crayon-shatter victim-outline shatter-text noise-text"};
+ tech:"constellation",
+ grunge:"ink-bleed hanko"};
 let RND_SPARSE="ripple-pool particle-form constellation";   /* 自己就是滿畫面特效的版型（再加上 FULLBLEED）：只配「文字之下」的場景，不配蓋在文字上的 over 場景 */
 let RND_TEXT_CANVAS="particle-form ripple-pool";             /* 文字畫在 canvas 上：要 DOM 文字的特效（RND_FX_DOM）對它們沒有作用 */
-let RND_STRONG_LAY="slam bounce glitch flash-words zoom-tunnel danmaku shatter-text noise-text scatter falling crayon-shatter";   /* 高能量版型：才會配 RND_FX_STRONG */
-let RND_FX_STRONG="shake flicker rainbow chromatic stopmotion drum beat-jump";   /* 強烈特效（閃爍、抖動、變色、重拍彈跳）：只配高能量版型 */
-let RND_FX_DOM="gradient-flow chromatic outline-pulse track-breathe highlight-word focus-rack dangle wind-gust";   /* 只作用在 DOM 文字（找 .ch 或帶 font-family 的元素） */
-const RND_FX_GRP={cam:"breathe zoom-slow cam-pull cam-pan-l cam-pan-r cam-tilt-up pulse heartbeat drum jelly beat-jump small-circle stretch-beat tilt-down dolly-in step-zoom",color:"rainbow gradient-flow chromatic shimmer outline-pulse shadow-sway",char:"wave track-breathe focus-rack highlight-word noise-drift",jitter:"shake flicker stopmotion",rot:"slow-rotate sway-char dangle wind-gust"};   /* 同組互斥（float 單獨一組）。cam＝對整句容器動 scale／translate 的特效：同屬性的動畫會互相覆蓋，所以一次只配一個 */
-let RND_NEED_SUB="ruby footnote";   /* 版型自己畫副文（SUB_OWN）：這句有副文（||）才會被抽到；沒有副文時 ruby 只剩小圓點、footnote 沒註腳 */
+let RND_STRONG_LAY="slam bounce";   /* 高能量版型：才會配 RND_FX_STRONG */
+let RND_FX_STRONG="shake flicker rainbow";   /* 強烈特效（閃爍、抖動、變色、重拍彈跳）：只配高能量版型 */
+let RND_FX_DOM="";   /* 只作用在 DOM 文字（找 .ch 或帶 font-family 的元素） */
+const RND_FX_GRP={cam:"",color:"rainbow",char:"",jitter:"shake flicker",rot:""};   /* 同組互斥（float 單獨一組）。cam＝對整句容器動 scale／translate 的特效：同屬性的動畫會互相覆蓋，所以一次只配一個 */
+let RND_NEED_SUB="";   /* 版型自己畫副文（SUB_OWN）：這句有副文（||）才會被抽到；沒有副文時 ruby 只剩小圓點、footnote 沒註腳 */
 let RND_NO_EN="slam bounce";   /* build() 不套用這些版型的 en（見 05-build.js），隨機時進場留空，不寫沒用的標記 */
 const edRandOpt={lay:true,anim:true,fx:true,scn:true,lab:false};   /* 隨機哪些內容；lab＝含實驗室版型與場景 */
 

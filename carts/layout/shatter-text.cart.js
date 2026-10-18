@@ -4,7 +4,7 @@ Console.cart({
   label: { zh: '4 片碎片拼合' },
   author: 'kinetic-lyric-console', license: 'MIT',
   flags: { lab: true },
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { sceneThemes: ['grunge'], strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const { _fz } = ctx.lib;

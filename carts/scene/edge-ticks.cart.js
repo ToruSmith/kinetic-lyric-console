@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'edge-ticks', apiVersion: 1,
   label: { zh: '邊緣刻度' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'tech' },
   source: 'https://github.com/852wa/JIZURA',
   layer: 'over', group: 'edge', amount: 45, cost: '輕',
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

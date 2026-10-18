@@ -4,7 +4,6 @@ Console.cart({
   label: { zh: '段違い：奇偶字上下交錯' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   scope: 'element',
   apply(ctx) {
     const _lv = () => ctx.perChar();

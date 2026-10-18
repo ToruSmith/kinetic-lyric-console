@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'data-monitors', apiVersion: 1,
   label: { zh: '資料監視器（右下）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'tech' },
   layer: 'over', group: 'mon', amount: 45, cost: '輕',
   lab: true,
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

@@ -4,7 +4,6 @@ Console.cart({
   label: { zh: '滿版：邊框跑動' },
   author: 'kinetic-lyric-console', license: 'MIT',
   flags: { full: true },
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;
     const A = ctx.anim;

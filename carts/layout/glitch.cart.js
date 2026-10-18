@@ -3,7 +3,7 @@ Console.cart({
   kind: 'layout', id: 'glitch', apiVersion: 1,
   label: { zh: '訊號閃爍' },
   author: 'kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { sceneThemes: ['tech'], strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const fit = ctx.fit;

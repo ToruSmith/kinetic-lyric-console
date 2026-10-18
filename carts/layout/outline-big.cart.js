@@ -3,7 +3,6 @@ Console.cart({
   kind: 'layout', id: 'outline-big', apiVersion: 1,
   label: { zh: '前 3 個字放大成空心背景字，整句以小字疊在前面' },
   author: 'kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const CE = ctx.centerIn;

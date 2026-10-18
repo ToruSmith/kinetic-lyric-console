@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'organic-blob', apiVersion: 1,
   label: { zh: '有機色塊' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  rand: { theme: 'neutral' },
   layer: 'under', group: 'blob', amount: 40, cost: '輕',
   lab: true,
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

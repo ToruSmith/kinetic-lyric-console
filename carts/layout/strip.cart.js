@@ -3,7 +3,6 @@ Console.cart({
   kind: 'layout', id: 'strip', apiVersion: 1,
   label: { zh: '字條：強調色長條上的反白字，左右交錯滑入' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const SWd = ctx.sw;

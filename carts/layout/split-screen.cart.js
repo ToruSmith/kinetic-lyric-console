@@ -3,7 +3,6 @@ Console.cart({
   kind: 'layout', id: 'split-screen', apiVersion: 1,
   label: { zh: '句子切成上下兩半，各自從左右滑入，中間一條線' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const fit = ctx.fit;

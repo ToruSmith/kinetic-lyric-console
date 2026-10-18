@@ -3,7 +3,7 @@ Console.cart({
   kind: 'fx', id: 'wave', apiVersion: 1,
   label: { zh: '逐字波動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
-  // 逐句隨機的挑選表仍在 core/ui/randomizer.js（維持舊挑選順序）；M4 改由這裡的 rand 宣告
+  rand: { group: 'char' },
   play(ctx) {
     const cl = () => ctx.charEls();
     const A = ctx.anim;
