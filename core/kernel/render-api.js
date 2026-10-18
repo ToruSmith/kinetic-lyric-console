@@ -14,8 +14,9 @@ if(RENDER){
  /* eslint-disable-next-line no-func-assign -- 離線渲染刻意覆蓋：總長度改由 project 決定 */
  let __dur=0,__aud=null;endT=()=>__dur>0?__dur:(subs.length?subs[subs.length-1].e+1:0);
  const __im=document.createElement("img");__im.id="mimg";m.after(__im);
+ window.__addFont=async(name,b64)=>{try{const ff=new FontFace(name,await(await fetch("data:application/octet-stream;base64,"+b64)).arrayBuffer());await ff.load();document.fonts.add(ff);FONTS[name]=`"${name}",`+FONTS.明體}catch(e){console.error("字體載入失敗："+name+"："+e.message)}};
  window.__loadProject=async p=>{
-  for(const f of p.fonts||[]){try{const ff=new FontFace(f.name,await(await fetch("data:application/octet-stream;base64,"+(f.b64||f.data))).arrayBuffer());await ff.load();document.fonts.add(ff);FONTS[f.name]=`"${f.name}",`+FONTS.明體}catch(e){console.error("字體載入失敗："+f.name+"："+e.message)}}
+  for(const f of p.fonts||[])await window.__addFont(f.name,f.b64||f.data);
   an=null;__aud=null;
   Object.assign(CONFIG,p.config||{});CONFIG.aspect="fill";CONFIG.autoPerf=false;
   __dur=+p.mediaDuration||0;__im.style.display=p.bgVideo?"block":"none";__im.removeAttribute("src");

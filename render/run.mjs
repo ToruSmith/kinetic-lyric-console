@@ -100,7 +100,9 @@ async function open() {
   if (!existsSync(join(here, '..', 'dist', 'index.html'))) { build(); console.log('已自動建置 dist/index.html'); }
   await page.goto(pathToFileURL(join(here, '..', 'dist', 'index.html')).href + `?render=1&fps=${rfps}`);
   await page.evaluate(() => window.__ready);
-  const meta = await page.evaluate(p => window.__loadProject(p), project);
+  // 字體逐個送進頁面：一次送出數十～上百 MB 的 base64 會讓 Chromium 崩潰（「Target page, context or browser has been closed」）
+  for (const f of project.fonts || []) await page.evaluate(([n, b]) => window.__addFont(n, b), [f.name, f.b64 || f.data]);
+  const meta = await page.evaluate(p => window.__loadProject(p), { ...project, fonts: [] });
   if (audioData) await page.evaluate(a => window.__setAudio(a), audioData);
   return { browser, page, meta };
 }
