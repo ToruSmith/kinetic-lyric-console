@@ -1,7 +1,4 @@
 /* ===== [LAY-E] 版型 E：center ripple-pool constellation particle-form hud-frame parallax-depth（輔助 reel 供 hud-frame 用；ripple-pool 的 WebGL 部分在上方 [WATER]）===== */
-const reel=(items,css,ms,iter)=>{const h=txtEl(css+";height:1.25em;line-height:1.25em;overflow:hidden;white-space:pre;letter-spacing:.08em;font-family:ui-monospace,Consolas,'Courier New',monospace");delete h.dataset.t;
- const col=document.createElement("div");items.forEach(t=>{const r=document.createElement("div");r.textContent=t;col.appendChild(r)});h.appendChild(col);
- A(col,[{translate:"0 0"},{translate:`0 ${-(items.length-1)*1.25}em`}],{duration:ms,easing:`steps(${Math.max(1,items.length-1)},end)`,iterations:iter||1});return h};
 Object.assign(NL,{
  "ripple-pool"(sb,c,w,big,sm,dur,list){const p=beatMs(),ph=beatPh(sb),z=Math.min(big*.55,SWd()/Math.max(sb.plain.length,3)*.85);
   if(waterGL(sb,c,z,p,ph)){const pm=txtEl(`left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-size:${z}px;letter-spacing:.12em;padding-left:.12em;visibility:hidden;pointer-events:none`);delete pm.dataset.t;pm.dataset.pm=1;pm.textContent=sb.plain;c.appendChild(pm);return}

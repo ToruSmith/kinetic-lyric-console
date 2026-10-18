@@ -27,7 +27,6 @@
  "core/legacy/layouts-scene-fx.js",
  "core/legacy/layouts-reveal.js",
  "core/legacy/layouts-pv.js",
- "core/legacy/layouts-pv-text.js",
  "core/legacy/layouts-lab-text.js",
  "core/legacy/layouts-jizura-typography.js",
  "core/legacy/layouts-jizura-editorial.js",

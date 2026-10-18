@@ -37,7 +37,7 @@
 | `src/21-lay-e.js` | `core/legacy/layouts-scene-fx.js` |
 | `src/22-lay-f.js` | `core/legacy/layouts-reveal.js` |
 | `src/23-lay-g.js` | `core/legacy/layouts-pv.js` |
-| `src/23-lay-h.js` | `core/legacy/layouts-pv-text.js` |
+| `src/23-lay-h.js` | （已移除：內容全由卡帶取代） |
 | `src/23-lay-i.js` | `core/legacy/layouts-lab-text.js` |
 | `src/23-lay-j.js` | `core/legacy/layouts-jizura-typography.js` |
 | `src/23-lay-k.js` | `core/legacy/layouts-jizura-editorial.js` |
