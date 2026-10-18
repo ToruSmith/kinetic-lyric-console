@@ -115,5 +115,5 @@ Console.cart({
 ## 10. 待確認
 
 - JIZURA 系列版型的移植範圍與標示（授權為 MIT，需保留 `THIRD_PARTY_NOTICES.md` 的聲明）。
-- 舊專案測試缺口（`position`／`coverage`／`chroma`／`post`／`layers` 等腳本已不在舊 repo）需在 M2 補齊，尤其是九宮格位置檢查。
+- 舊專案測試缺口已補回（M5）：`test/position.mjs`（九宮格／微調／安全邊界，全版型）、`test/chroma.mjs`（綠幕）、`test/post.mjs`（離線後製參數與 ffmpeg 濾鏡）、`test/layers.mjs`（文字層／氛圍層）；舊名 `coverage` 無對應功能紀錄，未補。
 - 使用者端載入卡帶是否要做、做到哪一級（見第 7 節）。
