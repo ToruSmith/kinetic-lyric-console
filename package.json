@@ -9,8 +9,10 @@
  "scripts": {
   "build": "node tools/build.mjs",
   "lint": "node test/lint.mjs",
+  "new-cart": "node tools/new-cart.mjs",
+  "catalog": "node tools/gen-catalog.mjs",
   "test:carts": "node test/carts.mjs",
-  "check": "npm run build && npm run lint && node test/carts.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/scene.mjs && node test/beatfx-layouts.mjs && node test/styles.mjs && node test/sentence-opts.mjs",
+  "check": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node test/carts.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/scene.mjs && node test/beatfx-layouts.mjs && node test/styles.mjs && node test/sentence-opts.mjs",
   "regress": "node test/regress.mjs legacy/index.html dist/index.html"
  },
  "dependencies": { "playwright": "^1.64.0" },

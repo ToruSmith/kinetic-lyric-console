@@ -1,6 +1,6 @@
 # 貢獻：做一個卡帶
 
-1. 從 [`carts/_template/`](carts/_template/) 複製對應種類的範本到 `carts/<種類>/<你的-id>.cart.js`，把 `id` 改成檔名（小寫、連字號），改 `label.zh` 與內容。
+1. 執行 `npm run new-cart -- <種類> <你的-id>`（例：`npm run new-cart -- layout my-cool-layout`），會從 [`carts/_template/`](carts/_template/) 複製範本到 `carts/<種類>/<你的-id>.cart.js` 並換好 `id`；也可以手動複製。接著改 `label.zh` 與內容。
 2. 欄位與 `ctx` 見 [`docs/cart-api.md`](docs/cart-api.md)；可參考同資料夾的示範卡帶。
 3. 本機驗證（不需推送，不耗 Actions 額度）：
    ```
