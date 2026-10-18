@@ -37,7 +37,7 @@ function parseSubs(s,name,info){
  info.fmt=lrc?"LRC":/^\uFEFF?\s*WEBVTT/.test(s)?"WebVTT":"SRT";
  const a=lrc?parseLRC(s,info):parseSRT(s,info),o=a.slice();a.sort((x,y)=>x.s-y.s);info.sorted=a.some((x,i)=>x!==o[i]);return a;
 }
-const LAYOUTS=["split","lowerleft","bounce","slam","neon","karaoke","typewriter","vertical","blurfocus","wipe","glitch","stack","outline-big","subtitle-box","poster"];
+const LAYOUTS=["split","lowerleft","bounce","slam","neon","karaoke"];   /* 內建（寫在 build-sentence.js 內）的版型；其餘版型由 carts/layout 登記 */
 const ENTERS=["fade","rise","drop","zoomin","zoomout","spin","flip","stagger","mask-up","elastic","swing","ripple"],EXITS=["fade","sink","zoomout-fade","blur-out","slide-out"],FXS=["float","shake","flicker","rainbow"];
 /* 登記一個新版型的唯一入口：{brace:1}＝{} 是強調關鍵字；{full:1}＝滿版（忽略位置）。舊版型維持原本的分散登記方式，不動。 */
 function registerLayout(name,fn,o={}){NL[name]=fn;if(!LAYOUTS.includes(name))LAYOUTS.push(name);if(o.brace)BRACE_LAYOUTS.add(name);if(o.full)FULLBLEED.add(name)}

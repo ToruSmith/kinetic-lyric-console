@@ -42,5 +42,3 @@ function pvBuild(sb,c,big,vert){
  });
  if(vert)A(e,[{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(-40% -40% -40% -40%)"}],{duration:D()*1.6,easing:"linear"});   /* 由上往下揭開；刻意維持原樣：clip 是相對 e 的框，e 的寬度正確時不會裁到字（見上方 Firefox 說明） */
 }
-registerLayout("pv-lyric",(sb,c,w,big)=>pvBuild(sb,c,big,false),{brace:1});
-registerLayout("pv-vertical",(sb,c,w,big)=>pvBuild(sb,c,big,true),{brace:1});

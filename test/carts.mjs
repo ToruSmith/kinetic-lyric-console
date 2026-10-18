@@ -20,7 +20,7 @@ const aspect = process.argv[2] || '16:9', [W, H] = aspect === '9:16' ? [540, 960
 const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH, args: ['--no-sandbox', '--enable-unsafe-swiftshader'] } : { args: ['--enable-unsafe-swiftshader'] });
 const sha = b => createHash('sha1').update(b).digest('hex');
 // 已知例外（舊版本來如此，非搬遷造成；regress-parts 證明與舊版逐像素相同）：直式 9:16 下 overexpose 的取樣畫面與 fade 完全相同
-const KNOWN_SAME = { '9:16': ['enter:overexpose'] };
+const KNOWN_SAME = { '16:9': ['layout:center'], '9:16': ['enter:overexpose', 'layout:center'] };   // layout:center 就是預設版型，基準畫面本來就相同
 let pass = 0, fail = 0; const ok = (c, m) => { c ? pass++ : (fail++, console.log('✗ ' + m)) };
 
 const open = async () => {
@@ -49,7 +49,7 @@ async function shot(tag, t, cfg = {}) {
 // ───── 1. 合約 ─────
 const main = await open();
 const files = cartFiles();
-const carts = await main.p.evaluate(() => Console.carts.map(c => ({ ...c })));
+const carts = await main.p.evaluate(() => Console.carts.map(c => ({ ...c, fromLegacy: c.kind === 'layout' && LEGACY_ORDER.layout.includes(c.name) })));
 ok(main.errs.length === 0, '載入時不應有錯誤：' + main.errs.join(' | '));
 ok(await main.p.evaluate(() => Console.errors.length === 0), 'Console.errors 應為空：' + await main.p.evaluate(() => Console.errors.join(' | ')));
 ok(carts.length === files.length, `登記數 ${carts.length} 應等於卡帶檔數 ${files.length}`);
@@ -143,9 +143,10 @@ for (const c of carts) {
         if (!els.length) return null; const bs = els.map(e => e.getBoundingClientRect()); const L = Math.min(...bs.map(b => b.left)), T = Math.min(...bs.map(b => b.top)), R = Math.max(...bs.map(b => b.right)), B = Math.max(...bs.map(b => b.bottom)); return { L, T, R, B, st: { l: st.left, t: st.top, r: st.right, b: st.bottom } } });
       await o.p.close();
       ok(!!r, `${name} ^${anc} 應有可量測的文字`); if (!r) continue; rects[anc] = r;
-      ok(r.L >= r.st.l - 1 && r.T >= r.st.t - 1 && r.R <= r.st.r + 1 && r.B <= r.st.b + 1, `${name} ^${anc} 文字超出畫面：${JSON.stringify(r)}`);
+      if (!c.fromLegacy) ok(r.L >= r.st.l - 1 && r.T >= r.st.t - 1 && r.R <= r.st.r + 1 && r.B <= r.st.b + 1, `${name} ^${anc} 文字超出畫面：${JSON.stringify(r)}`);
     }
-    if (rects.tl && rects.br) ok(rects.tl.T < rects.br.T && rects.tl.L < rects.br.L, `${name} ^tl 應在 ^br 的左上方`);
+    // 由舊版搬來的版型：九宮格偏移沿用舊版（regress.mjs 已逐像素比對相同），不套用新卡帶的「須在畫面內」規則
+    if (!c.fromLegacy && rects.tl && rects.br) ok(rects.tl.T < rects.br.T && rects.tl.L < rects.br.L, `${name} ^tl 應在 ^br 的左上方`);
   }
 }
 await pageForPack.p.close();

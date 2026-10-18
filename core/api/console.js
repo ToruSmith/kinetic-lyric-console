@@ -63,8 +63,12 @@ const Console=(()=>{
  /* ---- 給卡帶的窄介面（凍結；新增欄位不算破壞，改名或移除要升 apiVersion）---- */
  const baseCtx=()=>({apiVersion:API,anim:A,speed:+CONFIG.speed||1,beatMs:()=>60000/(+CONFIG.bpm||120),colors:Object.freeze({accent:"var(--a)",text:"var(--c)"}),
   config:Object.freeze({get bpm(){return+CONFIG.bpm||120},get speed(){return+CONFIG.speed||1},get spacing(){return+CONFIG.spacing||0}}),computed:el=>getComputedStyle(el)});
+ /* 排版共用小工具（core/lib/typography.js）：卡帶經 ctx.lib 取用，不直接碰全域 */
+ const LIB=Object.freeze({hair,tick,capSize,_jT,_jpx,_jN,_jFull,_jPunct,_jOpen,_jCw,_jBrk,_jFit,_jLate,_jIdx,_jRuns,_kKey,_kIn,_kCjk,_lEn,_lFam,_lW,_lCtx,_fz,_chs});
  const layoutCtx=(sb,c,w,big,sm,dur,list)=>Object.freeze({...baseCtx(),sentence:sb,host:c,root:w,duration:dur,charEls:list,width:SWd(),height:SHd(),bigSize:big,smallSize:sm,
-  text:txtEl,splitChars:chars,centered:css=>CE(c,css),fitSize:()=>fit(sb,big),random:sr,enterMs:D,enter:(el,kind,l)=>enter(el,kind||sb.en||"fade",l)});
+  text:txtEl,splitChars:chars,centered:css=>CE(c,css),fitSize:()=>fit(sb,big),random:sr,enterMs:D,enter:(el,kind,l)=>enter(el,kind,l),
+  sw:()=>SWd(),sh:()=>SHd(),centerIn:(host,css)=>CE(host,css),fit:(s,b)=>fit(s,b),sentences:subs,shortK:tK,animCount:()=>anims.length,
+  config:Object.freeze({...CONFIG}),fonts:FONTS,fontCss:emFontCss,sizeScale:sbKs,hex6:(c,d)=>hex6(c,d),lib:LIB});
  const AD={
   layout(d){const f=d.flags||{};registerLayout(d.id,(sb,c,w,big,sm,dur,list)=>d.render(layoutCtx(sb,c,w,big,sm,dur,list)),{brace:f.brace,full:f.full});
    if(f.lab)LAB_LAYOUTS.add(d.id);if(f.ownSub)SUB_OWN.add(d.id)},

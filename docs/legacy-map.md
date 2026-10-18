@@ -4,6 +4,8 @@
 
 `core/legacy/` 裡是「尚未拆成一檔一卡帶」的舊版型／動畫／場景，M3 起分批搬進 `carts/`。
 
+> **M3-d 進度**：76 個版型已搬進 `carts/layout/`（轉換工具 `tools/migrate-layouts.mjs`）。下列 layouts-*.js 檔裡剩下的是：尚未搬的 6 個版型（text-mask、hanko、ink-bleed、ripple-pool、constellation、particle-form，依賴 `$`／`CSS.registerProperty`／水面 GL 等）、已被卡帶取代的重複輔助函式、以及全域表與旗標（M4 清理）。
+
 | 舊檔 | 新檔 |
 |---|---|
 | `src/00-header.js` | `core/kernel/legacy-file-map.js` |

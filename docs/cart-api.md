@@ -33,7 +33,7 @@
 
 共通：`apiVersion`、`anim(el, keyframes, opts)`（時間驅動、可暫停的動畫；**唯一的動畫入口**）、`speed`、`beatMs()`、`colors`（`var(--a)` 強調、`var(--c)` 文字）、`config`（唯讀：`bpm` `speed` `spacing`）、`computed(el)`（= `getComputedStyle`）。
 
-- **layout.render**：`sentence`（`.plain` `.sub` `.hl` …）、`host`（放內容的容器）、`root`、`duration`（秒）、`charEls`（把逐字元素 push 進來，特效才找得到）、`width` `height` `bigSize` `smallSize`、`text(css)`、`splitChars(str, el)`、`centered(css)`、`fitSize()`、`random(seed)`、`enterMs()`、`enter(el, kind?, list?)`
+- **layout.render**：`sentence`（`.plain` `.sub` `.hl` …）、`host`（放內容的容器）、`root`、`duration`（秒）、`charEls`（把逐字元素 push 進來，特效才找得到）、`width` `height` `bigSize` `smallSize`、`text(css)`、`splitChars(str, el)`、`centered(css)`、`fitSize()`、`random(seed)`、`enterMs()`、`enter(el, kind, list?)`（kind 必給，慣例 `ctx.sentence.en||'fade'`）；進階：`sw()` `sh()`（目前舞台寬高）、`centerIn(host, css)`、`fit(sentence, big)`、`sentences`（全部句子）、`shortK`、`animCount()`、`config`（設定唯讀複本）、`fonts`、`fontCss`、`sizeScale(sentence)`、`lib`（共用排版小工具：hair tick capSize …）
 - **enter.play**：`el`、`charEls`、`duration`
 - **exit.perChar**：`el`、`index`、`count`、`random`
 - **fx.play**：`el`、`duration`、`charEls()`、`textEls()`（帶字體樣式的文字元素）
