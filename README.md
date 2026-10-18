@@ -4,6 +4,10 @@
 
 **▶ 線上使用（免安裝）：<https://torusmith.github.io/kinetic-lyric-console/>**
 
+![動態歌詞字幕示範：四句歌詞，分別使用不同的版型與進退場](assets/readme/hero.gif)
+
+<sub>示範歌詞為自創的合成內容；畫面由離線渲染所用的同一個渲染頁面產生（`npm run readme-assets` 可重拍）。</sub>
+
 - **單一 HTML 檔、離線可用**：沒有伺服器、沒有帳號；歌詞、音樂、影片都只在你的瀏覽器裡處理。
 - **共 89 種版型、59 種場景層、55 種進場、44 種退場、37 種持續特效、29 種逐字樣式、20 個風格包**（版型與場景各含 28 種實驗室項目）。這是工具實際可用的總數；[`docs/manual.md`](docs/manual.md) 詳列其中的舊版既有部件與 11 個較新的部件；往後新增的卡帶以 `docs/catalog.md` 為準。
 - **其中 232 個已做成獨立卡帶檔**（每個效果一個檔案：版型 77、進場 34、退場 37、持續特效 33、文字樣式 14、場景 36、風格包 1，清單見 [`docs/catalog.md`](docs/catalog.md)）；其餘約 100 個是核心內建（例如 `fade`、`rise` 進場、`neon` 樣式、基礎版型），行為相同，只是還沒拆成卡帶。所以「卡帶數」小於「功能總數」是正常的。
@@ -11,6 +15,12 @@
 - **有回歸保護**：新舊畫面逐像素指紋、每個卡帶的合約檢查、位置／綠幕／分層／後製測試。
 
 > 本專案是舊專案 [`Web_Lyric_Subtitle_Tool`](https://github.com/ToruSmith/Web_Lyric_Subtitle_Tool) 的「卡帶化」重構（舊專案不再更動）。
+
+## 效果一覽
+
+![六種版型的畫面：justify-stack、hud-frame、poster、longshadow、mirror-reflect、marker](assets/readme/layouts.jpg)
+
+由左而右、由上而下：`#justify-stack`、`#hud-frame`、`#poster`（加 `&halftone` 場景）、`#longshadow`、`#mirror-reflect`（加 `&glow-ring` 場景）、`#marker`。版型、進退場、特效、樣式與場景層可以自由搭配，完整清單見 [`docs/catalog.md`](docs/catalog.md)。
 
 ## 依你的身分，從這裡開始
 
@@ -42,6 +52,12 @@
 | 畫質 | 即時錄影，電腦吃力時可能掉幀；可選 30／60 fps 與輕量模式 | 逐幀截圖後用 ffmpeg 合成，不掉幀；可指定解析度、60 fps，並加動態模糊、輝光、色差、調色 |
 | 可重現 | 不保證逐格相同（受電腦效能影響） | 同一專案逐格相同（`--selftest` 可驗證） |
 | 適合 | 快速分享、預覽、試效果 | 正式成品、在剪輯軟體疊字或摳綠幕 |
+
+離線渲染可以把同一句話輸出成三種形式（中間的棋盤格代表透明）：
+
+![同一句歌詞的三種輸出：完整畫面、透明字層（疊在棋盤格上）、綠幕](assets/readme/outputs.png)
+
+綠幕輸出會移除發光與陰影這類效果（它們會把顏色混進背景），所以右圖的字比左圖少了光暈。
 
 幾個直接錄製的限制：
 
