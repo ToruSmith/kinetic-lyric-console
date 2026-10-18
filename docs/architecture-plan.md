@@ -91,7 +91,7 @@ Console.cart({
    - 純資料卡帶（風格包、色彩組合、關鍵影格 JSON、場景參數）：用 schema 驗證，安全。
    - 含程式的卡帶：版型直接操作舞台 DOM，**無法真正沙箱化**，只能走信任模式（類使用者腳本）。必須配 CSP `connect-src 'none'`、離線渲染以 `page.route` 擋掉非 `file:`／`data:` 請求、專案匯出記錄卡帶雜湊。
    - **不做 `?cart=網址` 自動載入**：等於一鍵任意程式碼執行，且同一個 GitHub Pages 帳號網域下的專案共用來源。
-3. 先做第 1 級；第 2 級先只開放純資料卡帶。
+3. 先做第 1 級；第 2 級先只開放純資料卡帶。**已完成（M5）**：風格包 JSON 的匯入／匯出（`core/api/data-carts.js`、`docs/data-packs.md`、`test/data-pack.mjs`）；含程式的使用者卡帶仍未開放。
 
 ## 8. GitHub Actions 額度守則
 

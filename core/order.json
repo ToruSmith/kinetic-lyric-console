@@ -35,6 +35,7 @@
  "core/lib/typography.js",
  "core/api/console.js",
  "@carts",
+ "core/api/data-carts.js",
  "core/kernel/boot.js",
  "core/ui/quick-menu.js",
  "core/ui/export-wizard.js",

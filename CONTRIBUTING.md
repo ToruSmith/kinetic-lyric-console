@@ -12,4 +12,6 @@
 4. 開 PR。每個卡帶一個檔案、不需要改其他檔案；PR 內請附一張截圖或 `demo` 句。
 5. 移植自第三方的內容請在 `THIRD_PARTY_NOTICES.md` 保留授權標示，並在卡帶的 `source` 與 `license` 註明。
 
+只想分享一組配色／字體／版型池？不用寫程式：在面板匯出風格包 JSON，詳見 [`docs/data-packs.md`](docs/data-packs.md)。
+
 不要提交 `dist/` 等建置產物（縮圖精靈圖是例外，見 `CLAUDE.md` 第 3 條）。

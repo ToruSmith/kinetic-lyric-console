@@ -119,6 +119,17 @@ function extra4(p){secAnchor(p,"layers");
  const offChips=box=>box.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));   /* 清除後同步 chip 的亮暗（不重畫面板，避免捲動位置跳掉） */
  const ps=document.createElement("select");ps.style.width="100%";ps.add(new Option("（無風格包）",""));[...STYLE_PACKS].forEach(k=>ps.add(new Option(k,k)));ps.value=STYLE_PACKS.has(CONFIG.presetName)?CONFIG.presetName:"";ps.onchange=()=>ps.value?applyPreset(ps.value):clearPack();
  p.append(lab("風格包（調色盤＋字體＋全域底層＋版型池＋後製；之後仍可逐句覆寫）"),thRow(ps,"pack"),btn("清除風格包",clearPack,"把目前風格包動過的設定還原成預設；選單改回「（無風格包）」效果相同"),btn("一鍵清除全部",clearAllLayers,"風格包＋全域底層場景＋版型池＋所有句子自己的場景標記；會先確認"),note2("套用後會開啟「自動變化版型」；有自己標記的句子不受影響。再套用其他組合時，風格包動過的欄位會還原。"));
+ /* 自己的風格包：匯入／匯出 JSON（只收資料，嚴格驗證；格式見 docs/data-packs.md） */
+ const upk=document.createElement("div");upk.style.cssText="margin:2px 0 8px";
+ const pkFile=document.createElement("input");pkFile.type="file";pkFile.accept=".json,application/json";pkFile.multiple=true;pkFile.style.display="none";
+ pkFile.onchange=async()=>{const ok=[],bad=[];for(const f of pkFile.files){try{const r=UserPacks.add(JSON.parse(await f.text()));ok.push(r.name+(r.warn.length?"（"+r.warn.join("；")+"）":""))}catch(e){bad.push(f.name+"："+e.message)}}
+  pkFile.value="";if(bad.length)alert("以下檔案沒有匯入：\n"+bad.join("\n"));if(ok.length){note("已匯入風格包："+ok.join("、"));cfgRefresh()}};
+ const pkRm=document.createElement("select");pkRm.add(new Option("移除我匯入的風格包…",""));UserPacks.names().forEach(n=>pkRm.add(new Option(n,n)));pkRm.style.display=UserPacks.names().length?"":"none";
+ pkRm.onchange=()=>{const n=pkRm.value;if(n&&confirm("移除自己匯入的風格包「"+n+"」？（已套用到畫面上的設定不受影響）")){UserPacks.remove(n);note("已移除風格包："+n);cfgRefresh()}else pkRm.value=""};
+ upk.append(btn("📥 匯入風格包（.json）",()=>pkFile.click(),"只收資料檔，不會執行任何程式；存在這台瀏覽器裡"),pkFile,
+  btn("📤 把目前設定存成風格包",()=>{const n=(prompt("風格包名稱（1～24 字）","我的風格包")||"").trim();if(!n)return;
+   try{const j=UserPacks.exportCurrent(n);UserPacks.check(j);dl(new Blob([JSON.stringify(j,null,2)],{type:"application/json"}),"pack-"+n.replace(/[^\w\u4e00-\u9fff-]+/g,"_")+".json");note("已匯出風格包「"+n+"」（只含與預設不同的設定）")}catch(e){alert("無法匯出："+e.message)}},"只存和出廠預設不同的設定，不含節拍、偏移等和這首歌有關的設定"),pkRm);
+ p.append(upk);
  const si=document.createElement("input");si.style.width="100%";si.placeholder="全域底層場景，例：halftone:60,burst";si.value=CONFIG.sceneAll||"";si.dataset.k2="sceneAll";
  const setS=v=>{CONFIG.sceneAll=v.replace(/\s/g,"");si.value=CONFIG.sceneAll;cur=-2;save()};si.onchange=()=>setS(si.value);
  const sPick=scenePicker(()=>CONFIG.sceneAll,setS);

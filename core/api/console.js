@@ -108,11 +108,14 @@ const Console=(()=>{
   else if(d.kind==="scene")RND_SCN_TH[r.theme]=append(RND_SCN_TH[r.theme],d.id);
   else if(d.kind==="fx"){if(r.group)RND_FX_GRP[r.group]=append(RND_FX_GRP[r.group],d.id);if(r.strong)RND_FX_STRONG=append(RND_FX_STRONG,d.id);if(r.domOnly)RND_FX_DOM=append(RND_FX_DOM,d.id)}}
 
- function cart(d){
-  try{validate(d);AD[d.kind](d);applyRand(d);
+ function cart(d,opt){   /* opt.user＝使用者端載入的資料型卡帶（只有風格包；見 api/data-carts.js），可被 removeUserPack 移除；失敗時回傳錯誤訊息（內建卡帶忽略回傳值） */
+  try{validate(d);if(opt&&opt.user&&d.kind!=="pack")bad(d,"使用者端只能載入資料型卡帶（pack）");AD[d.kind](d);applyRand(d);
    carts.push(Object.freeze({kind:d.kind,id:d.id,label:Object.freeze({...d.label}),source:d.source||null,author:d.author||null,license:d.license||null,demo:d.demo||null,
-    name:d.kind==="pack"?d.label.zh:d.id}))}
-  catch(e){errors.push(e.message);console.error(e.message)}
+    name:d.kind==="pack"?d.label.zh:d.id,user:!!(opt&&opt.user)}));return""}
+  catch(e){errors.push(e.message);console.error(e.message);return e.message}
  }
- return Object.freeze({apiVersion:API,kinds:KINDS,cart,carts,errors,list:k=>carts.filter(c=>!k||c.kind===k)});
+ function removeUserPack(name){   /* 只移除使用者匯入的風格包；內建的拒絕 */
+  const i=carts.findIndex(c=>c.kind==="pack"&&c.user&&c.name===name);if(i<0)return false;
+  carts.splice(i,1);STYLE_PACKS.delete(name);delete PRESETS[name];return true}
+ return Object.freeze({apiVersion:API,kinds:KINDS,cart,carts,errors,removeUserPack,list:k=>carts.filter(c=>!k||c.kind===k)});
 })();

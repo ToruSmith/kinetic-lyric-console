@@ -11,6 +11,8 @@
 
 貢獻者請看 [`CONTRIBUTING.md`](CONTRIBUTING.md) 與 [`docs/cart-api.md`](docs/cart-api.md)。
 
+使用者自己的風格包（JSON 匯入／匯出，不需建置）：[`docs/data-packs.md`](docs/data-packs.md)
+
 完整規劃（目錄、命名規則、卡帶合約、安全分級、里程碑）：[`docs/architecture-plan.md`](docs/architecture-plan.md)
 
 | 里程碑 | 內容 | 狀態 |

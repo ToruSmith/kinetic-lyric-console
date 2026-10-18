@@ -1,0 +1,21 @@
+{
+  "kind": "pack",
+  "apiVersion": 1,
+  "label": { "zh": "範例：暖色黃昏" },
+  "author": "你的名字",
+  "license": "MIT",
+  "config": {
+    "font": "明體",
+    "weight": 300,
+    "spacing": 0.1,
+    "color": "#f4efe6",
+    "accent": "#e8a87c",
+    "dim": 35,
+    "pulse": 0.03,
+    "particles": 14,
+    "grain": 0.04,
+    "trans": "crossfade",
+    "sceneAll": "gradient-fade:40",
+    "layoutPool": "center,lowerleft"
+  }
+}
