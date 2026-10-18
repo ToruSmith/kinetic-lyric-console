@@ -2,7 +2,7 @@
 
 > 這份手冊給兩種讀者：**使用者**（想知道每個名稱長什麼樣、怎麼寫）與 **AI 助手**（讀完後，能根據歌詞 SRT 與用途為每一句選擇版型、動畫與特效，輸出可直接匯入本工具的「帶標記 SRT」）。
 > 本文只列出**實際存在**的名稱，已逐項對照目前的 `index.html`（`node test/spec-sync.mjs` 會檢查）。不在清單內的名稱一律不要使用：未知版型會退回 `lowerleft`，未知進退場／特效可能無效。
-> 本手冊詳列：共 **60 種版型**（另有 28 種實驗室版型，見 3.1）、30 種場景層（另有 28 種實驗室場景）、53 種進場、42 種退場、35 種持續特效、27 種逐字樣式、19 個風格包。工具目前實際登記的總數更多（版型 89、場景 59、進場 55、退場 44、持續特效 37、逐字樣式 29、風格包 20，含實驗室項目），差額是 11 個較晚新增、尚未寫進本手冊的部件（`underline-draw`、`focus-pull`、`rise-stagger`、`cascade-out`、`drift-up-out`、`char-pulse`、`gentle-bob`、`drift-lines`、`emboss`、`tint-sweep`、風格包 `暮光`），完整清單以 [`catalog.md`](catalog.md) 為準。
+> 本手冊詳列：共 **60 種版型**（另有 28 種實驗室版型，見 3.1）、30 種場景層（另有 28 種實驗室場景）、53 種進場、42 種退場、35 種持續特效、27 種逐字樣式、19 個風格包（以上是舊版既有的數量，也是同步測試的基準）。之後新增的 11 個部件（`underline-draw`、`focus-pull`、`rise-stagger`、`cascade-out`、`drift-up-out`、`char-pulse`、`gentle-bob`、`drift-lines`、`emboss`、`tint-sweep`、風格包 `暮光`）已接在各表末尾；工具實際登記的總數為版型 89、場景 59、進場 55、退場 44、持續特效 37、逐字樣式 29、風格包 20（含實驗室項目）。往後新增的卡帶以 [`catalog.md`](catalog.md) 為準。
 > **先讀第 0 節（30 秒速讀）**；要查名稱與細節看第 3–8 節；風格包與進階功能在第 8、13 節。
 
 ---
@@ -197,6 +197,7 @@
 | `cylinder` | 滾筒翻轉（會顯示前後句） |
 | `iris-frame` | 光圈框（偶數句圓、奇數句矩形） |
 | `annotate` | **吃 `{}`**：手繪圈選、底線、星號標記 `{關鍵字}`（三種標記輪流） |
+| `underline-draw` | 文字置中、逐字淡入上浮，強調色底線從左畫到右；只佔文字周圍，不遮影片 |
 
 ### 字卡與疊層類
 | 名稱 | 說明 |
@@ -344,6 +345,8 @@
 | `alt-zoom` | 交互ズーム：偶數字從鏡頭前撲來、奇數字從遠處長出 ◆ |
 | `stop-motion` | コマ撮り：逐字停格跳向定位，每格姿勢不同 ◆ |
 | `checker-in` | 市松（近似）：棋盤格分兩階段浮現 |
+| `focus-pull` | 對焦：整句從模糊、字距寬鬆淡入到清晰 |
+| `rise-stagger` | 逐字上浮：每個字依序從下方升起並淡入（沒有逐字元素時退回整句淡入） ◆ |
 
 逐字型（◆）完整清單：`stagger` `ripple` `flip` `scramble` `blur-stagger` `fan-open` `domino-in` `bubble-in` `dot-grow` `magnet` `spiral-in` `drop-stagger` `type` `random-order`。
 
@@ -402,6 +405,8 @@
 | `spin-out` | 回って消える：逐字旋轉縮小消失 ◆ |
 | `slash-out` | 一刀両断（近似）：字分成左右兩半掉開 ◆ |
 | `strike-out` | 線で消す：每字先被畫一條強調色線，再壓扁消失 ◆ |
+| `cascade-out` | 逐字下落：每個字依序淡出並下沉 ◆ |
+| `drift-up-out` | 上飄淡出：整句往上飄一小段並模糊消失 |
 
 逐字退場（◆，另含原有的 `dissolve`、`shatter`）需要逐字元素；沒有逐字元素的版型會退回整句淡出。其餘新增退場都是整句動作。
 
@@ -457,6 +462,8 @@
 | `tilt-down` | ティルトダウン（鏡頭）：字從下方升入定位，只動一次 |
 | `dolly-in` | ドリー（鏡頭）：整句期間慢慢推近，只動一次 |
 | `step-zoom` | 段階ズーム（鏡頭）：2～3 次快速小推（每次 +4%），只動一次 |
+| `char-pulse` | 逐字脈動：每個字依序輕微放大再縮回，隨節拍循環（只作用在 DOM 文字，與其他逐字特效互斥） |
+| `gentle-bob` | 輕晃：整句緩慢上下漂浮，位移很小（與其他動 translate 的特效互斥） |
 
 ---
 
@@ -491,6 +498,8 @@
 | `karaoke` | 逐字變亮 |
 | `gloss-sweep` | 光澤掃過：逐字亮帶掃一次 |
 | `glitch` | 訊號閃爍 |
+| `emboss` | 浮雕：左上亮、右下暗的雙層陰影，字有凸起感 |
+| `tint-sweep` | 染色掃過：字由左到右依序從文字色變成強調色並停住 |
 
 限制：
 - `karaoke` 與 `gradient` 同用時以 `karaoke` 為準。
@@ -580,6 +589,7 @@
 | `crosshair` | 文字上 | 50 | 照準線：貫穿畫面的細十字＋中央小圓，圓緩慢呼吸；中央留白（不穿過文字中心） |
 | `dimension-lines` | 文字上 | 50 | 寸法線：畫面上緣與左緣各一條帶箭頭的尺寸線，線上有小短刻（像製圖標註），不寫數字 |
 | `edge-ticks` | 文字上 | 45 | 端の目盛り：畫面四邊中央各一小段短刻度（像相機取景器），隨時間有一個亮點沿著下緣緩慢移動 |
+| `drift-lines` | 文字下 | 50 | 飄移細線：幾條極細的強調色斜線緩慢飄過畫面（成本輕，不遮字） |
 
 實驗室場景（不列入上表，仍可在場景挑選窗選用）：`organic-blob` `edge-clouds` `scattered-shapes` `diamond-shapes` `shadow-shapes` `balancing-circles` `web-lines` `cross-pattern` `triangle-grid` `pink-grid` `jigsaw-grid` `texture-bg` `pixel-bg` `star-trail` `light-spot` `screen-border` `scalloped-border` `hud-corners` `hud-info` `hud-status` `data-monitors` `pixel-window` `desktop-icon` `smear-brush` `paper-tear` `blood-splatter` `crime-tape` `planet`。
 
@@ -677,6 +687,7 @@
 | `金夜` | 明體 | `#D4AF37` | `margin` `baseline` `line-focus` | `dashed-lines` `gradient-fade` | 金色明體、虛線與漸層；版型池為細線版型 margin／baseline／line-focus |
 | `深海` | 圓體 | `#1FD2E6` | `full-track` `margin` | `flow-lines` `gradient-fade` | 青藍圓體、流線與漸層；版型池 full-track／margin |
 | `單色座標` | 等寬 | `#FFFFFF` | `scale-steps` `baseline` | `guides` | 白色等寬、構圖線；版型池 scale-steps／baseline |
+| `暮光` | 明體 | `#e8a87c` | `center` `lowerleft` `quote` | `gradient-fade` `light-spot` | 暖色細明體，緩慢柔和的暮色氛圍 |
 
 ---
 
