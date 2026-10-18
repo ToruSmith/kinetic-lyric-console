@@ -24,7 +24,7 @@
 ## 三種使用方式
 
 1. **線上網頁版**：打開上面的連結即可。
-2. **桌面版（單檔）**：下載 `kinetic-lyric-console.html`，雙擊用 Chrome／Edge 開啟，不需要 `index.html`、不需要安裝。
+2. **桌面版（單檔）**：從 Releases 下載 `kinetic-lyric-console.html`，雙擊用 Chrome／Edge 開啟，不需要安裝。也可以在線上版按 `Ctrl+S` 另存；或下載原始碼後在資料夾執行 `node tools/build.mjs`，再開 `dist/index.html`（原始碼 ZIP 本身沒有 `index.html`）。
 3. **本機離線渲染（輸出 MP4／透明字層／綠幕）**：需要 Node.js、ffmpeg 與這個 repo；在網頁匯出「渲染專案」後執行 `node render/run.mjs …`。
 
 三種方式的逐步說明（含 `input/`、`output/` 資料夾怎麼放）→ [`docs/usage.md`](docs/usage.md)。
@@ -86,8 +86,8 @@ docs/    手冊、卡帶合約、架構規劃、使用說明
 ## 開發
 
 ```
-npm ci
-npm run build        # → dist/index.html（單檔）
+npm ci               # 只有跑 lint／測試／渲染才需要；單純建置可省略
+npm run build        # 等同 node tools/build.mjs → dist/index.html（單檔）
 npm run lint
 npm run check        # 完整驗證（約 40–60 分鐘；日常只跑相關測試即可）
 npm run regress      # 與 test/golden 指紋比對畫面

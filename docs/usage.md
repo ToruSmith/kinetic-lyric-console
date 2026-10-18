@@ -7,6 +7,7 @@
 1. 取得檔案（任選一種）：
    - GitHub 的 **Releases** 頁面下載 `kinetic-lyric-console.html`（單檔）；或 `kinetic-lyric-console.zip`（解壓後裡面就是 `index.html` ＋ `thumbs/` 縮圖資料夾，縮圖預覽才會出現）。
    - 在[線上版](https://torusmith.github.io/kinetic-lyric-console/)按 `Ctrl+S`（Mac `⌘S`）另存網頁，選「網頁，僅 HTML」。
+   - **自己從原始碼建出來**（例如你下載的是 GitHub 的「Download ZIP」，裡面沒有 `index.html`，這是正常的）：安裝 [Node.js 22](https://nodejs.org)，在解壓後的資料夾開命令視窗（Windows：在檔案總管網址列輸入 `cmd` 後 Enter），執行 `node tools/build.mjs`（或 `npm run build`，效果相同）。完成後會產生 `dist/index.html`（以及 `dist/thumbs/`），雙擊 `dist/index.html` 即可。建置不需要先 `npm ci`。
 2. **雙擊檔案**，用 Chrome 或 Edge 開啟（本專案的自動測試以 Chromium 為準，建議用這兩個）。
 3. 頂欄 **載入 ▾** → 載入字幕（SRT／LRC／VTT）、載入音樂／影片；在句子編輯器調整；**匯出** 精靈依用途輸出。
 
