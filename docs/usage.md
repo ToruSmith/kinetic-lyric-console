@@ -28,7 +28,7 @@
 | ffmpeg | 要能在終端機執行 `ffmpeg -version` |
 | 這個 repo | GitHub 頁面 **Code → Download ZIP** 解壓，或 `git clone https://github.com/ToruSmith/kinetic-lyric-console` |
 
-在 repo 資料夾裡執行一次（之後不用再做）：
+在 repo 資料夾裡執行一次（之後不用再做）。**順序不能顛倒，且渲染一定要先 `npm ci`**（它會裝 `playwright` 套件；沒裝會出現 `Cannot find package 'playwright'`）：
 
 ```
 npm ci
@@ -73,6 +73,6 @@ node render/run.mjs --project input/project.json --audio input/song.mp3 --width 
 ### 常見問題
 
 - **找不到檔案**：路徑相對於你執行指令的資料夾（repo 根目錄）；錯誤訊息會列出該資料夾實際有哪些檔案，請對照檔名與副檔名（Windows 可能隱藏副檔名而變成 `.txt`）。
-- **自訂字體沒出現**：字體檔放 `input/fonts/`，檔名（去掉副檔名）要和網頁上選的字體名稱相同。
+- **自訂字體沒出現**：字體檔放 `input/fonts/`（或放在任一資料夾並加 `--fonts 資料夾`；不加參數時只會找 `input/fonts/`），檔名（去掉副檔名）要和網頁上選的字體名稱相同。
 - **自己匯入的風格包**：只存在瀏覽器裡；匯出渲染專案時，風格包套用後的設定已經寫進 `project.json`，渲染不需要它。
 - **比例要一致**：離線渲染以 `--width/--height` 的比例排版，請與網頁預覽的畫面比例一致（匯出精靈給的指令已經配好）。
