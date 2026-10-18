@@ -5,6 +5,7 @@ import { chromium } from 'playwright';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
+import { readFileSync, writeFileSync } from 'node:fs';
 const [oldF, newF, aspect = '16:9', kindArg = 'scene,enter,exit,fx,style'] = process.argv.slice(2);
 if (!oldF || !newF) { console.log('用法：node test/regress-parts.mjs 舊.html 新.html [16:9|9:16] [種類,…]'); process.exit(2) }
 const kinds = kindArg.split(','), [W, H] = aspect === '9:16' ? [540, 960] : [960, 540], fps = 5, SLOT = 4, TXT = '{街}頭的{霓虹}與雨';
@@ -27,7 +28,9 @@ async function run(file, parts) {
   for (let f = 0; f <= last; f++) { await p.evaluate(t => window.__renderFrame(t), f / fps); if (want.has(f)) { const [i, j] = want.get(f); (out[i] ||= [])[j] = sha(await p.screenshot()) } }
   await p.context().close(); return { jobs, out, parts, errs };
 }
-const a = await run(oldF), b = await run(newF, a.parts);
+const a = oldF.endsWith('.json') ? JSON.parse(readFileSync(oldF, 'utf8')) : await run(oldF), b = await run(newF, a.parts);
+// 金標準：舊檔參數可直接給 .json（先前用 WRITE_GOLDEN=路徑 存下的雜湊）；M4 刪除 legacy/ 後以此當回歸基準（同一台機器／同版 Chromium 才可比對）
+if (process.env.WRITE_GOLDEN) { const { errs: _e, ...g } = b; writeFileSync(process.env.WRITE_GOLDEN, JSON.stringify(g)); console.log('已寫入金標準 ' + process.env.WRITE_GOLDEN) }
 const diff = a.jobs.map(([k, n], i) => [k, n, (a.out[i] || []).join() !== (b.out[i] || []).join()]).filter(x => x[2]).map(x => x[0] + ':' + x[1]);
-console.log(`${aspect}｜逐部件 ${a.jobs.length} 個（${kinds.join('、')}）｜不同 ${diff.length}${diff.length ? '：' + diff.join(' ') : ''}｜錯誤 舊${a.errs.length} 新${b.errs.length}`);
+console.log(`${aspect}｜逐部件 ${a.jobs.length} 個（${kinds.join('、')}）｜不同 ${diff.length}${diff.length ? '：' + diff.join(' ') : ''}｜錯誤 舊${(a.errs || []).length} 新${b.errs.length}`);
 await browser.close(); process.exit(diff.length || b.errs.length ? 1 : 0);

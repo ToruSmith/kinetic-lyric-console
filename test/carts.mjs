@@ -49,7 +49,8 @@ async function shot(tag, t, cfg = {}) {
 // ───── 1. 合約 ─────
 const main = await open();
 const files = cartFiles();
-const carts = await main.p.evaluate(() => Console.carts.map(c => ({ ...c, fromLegacy: c.kind === 'layout' && LEGACY_ORDER.layout.includes(c.name) })));
+const BASE = JSON.parse(fs.readFileSync(new URL('./manual-baseline.json', import.meta.url), 'utf8'));   // 舊版既有部件名單（凍結）
+const carts = await main.p.evaluate(B => Console.carts.map(c => ({ ...c, fromLegacy: c.kind === 'layout' && B.layout.includes(c.name) })), BASE);
 ok(main.errs.length === 0, '載入時不應有錯誤：' + main.errs.join(' | '));
 ok(await main.p.evaluate(() => Console.errors.length === 0), 'Console.errors 應為空：' + await main.p.evaluate(() => Console.errors.join(' | ')));
 ok(carts.length === files.length, `登記數 ${carts.length} 應等於卡帶檔數 ${files.length}`);

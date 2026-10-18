@@ -4,14 +4,15 @@ import fs from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
 const PAGE = process.env.PAGE || 'dist/index.html';   // 建置結果；可用環境變數 PAGE 指定別的檔
-// 過渡期：功能手冊還在 legacy/（M4 起改由卡帶 manifest 產生清單）；新卡帶（不在 LEGACY_ORDER 內）不要求寫進手冊；由舊版搬成卡帶的部件仍必須有手冊
-const MANUAL = process.env.MANUAL || 'legacy/動態歌詞字幕工具_功能手冊與SRT標記指南.md';
+// 功能手冊（docs/manual.md）只涵蓋舊版既有的部件（名單凍結在 test/manual-baseline.json）；之後新增的卡帶由 docs/catalog.md 自動產生清單，不要求寫進手冊
+const MANUAL = process.env.MANUAL || 'docs/manual.md';
 const md = fs.readFileSync(MANUAL, 'utf8');
+const BASE = JSON.parse(fs.readFileSync(new URL('./manual-baseline.json', import.meta.url), 'utf8'));
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH, args: ['--no-sandbox'] });
 const p = await browser.newPage(); await p.goto(pathToFileURL(resolve(PAGE)).href + '?render=1'); await p.evaluate(() => window.__ready);
 const I = await p.evaluate(() => ({ L: LAYOUTS.filter(l => !LAB_LAYOUTS.has(l)), LAB: [...LAB_LAYOUTS], S: SCENE_NAMES.filter(n => !SCENES[n].lab), SL: SCENE_NAMES.filter(n => SCENES[n].lab), P: [...STYLE_PACKS], EN: ENTERS, EX: EXITS, FX: FXS, K: ['sceneAll', 'layoutPool', 'sceneMax', 'sceneBudget', 'beatShake', 'beatZoom', 'beatTilt', 'beatHue', 'autoAccent'] }));
 { // 新卡帶（不在舊版名單內）不要求寫進手冊；依「種類」分開比對，避免不同種類同名（例：版型 marker 與樣式 marker）互相誤傷
-  const NEW = await p.evaluate(() => { const o = {}; for (const c of Console.carts) { const old = c.kind === 'style' ? [...LEGACY_ORDER.st, ...LEGACY_ORDER.stc] : (LEGACY_ORDER[c.kind] || []); if (!old.includes(c.name)) (o[c.kind] ||= []).push(c.name) } return o });
+  const NEW = await p.evaluate(BASE => { const o = {}; for (const c of Console.carts) { const old = c.kind === 'style' ? [...BASE.st, ...BASE.stc] : (BASE[c.kind] || []); if (!old.includes(c.name)) (o[c.kind] ||= []).push(c.name) } return o }, BASE);
   const kindOf = { L: 'layout', LAB: 'layout', S: 'scene', SL: 'scene', P: 'pack', EN: 'enter', EX: 'exit', FX: 'fx' };
   for (const k of Object.keys(kindOf)) { const ex = new Set(NEW[kindOf[k]] || []); I[k] = I[k].filter(n => !ex.has(n)); } }
 let fail = 0, pass = 0; const has = n => md.includes('`' + n + '`'), t = (c, m) => { c ? pass++ : (fail++, console.log('✗ ' + m)) };

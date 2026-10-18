@@ -1,5 +1,5 @@
-// 產生「版型／場景層／風格包／預設組合」的縮圖精靈圖：node test/make-thumbs.mjs [名稱,名稱…（只重拍指定項目，其餘沿用）]
-// 輸出：thumbs/sheet.webp（單張精靈圖）＋ src/28-thumbs-idx.js（名稱→格子位置；之後要 node build.mjs）。
+// 產生「版型／場景層／風格包／預設組合」的縮圖精靈圖：node tools/make-thumbs.mjs [名稱,名稱…（只重拍指定項目，其餘沿用）]
+// 輸出：assets/thumbs/sheet.webp（單張精靈圖）＋ core/ui/thumbs-index.js（名稱→格子位置；之後要 npm run build）。
 // 環境同其他測試：npm i playwright；CHROME_PATH 指向 Chromium。新增版型／場景／風格包後重跑一次即可（舊的格子會整張重拍，約 2～3 分鐘）。
 // 不屬於 npm run check；縮圖只是 UI 輔助，缺了不影響功能（介面會自動略過沒有縮圖的項目）。
 import { chromium } from 'playwright';
@@ -9,7 +9,7 @@ import crypto from 'node:crypto';
 
 const SRC_W = 480, SRC_H = 270, FPS = 5, SHOT_FRAME = 8;   // 拍第 8 格＝1.6 秒（句子 0.2～3.2 秒，此時進場動畫大多已到位）
 const TW = 128, TH = 72, COLS = 12, QUALITY = 0.5;           // 縮圖尺寸／每列格數／webp 品質（要更小改這裡）
-const PAGE = pathToFileURL('index.html').href + '?render=1&fps=' + FPS;
+const PAGE = pathToFileURL("dist/index.html").href + '?render=1&fps=' + FPS;
 const launch = { executablePath: process.env.CHROME_PATH, args: ['--no-sandbox', '--enable-unsafe-swiftshader'] };
 const SAMPLE = '歌詞測試字', BRACE = '歌詞{測試}字';
 
@@ -46,7 +46,7 @@ async function shot(key) {
   if (errs.length) console.warn('  ⚠ ' + key + ' 頁面錯誤：' + errs[0]);
   return png.toString('base64');
 }
-const prev = fs.existsSync('thumbs/sheet.webp') && fs.existsSync('src/28-thumbs-idx.js');
+const prev = fs.existsSync('assets/thumbs/sheet.webp') && fs.existsSync('core/ui/thumbs-index.js');
 const only = process.argv[2] ? new Set(process.argv[2].split(',')) : null;   // 只重拍：名稱可寫 neon 或 lay:neon
 const shots = new Map(); let done = 0;
 const todo = items.filter(k => !only || only.has(k) || only.has(k.slice(k.indexOf(':') + 1)));
@@ -56,8 +56,8 @@ await Promise.all(Array.from({ length: 4 }, async () => {
 }));
 
 // 3) 在頁面內用 canvas 拼成一張精靈圖（不需額外套件）；只重拍時，舊格子從現有 sheet 搬過來
-const oldIdx = prev && only ? (fs.readFileSync('src/28-thumbs-idx.js', 'utf8').match(/idx:"([^"]*)"/) || [, ''])[1].split(',').filter(Boolean) : [];
-const oldB64 = prev && only ? fs.readFileSync('thumbs/sheet.webp').toString('base64') : '';
+const oldIdx = prev && only ? (fs.readFileSync('core/ui/thumbs-index.js', 'utf8').match(/idx:"([^"]*)"/) || [, ''])[1].split(',').filter(Boolean) : [];
+const oldB64 = prev && only ? fs.readFileSync('assets/thumbs/sheet.webp').toString('base64') : '';
 const pg = await (await b.newContext()).newPage();
 const out = await pg.evaluate(async ({ items, shots, TW, TH, COLS, Q, oldIdx, oldB64 }) => {
   const load = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src });
@@ -81,7 +81,7 @@ await b.close();
 
 const missing = items.filter(k => !out.kept.includes(k));
 if (missing.length) console.warn('沒有縮圖的項目（會被介面略過）：' + missing.join(' '));
-const buf = Buffer.from(out.b64, 'base64'); fs.mkdirSync('thumbs', { recursive: true }); fs.writeFileSync('thumbs/sheet.webp', buf);
+const buf = Buffer.from(out.b64, 'base64'); fs.mkdirSync("assets/thumbs", { recursive: true }); fs.writeFileSync('assets/thumbs/sheet.webp', buf);
 const ver = crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
-fs.writeFileSync('src/28-thumbs-idx.js', `/* ===== [THUMBS-IDX] 縮圖精靈圖索引（由 test/make-thumbs.mjs 產生，請勿手改；邏輯在 28-thumbs.js）===== */\nvar TH_DATA={w:${TW},h:${TH},cols:${COLS},v:"${ver}",idx:"${items.map(k => out.kept.includes(k) ? k : '-').join(',')}"};\n`);
-console.log(`✓ thumbs/sheet.webp ${(buf.length / 1024).toFixed(0)} KB，${items.length} 格（${COLS} 欄 × ${Math.ceil(items.length / COLS)} 列）；請執行 node build.mjs`);
+fs.writeFileSync('core/ui/thumbs-index.js', `/* ===== [THUMBS-IDX] 縮圖精靈圖索引（由 tools/make-thumbs.mjs 產生，請勿手改；邏輯在 core/ui/thumbs.js）===== */\nvar TH_DATA={w:${TW},h:${TH},cols:${COLS},v:"${ver}",idx:"${items.map(k => out.kept.includes(k) ? k : '-').join(',')}"};\n`);
+console.log(`✓ assets/thumbs/sheet.webp ${(buf.length / 1024).toFixed(0)} KB，${items.length} 格（${COLS} 欄 × ${Math.ceil(items.length / COLS)} 列）；請執行 npm run build`);

@@ -103,7 +103,7 @@ for (const rel of files) {
   if (dir === 'pack') { if (prop('id') !== id) report(rel, 'cart-id', `id 是 ${JSON.stringify(prop('id'))}，但檔名是 ${id}（兩者必須一致）`); }
   else if (prop('id') !== id) report(rel, 'cart-id', `id 是 ${JSON.stringify(prop('id'))}，但檔名是 ${id}（兩者必須一致）`);
 }
-// 檔名：core/ carts/ tools/ test/ render/ examples/ 只用 ASCII、小寫、連字號（legacy/ 保持原樣不檢查）
+// 檔名：core/ carts/ tools/ test/ render/ examples/ 只用 ASCII、小寫、連字號
 const NAME_ROOTS = ['core', 'carts', 'tools', 'test', 'render', 'examples'];
 const walk = (dir, out = []) => { for (const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) { const rel = `${dir}/${e.name}`; e.isDirectory() ? walk(rel, out) : out.push(rel); } return out; };
 for (const r of NAME_ROOTS.filter(r => fs.existsSync(path.join(ROOT, r)))) {

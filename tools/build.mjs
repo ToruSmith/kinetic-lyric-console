@@ -57,13 +57,13 @@ export function buildHtml() {
   return tpl.replace('@@STYLE@@', () => css).replace('@@SCRIPT@@', () => js);
 }
 
-/** 寫出 dist；過渡期：縮圖精靈圖暫時取自 legacy/（M4 改為每卡帶自帶縮圖後移除）。 */
+/** 寫出 dist；縮圖精靈圖取自 assets/thumbs/（由 tools/make-thumbs.mjs 重拍；缺了介面會自動略過縮圖）。 */
 export function build(outDir = 'dist') {
   const dir = path.resolve(ROOT, outDir);
   fs.mkdirSync(dir, { recursive: true });
   const html = buildHtml();
   fs.writeFileSync(path.join(dir, 'index.html'), html);
-  const sheet = path.join(ROOT, 'legacy/thumbs/sheet.webp');
+  const sheet = path.join(ROOT, 'assets/thumbs/sheet.webp');
   if (fs.existsSync(sheet)) { fs.mkdirSync(path.join(dir, 'thumbs'), { recursive: true }); fs.copyFileSync(sheet, path.join(dir, 'thumbs/sheet.webp')); }
   return { dir, html };
 }

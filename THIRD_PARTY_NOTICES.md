@@ -6,7 +6,7 @@
 
 - 來源：https://github.com/852wa/JIZURA
 - 授權：MIT License
-- 範圍：移植自 JIZURA 的部分版型、進場／退場／保持動畫與裝飾元素（移植清單與規格見 `legacy/docs/port-jizura-spec.md`；搬進 `carts/` 的卡帶會在各自的 manifest 以 `source: "JIZURA"` 標註，並彙整於此）。
+- 範圍：移植自 JIZURA 的部分版型、進場／退場／保持動畫與裝飾元素（移植清單與規格見 `docs/port-jizura-spec.md`；搬進 `carts/` 的卡帶會在各自的 manifest 以 `source: "JIZURA"` 標註，並彙整於此）。
 
 ```
 MIT License

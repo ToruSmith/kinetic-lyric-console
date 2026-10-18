@@ -3,7 +3,7 @@ name: pages
 on:
   push:
     branches: [main]
-    paths: ['core/**', 'carts/**', 'tools/build.mjs', 'legacy/thumbs/**', '.github/workflows/pages.yml']
+    paths: ['core/**', 'carts/**', 'tools/build.mjs', 'assets/**', '.github/workflows/pages.yml']
   workflow_dispatch:
 permissions:
   contents: read

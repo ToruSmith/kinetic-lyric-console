@@ -9,6 +9,7 @@ import { chromium } from 'playwright';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { resolve } from 'node:path';
+import { readFileSync, writeFileSync } from 'node:fs';
 const [oldF, newF, aspect = '16:9'] = process.argv.slice(2);
 if (!oldF || !newF) { console.log('用法：node regress-all.mjs 舊.html 新.html [16:9|9:16]'); process.exit(2) }
 const [W, H] = aspect === '9:16' ? [540, 960] : [960, 540], fps = 5;
@@ -53,11 +54,13 @@ async function run(file, layouts) {
   const all = await sweep(p, lays.map((_, i) => .2 + 3.2 * i + 1.9), false);
   await p.context().close(); return { demo, all, lays, errs };
 }
-const a = await run(oldF), b = await run(newF, a.lays);
+const a = oldF.endsWith('.json') ? JSON.parse(readFileSync(oldF, 'utf8')) : await run(oldF), b = await run(newF, a.lays);
+// 金標準：舊檔參數可直接給 .json（先前用 WRITE_GOLDEN=路徑 存下的雜湊）；M4 刪除 legacy/ 後以此當回歸基準（同一台機器／同版 Chromium 才可比對）
+if (process.env.WRITE_GOLDEN) { const { errs: _e, ...g } = b; writeFileSync(process.env.WRITE_GOLDEN, JSON.stringify(g)); console.log('已寫入金標準 ' + process.env.WRITE_GOLDEN) }
 const bad = (x, y, names) => Object.keys(x).filter(i => x[i] !== y[i]).map(i => names ? names[i] : +i + 1);
 const dDemo = bad(a.demo, b.demo), dAll = bad(a.all, b.all, a.lays);
 console.log(`${aspect}｜@demo ${mids(a.demo)} 句（含三種輸出模式）不同 ${dDemo.length}${dDemo.length ? '（第 ' + dDemo.join(',') + ' 句）' : ''}`);
 console.log(`${aspect}｜全版型 ${a.lays.length} 種 不同 ${dAll.length}${dAll.length ? '：' + dAll.join(',') : ''}`);
-const errs = [...a.errs, ...b.errs]; if (errs.length) console.log('頁面錯誤：', errs.slice(0, 5).join(' | '));
+const errs = [...(a.errs || []), ...b.errs]; if (errs.length) console.log('頁面錯誤：', errs.slice(0, 5).join(' | '));
 function mids(o) { return Object.keys(o).length }
 await browser.close(); process.exit(dDemo.length || dAll.length || errs.length ? 1 : 0);
