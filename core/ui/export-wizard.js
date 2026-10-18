@@ -32,6 +32,8 @@ const WZ_OPTS=[
  {id:"backup",ico:"💾",t:"備份／換電腦",s:"保存整個專案",
   why:"project.json 一次保存字幕、設定與已上傳的字體，可用面板的「匯入設定 JSON 或渲染專案」整包還原；設定 JSON 只有面板設定。",
   notes:["音樂與背景影片不會包進檔案，還原後要重新載入。","字體檔可能很大（CJK 字體常達數 MB 到十幾 MB）。"]}];
+/* 會產生影片的輸出都附上光敏與版權提醒（手冊第 1 節有完整說明） */
+WZ_OPTS.forEach(o=>{if(["rec","mp4","alpha","layers","chroma"].includes(o.id))o.notes.push("⚠ 光敏提醒：flicker、glitch、shake、rainbow、閃電等快速明暗效果對光敏性癲癇觀眾有風險，公開前請避免大面積、連續使用並加註提醒。","歌曲、歌詞與背景素材請確認你有使用與發布的授權。")});
 let wzSel="rec",wzO={fps:"30",blur:"",glow:false,aber:false,grade:"",webm:false,ck:"#00ff00"},wzDone=false;
 function wzCmd(k){let c=projCmd().cmd;
  if(k==="mp4"){c=c.replace("--fps 30","--fps "+wzO.fps);if(wzO.blur)c+=" --blur "+wzO.blur;if(wzO.glow)c+=" --glow";if(wzO.aber)c+=" --aberration";if(wzO.grade)c+=" --grade "+wzO.grade}
