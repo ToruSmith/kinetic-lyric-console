@@ -90,14 +90,14 @@ if (post) {
   console.log('後製（只影響預覽 MP4）：' + describePost(post));
 }
 
-let audioData = null;
+let audioData = null, builtOnce = false;
 async function open() {
   const browser = await chromium.launch({ args: ['--font-render-hinting=none', '--disable-lcd-text', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] }).catch(e =>
     die('無法啟動 Chromium：' + e.message + '\n請先執行 npx playwright install chromium'));
   const page = await (await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1 })).newPage();
   page.on('pageerror', e => console.error('頁面錯誤：', e.message));
-  // 渲染永遠吃「剛從 core/＋carts/ 建置出的 dist/index.html」；沒有就自動建置（只需 Node，不需 npm 套件）
-  if (!existsSync(join(here, '..', 'dist', 'index.html'))) { build(); console.log('已自動建置 dist/index.html'); }
+  // 渲染永遠吃「剛從 core/＋carts/ 建置出的 dist/index.html」：每次執行都重建一次（很快，只需 Node），避免換了原始碼卻還用舊的 dist
+  if (!builtOnce) { build(); builtOnce = true; console.log('已建置 dist/index.html'); }
   await page.goto(pathToFileURL(join(here, '..', 'dist', 'index.html')).href + `?render=1&fps=${rfps}`);
   await page.evaluate(() => window.__ready);
   // 字體逐個送進頁面：一次送出數十～上百 MB 的 base64 會讓 Chromium 崩潰（「Target page, context or browser has been closed」）
