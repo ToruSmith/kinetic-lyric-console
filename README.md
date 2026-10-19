@@ -1,5 +1,7 @@
 # kinetic-lyric-console · 動態歌詞字幕工具
 
+**繁體中文** | [English](README.en.md)
+
 把 SRT 歌詞變成**會動的字幕**：版型、進場／退場、持續特效、文字樣式、場景層與風格包，網頁即時預覽，可在瀏覽器直接錄製成 MP4／WebM，也能離線渲染成高品質 MP4、透明文字層或綠幕影片，給剪輯軟體直接使用。
 
 **▶ 線上使用（免安裝）：<https://torusmith.github.io/kinetic-lyric-console/>**
@@ -27,7 +29,7 @@
 | 我是… | 看這裡 |
 |---|---|
 | **一般使用者**：想把歌詞做成動態字幕 | 下方「[三種使用方式](#三種使用方式)」＋ [`docs/usage.md`](docs/usage.md)（桌面版、本機渲染的完整步驟） |
-| **想寫 SRT 特效歌詞的人**（自己寫或請 AI 幫忙） | [**功能手冊與 SRT 標記指南**](docs/manual.md) ＋ 下方「[請 AI 幫你上標記](#請-ai-幫你上標記簡單提示詞)」 |
+| **想寫 SRT 特效歌詞的人**（自己寫或請 AI 幫忙） | [**功能手冊與 SRT 標記指南**](docs/manual.md)、[**AI 速查表**](docs/ai-cheatsheet.md) ＋ 下方「[請 AI 幫你上標記](#請-ai-幫你上標記簡單提示詞)」 |
 | **想分享自己配色／字體的人**（不寫程式） | [`docs/data-packs.md`](docs/data-packs.md)：匯入／匯出風格包 JSON |
 | **人類貢獻者**：想新增一個效果 | [`CONTRIBUTING.md`](CONTRIBUTING.md) → `npm run new-cart -- layout my-id`，再看 [`docs/cart-api.md`](docs/cart-api.md) |
 | **AI 工程師／代理程式**：要改這個 repo | [`CLAUDE.md`](CLAUDE.md)（硬規則）→ [`docs/architecture-plan.md`](docs/architecture-plan.md)（架構與決策）→ [`docs/cart-api.md`](docs/cart-api.md)（卡帶合約）→ [`docs/legacy-map.md`](docs/legacy-map.md)（舊檔對照） |
@@ -81,7 +83,7 @@
 
 意思是：`#版型` `+進場` `+退場` `~持續特效` `^位置` `@文字樣式`，`{}` 標出關鍵字。完整名稱與規則都在 [功能手冊](docs/manual.md)——它本來就是寫給 AI 讀的。
 
-**做法**：把手冊 [`docs/manual.md`](docs/manual.md)（整份貼上或上傳）和你的 SRT 一起給 AI，再貼下面其中一段：
+**做法**：把精簡速查表 [`docs/ai-cheatsheet.md`](docs/ai-cheatsheet.md)（約 16KB，名稱清單由卡帶自動產生，新增的效果也在內）和你的 SRT 一起給 AI，再貼下面其中一段。想讓 AI 看完整說明與每個名稱的細節，可改貼 [`docs/manual.md`](docs/manual.md)（約 57KB）：
 
 **① 整首上標記**
 ```
@@ -102,9 +104,9 @@
 依照這份手冊為整首上標記，另外附一小段 config JSON（3–6 個欄位），讓整體配色與字體符合【主題】。
 ```
 
-拿到 AI 回覆後：存成 `.srt` → 網頁頂欄 **載入 ▾ → 載入字幕** 就能預覽；喜歡的話再用 **匯出** 精靈輸出。名稱寫錯時工具不會壞（未知版型會退回 `lowerleft`），載入字幕時提示列會列出不認得的名稱；可以直接請 AI「只用手冊裡的名稱重寫」。
+拿到 AI 回覆後：存成 `.srt` → 網頁頂欄 **載入 ▾ → 載入字幕** 就能預覽；喜歡的話再用 **匯出** 精靈輸出。名稱寫錯時工具不會壞（未知版型會退回 `lowerleft`），載入字幕時提示列會列出不認得的名稱；可以直接請 AI「只用速查表裡的名稱重寫」。
 
-> 手冊的名稱表涵蓋舊版既有的項目；之後新增的卡帶請查 [`docs/catalog.md`](docs/catalog.md)。
+> 手冊的名稱表涵蓋舊版既有的項目；速查表（`docs/ai-cheatsheet.md`）與 [`docs/catalog.md`](docs/catalog.md) 則由卡帶自動產生，包含之後新增的項目。每個 Release 也附有 `ai-cheatsheet.md`，可直接下載。
 
 ## 使用前請注意
 
@@ -118,7 +120,7 @@
 core/    主機：解析、時間軸、編輯器、匯出；卡帶登記層（api/console.js）
 carts/   卡帶，一個效果一個檔案：layout enter exit fx style scene pack（_template 是範本）
 render/  離線渲染（Node＋Playwright＋ffmpeg）
-tools/   建置（build）、新增卡帶（new-cart）、清單產生（gen-catalog）、縮圖（make-thumbs）
+tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、縮圖（make-thumbs）
 test/    合約、位置、綠幕、分層、後製、行為等測試；golden/ 是畫面指紋基準
 docs/    手冊、卡帶合約、架構規劃、使用說明
 ```
@@ -134,6 +136,8 @@ npm run lint
 npm run check:fast   # 快速檢查（約 20 秒）：建置、lint、載入、行為、規格同步等；改文字或小地方先跑這個
 npm run check        # 完整驗證（約 40–60 分鐘；日常只跑相關測試即可）
 npm run regress      # 與 test/golden 指紋比對畫面
+npm run catalog      # 重新產生 docs/catalog.md
+npm run cheatsheet   # 重新產生 docs/ai-cheatsheet.md
 ```
 
 GitHub Actions 額度有限，驗證優先在本機跑；規則見 [`docs/architecture-plan.md`](docs/architecture-plan.md) 第 8 節。

@@ -8,6 +8,7 @@
    npm run build && npm run lint
    CHROME_PATH=<chromium 路徑，可省略> node test/carts.mjs
    ```
+   新增或改名卡帶後再跑 `npm run catalog && npm run cheatsheet`，更新 `docs/catalog.md` 與 `docs/ai-cheatsheet.md`（CI 與 `npm run check` 會檢查它們是不是最新）。
    `lint` 擋掉連網、儲存、計時器、亂數、時間等違規；`test/carts.mjs` 檢查登記、有效果、逐像素確定性、九宮格位置、不連網。
 4. 開 PR。每個卡帶一個檔案、不需要改其他檔案；PR 內請附一張截圖或 `demo` 句。
 5. 移植自第三方的內容請在 `THIRD_PARTY_NOTICES.md` 保留授權標示，並在卡帶的 `source` 與 `license` 註明。

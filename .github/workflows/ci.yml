@@ -27,6 +27,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run lint            # 不需瀏覽器，最先跑，卡帶違規在這裡就擋下
+      - run: node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check   # 不需瀏覽器；清單與 AI 速查表必須與卡帶同步
       - name: 安裝 Chromium（快取）
         uses: actions/cache@v4
         id: pw

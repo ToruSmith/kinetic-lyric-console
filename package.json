@@ -11,9 +11,10 @@
   "lint": "node test/lint.mjs",
   "new-cart": "node tools/new-cart.mjs",
   "catalog": "node tools/gen-catalog.mjs",
+  "cheatsheet": "node tools/gen-cheatsheet.mjs",
   "test:carts": "node test/carts.mjs",
-  "check": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node test/carts.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/scene.mjs && node test/beatfx-layouts.mjs && node test/styles.mjs && node test/data-pack.mjs && node test/post.mjs && node test/chroma.mjs && node test/layers.mjs && node test/position.mjs && node test/sentence-opts.mjs",
-  "check:fast": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node test/boot.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/data-pack.mjs && node test/post.mjs",
+  "check": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node test/carts.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/scene.mjs && node test/beatfx-layouts.mjs && node test/styles.mjs && node test/data-pack.mjs && node test/post.mjs && node test/chroma.mjs && node test/layers.mjs && node test/position.mjs && node test/sentence-opts.mjs",
+  "check:fast": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node test/boot.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/data-pack.mjs && node test/post.mjs",
   "regress": "node test/regress.mjs test/golden/regress-16x9.json dist/index.html 16:9 && node test/regress-parts.mjs test/golden/parts-16x9.json dist/index.html 16:9",
   "thumbs": "node tools/make-thumbs.mjs",
   "readme-assets": "node tools/make-readme-assets.mjs"

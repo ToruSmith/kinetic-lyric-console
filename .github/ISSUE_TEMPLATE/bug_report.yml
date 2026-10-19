@@ -1,0 +1,33 @@
+name: 回報問題
+description: 畫面不對、匯出失敗、渲染報錯、文件寫錯
+labels: [bug]
+body:
+  - type: dropdown
+    id: where
+    attributes:
+      label: 在哪裡發生
+      options:
+        - 線上網頁版
+        - 桌面版（單檔 HTML）
+        - 直接錄製
+        - 本機離線渲染（node render/run.mjs）
+        - 文件
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes:
+      label: 發生了什麼事
+      description: 預期看到什麼、實際看到什麼。離線渲染請貼完整錯誤訊息。
+    validations: { required: true }
+  - type: textarea
+    id: srt
+    attributes:
+      label: 重現用的標記（SRT 片段）
+      description: 只貼出問題的那幾句即可，請不要貼受版權保護的完整歌詞，可換成任意文字。
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: 環境
+      description: 瀏覽器與版本；離線渲染另寫 Node、ffmpeg 版本與作業系統。
+      placeholder: Chrome 130 / Windows 11 / Node 22 / ffmpeg 7.1
