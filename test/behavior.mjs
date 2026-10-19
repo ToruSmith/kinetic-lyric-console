@@ -139,6 +139,13 @@ r = await page.evaluate(() => ({ n: subs.length, bpm: CONFIG.bpm, ts: CONFIG.tex
 t(r.n === 4 && r.bpm === 120 && r.ts === 150 && r.note.includes('專案已還原') && r.note.includes('1 個格式不符'), '匯入渲染專案（project.json）應還原字幕與設定並提示：' + JSON.stringify(r));
 
 errs.length && (fail++, console.log('✗ 頁面錯誤 ' + errs.join(' | ')));
+// ---------- 未知標記名稱提示（唯讀：只提示，不改渲染） ----------
+r = await load('a.srt', [blk(1, '00:00:01,000', '00:00:02,000', '#center+blur-in+fade~float,shake^bl@neon,outline&glow-ring:50,none 全部合法'), blk(2, '00:00:03,000', '00:00:04,000', '沒有標記'), blk(3, '00:00:05,000', '00:00:06,000', '#no-such-layout+nope+nada~wiggle@fancy&ghost 寫錯')].join('\n'));
+t(r.note.includes('有 6 處標記名稱不認得'), '應提示 6 處未知名稱（版型、進場、退場、特效、樣式、場景）：' + r.note);
+t(r.note.includes('第 3 句版型 no-such-layout') && !r.note.includes('第 1 句'), '只列出寫錯的句子，合法的不應出現：' + r.note);
+r = await load('a.srt', blk(1, '00:00:01,000', '00:00:02,000', '#center+fade+fade~float 全部合法'));
+t(!r.note.includes('不認得'), '全部合法時不應有提示：' + r.note);
+
 console.log(`行為測試｜通過 ${pass}、失敗 ${fail}`);
 await browser.close();
 process.exit(fail ? 1 : 0);

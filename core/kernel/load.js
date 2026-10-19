@@ -10,7 +10,7 @@ $("#fs").onchange=async e=>{const f=e.target.files[0];e.target.value="";if(!f)re
  const {text,enc}=await txtAuto(f),info={},a=parseSubs(text,f.name,info);
  if(!a.length){note("沒有讀到可用的字幕（判斷為 "+info.fmt+"，編碼 "+enc+(info.bad?"，"+info.bad+" 句時間格式異常":"")+"）。目前的字幕沒有變動。");return}
  subs=a;cur=-2;subsReplaced();
- note(subs.length+" 句已載入（"+info.fmt+"，"+enc+(/^(Big5|GBK)$/.test(enc)?" 自動判斷，若出現亂碼請先轉存為 UTF-8":"")+(info.bad?"；略過 "+info.bad+" 句時間格式異常":"")+(info.sorted?"；已依時間排序":"")+"）")};
+ note(subs.length+" 句已載入（"+info.fmt+"，"+enc+(/^(Big5|GBK)$/.test(enc)?" 自動判斷，若出現亂碼請先轉存為 UTF-8":"")+(info.bad?"；略過 "+info.bad+" 句時間格式異常":"")+(info.sorted?"；已依時間排序":"")+"）"+tagProblemsNote(subs))};
 $("#fm").onchange=e=>{const f=e.target.files[0];e.target.value="";if(!f)return;mUrl&&URL.revokeObjectURL(mUrl);m.src=mUrl=URL.createObjectURL(f);mediaInfo={name:f.name,video:f.type.startsWith("video")};hasMedia=true;pause();m.style.display=f.type.startsWith("video")?"block":"none";cur=-2;note("媒體已載入")};
 $("#demo").onclick=()=>{CONFIG.lock="";CONFIG.auto=false;Object.assign(CONFIG,{posAnchor:"",posX:0,posY:0});save();panel(); /* 範例要照標記呈現，先解除鎖定與自動變化 */
  subs=parseSRT(DEMO);subsReplaced();hasMedia=false;m.removeAttribute("src");m.style.display="none";vt=0;cur=-2;Object.assign(CONFIG,{bpm:120,offset:0});play()};
