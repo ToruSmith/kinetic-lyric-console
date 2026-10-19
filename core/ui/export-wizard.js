@@ -66,7 +66,7 @@ function wzRender(){const box=$("#exwiz");if(!box)return;const L=box.querySelect
   if(wzDone)R.append(mk("div","edhint","✓ 已下載 project.json"))}
  const ul=mk("ul");o.notes.forEach(n=>ul.append(mk("li","",n)));R.append(ul);
  if(!hasMedia&&(k==="rec"||k==="mp4"||k==="layers"||k==="chroma"))R.append(mk("div","edhint edwarn",k==="rec"?"目前沒有載入音樂／影片：錄出來是靜音。":"目前沒有載入音樂／影片：指令不含 --audio，成品是靜音。有音樂請放進 input/ 並在指令加上 --audio input/檔名。"));
- R.append(mk("div","edhint","想看全部細節：README「離線渲染」「綠幕輸出」「分層輸出」。"))}
+ R.append(mk("div","edhint","想看全部細節：docs/usage.md「直接錄製」「本機離線渲染」。"))}
 let wzOpener=null;   /* 開啟精靈前的焦點元素，關閉時還回去（鍵盤使用者才不會掉到頁面最前面） */
 function openExportWizard(){let box=$("#exwiz");if(!box){box=document.createElement("div");box.id="exwiz";box.setAttribute("role","dialog");box.setAttribute("aria-modal","true");box.setAttribute("aria-label","匯出精靈");
   box.innerHTML='<div class="xb"><div class="xh"><span>⬆ 匯出：你要拿去做什麼？</span><button type="button" id="exwx">關閉 ✕</button></div><div class="xm"><div class="xl"></div><div class="xr"></div></div></div>';
