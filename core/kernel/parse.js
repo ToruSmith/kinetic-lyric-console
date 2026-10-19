@@ -64,6 +64,23 @@ function parseTag(txt,s,e){
  const s0=txt.replace(/[{}]/g,""),lead=[...s0].length-[...s0.trimStart()].length;hl=hl.slice(lead,lead+[...txt.replace(/[{}]/g,"").trim()].length);
  return{s,e,lay,en,ex,fx,pos,st,font,sub,br,plain,hl,raw:txt,bigR:szP[0],txtS:szP[1],auto:!r||(!!(font||scene||sz)&&!lay0&&!en&&!ex&&!fx&&!pos&&!st),scene};
 }
+/* 找出標記裡「名稱不在登記表」的地方（載入字幕時提示用，唯讀、不改任何輸出）。
+   工具遇到未知名稱一律安靜地退回預設（版型→lowerleft、其餘忽略），AI 產生的標記寫錯字時使用者只會覺得「沒效果」，所以載入時列出來。
+   只檢查 ^# 之後的版型／進場／退場／特效／樣式／場景；回傳 [{i:第幾句（從 1 起）,kind,name}]。 */
+function tagProblems(list){
+ const out=[],add=(i,kind,name)=>out.push({i:i+1,kind,name});
+ list.forEach((x,i)=>{
+  if(x.lay&&!x.auto&&!LAYOUTS.includes(x.lay))add(i,"版型",x.lay);
+  if(x.en&&!ENTERS.includes(x.en))add(i,"進場",x.en);
+  if(x.ex&&!EXITS.includes(x.ex))add(i,"退場",x.ex);
+  (x.fx||"").split(",").filter(Boolean).forEach(f=>{if(!FXS.includes(f))add(i,"特效",f)});
+  (x.st||"").split(",").filter(Boolean).forEach(f=>{if(!ST[f]&&!STC[f])add(i,"樣式",f)});
+  (x.scene||"").split(",").filter(Boolean).forEach(t=>{const n=t.split(":")[0];if(n!=="none"&&!/^bfx-/.test(n)&&!SCENES[n])add(i,"場景",n)});
+ });
+ return out}
+function tagProblemsNote(list){
+ const p=tagProblems(list);if(!p.length)return"";
+ return"；有 "+p.length+" 處標記名稱不認得，已用預設取代："+p.slice(0,3).map(q=>"第 "+q.i+" 句"+q.kind+" "+q.name).join("、")+(p.length>3?" 等":"")}
 /* 通用強調：非關鍵字版型中，{} 內的字改用強調色＋加粗＋發光（不改動畫、不改排版） */
 const HL_SKIP=new Set(["text-mask","particle-form"]);   /* 這兩個版型在各自的程式內處理 {} 強調字 */
 /* 把 e 的文字拆成逐字 span，{} 內的字改用強調色（不改字重，避免和 canvas 取樣的位置對不上） */

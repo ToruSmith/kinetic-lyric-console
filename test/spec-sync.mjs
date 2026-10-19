@@ -22,5 +22,17 @@ const m = md.match(/共 \*\*(\d+) 種版型\*\*/); t(m && +m[1] === I.L.length, 
 const m2 = md.match(/(\d+) 種場景層/); t(m2 && +m2[1] === I.S.length, `規格書場景數 ${m2 && m2[1]} ≠ ${I.S.length}`);
 const labSec = md.slice(md.indexOf('### 3.1 實驗室版型'), md.indexOf('### 3.1 實驗室版型') + 400); I.LAB.forEach(n => t(labSec.includes('`' + n + '`'), '實驗室版型應列在 3.1：' + n));
 const tbl = md.slice(0, md.indexOf('### 3.1 實驗室版型')); I.LAB.forEach(n => t(!tbl.includes('`' + n + '`'), '實驗室版型不得出現在正式清單：' + n));
+// README 首頁的數字（執行期總數、卡帶數與分類）必須與實際一致；核心內建項目不做成卡帶，所以「卡帶數」本來就小於「總數」
+{
+  const rd = fs.readFileSync(new URL('../README.md', import.meta.url), 'utf8');
+  const R = await p.evaluate(() => ({ L: LAYOUTS.length, S: SCENE_NAMES.length, EN: ENTERS.length, EX: EXITS.length, FX: FXS.length, ST: Object.keys(ST).length + Object.keys(STC).length, P: [...STYLE_PACKS].length }));
+  const tot = rd.match(/共 (\d+) 種版型、(\d+) 種場景層、(\d+) 種進場、(\d+) 種退場、(\d+) 種持續特效、(\d+) 種逐字樣式、(\d+) 個風格包/);
+  t(!!tot, 'README 找不到「共 N 種版型…」總數那一行（格式改了？請同步改這個測試）');
+  if (tot) [R.L, R.S, R.EN, R.EX, R.FX, R.ST, R.P].forEach((n, i) => t(+tot[i + 1] === n, `README 總數第 ${i + 1} 項 ${tot[i + 1]} ≠ 實際 ${n}`));
+  const kinds = ['layout', 'enter', 'exit', 'fx', 'style', 'scene', 'pack'], cnt = kinds.map(k => fs.readdirSync(new URL('../carts/' + k, import.meta.url)).filter(f => f.endsWith('.cart.js')).length);
+  const cm = rd.match(/其中 (\d+) 個已做成獨立卡帶檔\*\*（每個效果一個檔案：版型 (\d+)、進場 (\d+)、退場 (\d+)、持續特效 (\d+)、文字樣式 (\d+)、場景 (\d+)、風格包 (\d+)/);
+  t(!!cm, 'README 找不到「其中 N 個已做成獨立卡帶檔…」那一行');
+  if (cm) { t(+cm[1] === cnt.reduce((a, b) => a + b, 0), `README 卡帶總數 ${cm[1]} ≠ 實際 ${cnt.reduce((a, b) => a + b, 0)}`); cnt.forEach((n, i) => t(+cm[i + 2] === n, `README ${kinds[i]} 卡帶數 ${cm[i + 2]} ≠ 實際 ${n}`)); }
+}
 const sc = md.slice(md.indexOf('### 7.6'), md.indexOf('## 8. 全域設定')); I.SL.forEach(n => t(!sc.includes('| `' + n + '` |'), '實驗室場景不得列入 7.6 表：' + n));
 console.log(`規格書同步｜通過 ${pass}、失敗 ${fail}`); await browser.close(); process.exit(fail ? 1 : 0);
