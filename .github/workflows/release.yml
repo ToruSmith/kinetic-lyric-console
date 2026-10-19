@@ -1,4 +1,4 @@
-# 手動或推 v* 標籤時，把建置好的單檔 index.html 附到 GitHub Release，給「想直接下載桌面版」的人。
+# 手動或推 v* 標籤時，把建置好的單檔 index.html 附到 GitHub Release，給「想直接下載桌面版」的人；同時附上 AI 速查表（docs/ai-cheatsheet.md，由 tools/gen-cheatsheet.mjs 產生）。
 # 不在每次 push 跑；只花一次很短的建置（無 npm 安裝）。
 name: release
 on:
@@ -32,3 +32,4 @@ jobs:
           files: |
             kinetic-lyric-console.html
             kinetic-lyric-console.zip
+            docs/ai-cheatsheet.md
