@@ -1,0 +1,22 @@
+name: 效果點子（新卡帶）
+description: 想要新的版型、進場、退場、特效、樣式或場景
+labels: [enhancement, cart]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: 種類
+      options: [版型, 進場, 退場, 持續特效, 文字樣式, 場景, 風格包]
+    validations: { required: true }
+  - type: textarea
+    id: idea
+    attributes:
+      label: 想要的效果
+      description: 描述畫面、節奏與適合的歌曲類型；有參考影片或截圖請附連結（不要附受版權保護的素材本體）。
+    validations: { required: true }
+  - type: checkboxes
+    id: pr
+    attributes:
+      label: 貢獻方式
+      options:
+        - label: 我願意自己寫成卡帶並開 PR（見 CONTRIBUTING.md）
