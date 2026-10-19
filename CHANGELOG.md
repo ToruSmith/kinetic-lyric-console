@@ -2,7 +2,7 @@
 
 格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)。版本內容以各 [Release](https://github.com/ToruSmith/kinetic-lyric-console/releases) 為準；本檔把使用者看得到的變更集中在一處。
 
-## 未發布
+## [0.2.0] - 2026-10-20
 
 ### 新增
 - `docs/ai-cheatsheet.md`：精簡版 AI 速查表（約 16KB，完整手冊約 57KB）。由 `tools/gen-cheatsheet.mjs` 從卡帶與手冊表格自動產生，包含之後新增的卡帶；實驗室項目不列入。可用 `npm run cheatsheet` 重新產生。
