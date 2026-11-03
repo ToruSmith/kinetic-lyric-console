@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '打字機：逐字瞬間出現' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['科技', '復古', '安靜'], tags: ['逐字'], use: '像打字或內心獨白的句子', draft: true },
   play(ctx) {
     const A = ctx.anim;
     const sp = () => ctx.speed;

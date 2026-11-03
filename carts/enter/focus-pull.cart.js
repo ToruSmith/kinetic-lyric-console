@@ -3,6 +3,7 @@ Console.cart({
   kind: 'enter', id: 'focus-pull', apiVersion: 1,
   label: { zh: '對焦', en: 'Focus Pull' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['模糊', '字距'], use: '副歌前的安靜句、回憶感', draft: true },
   // 終點省略 letterSpacing／filter 以外的屬性：落在元素自己的目前值
   keyframes: [
     { opacity: 0, filter: 'blur(10px)', letterSpacing: '.35em' },

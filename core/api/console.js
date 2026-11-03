@@ -11,7 +11,7 @@
 const Console=(()=>{
  const API=1,KINDS=["layout","enter","exit","fx","style","scene","pack"],carts=[],errors=[];
  const ID=/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/,isFn=f=>typeof f==="function",isObj=o=>o&&typeof o==="object"&&!Array.isArray(o);
- const COMMON=["kind","id","apiVersion","label","source","author","license","demo","rand"];
+ const COMMON=["kind","id","apiVersion","label","source","author","license","demo","rand","meta"];
  const KEYS={
   layout:[...COMMON,"render","flags"],
   enter:[...COMMON,"keyframes","easing","perChar","play"],
@@ -31,6 +31,7 @@ const Console=(()=>{
   const un=Object.keys(d).filter(k=>!KEYS[d.kind].includes(k));if(un.length)bad(d,`不認得的欄位：${un.join("、")}（可用：${KEYS[d.kind].join("、")}）`);
   if(!isObj(d.label)||typeof d.label.zh!=="string"||!d.label.zh.trim())bad(d,"label.zh（中文顯示名稱）必填");
   if(carts.some(c=>c.kind===d.kind&&c.id===d.id))bad(d,"同種類下 id 重複登記");
+  if(d.meta!==undefined&&!isObj(d.meta))bad(d,"meta 必須是物件（語意資料，見 docs/cart-api.md）");
   if(d.demo!==undefined&&typeof d.demo!=="string")bad(d,"demo 必須是字串（一句帶標記的範例，例：#ink-bleed 看天台上{流星}）");
   const kf=a=>Array.isArray(a)&&a.length>=2&&a.every(isObj);
   const one=(names)=>{const n=names.filter(k=>d[k]!==undefined);if(n.length!==1)bad(d,`${names.join("／")} 必須恰好提供一個（目前：${n.join("、")||"無"}）`)};
