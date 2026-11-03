@@ -40,6 +40,8 @@ jobs:
         if: steps.pw.outputs.cache-hit == 'true'
       - name: 卡帶驗證（合約、確定性、九宮格位置、不連網）
         run: node test/carts.mjs
+      - name: 效果圖鑑
+        run: node test/gallery.mjs
       - name: 完整測試與新舊像素對照（僅手動）
         if: github.event_name == 'workflow_dispatch' && inputs.full
         run: |
