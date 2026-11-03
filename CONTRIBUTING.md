@@ -16,16 +16,18 @@
 
 只想分享一組配色／字體／版型池？不用寫程式：在面板匯出風格包 JSON，詳見 [`docs/data-packs.md`](docs/data-packs.md)。
 
-畫面有意改變時要更新回歸基準。指紋只能在同一台機器、同版 Chromium 上比對，所以要在原本產生基準的環境重建，四個檔都要做：
+畫面有意改變時要更新回歸基準。指紋會受字型與 Chromium 版本影響，只有環境相同才能比對。目前的基準在 Linux 沙箱產生（Playwright 1.63.0，字型 Noto Sans CJK）；換環境時，先用改動前的版本重建基準，再比對改動。
+
+重建時新舊兩邊都傳 `dist/index.html`，這樣會納入新增項目，也會順便確認渲染結果可重現：
 
 ```
 npm run build
-WRITE_GOLDEN=test/golden/regress-16x9.json node test/regress.mjs test/golden/regress-16x9.json dist/index.html 16:9
-WRITE_GOLDEN=test/golden/regress-9x16.json node test/regress.mjs test/golden/regress-9x16.json dist/index.html 9:16
-WRITE_GOLDEN=test/golden/parts-16x9.json node test/regress-parts.mjs test/golden/parts-16x9.json dist/index.html 16:9
-WRITE_GOLDEN=test/golden/parts-9x16.json node test/regress-parts.mjs test/golden/parts-9x16.json dist/index.html 9:16
+WRITE_GOLDEN=test/golden/regress-16x9.json node test/regress.mjs dist/index.html dist/index.html 16:9
+WRITE_GOLDEN=test/golden/regress-9x16.json node test/regress.mjs dist/index.html dist/index.html 9:16
+WRITE_GOLDEN=test/golden/parts-16x9.json node test/regress-parts.mjs dist/index.html dist/index.html 16:9
+WRITE_GOLDEN=test/golden/parts-9x16.json node test/regress-parts.mjs dist/index.html dist/index.html 9:16
 ```
 
-有差異時指令會回傳失敗，但檔案仍會寫入。`regress-parts` 只取樣進場、退場的固定時間點，遮罩動畫在那兩格常已接近完成，看不出變化；效果是否真的有動畫由 `test/effects-visible.mjs` 檢查。
+`test/effects-visible.mjs` 另外檢查效果是否真的有動畫，不依賴基準。
 
 不要提交 `dist/` 等建置產物（縮圖精靈圖是例外，見 `CLAUDE.md` 第 3 條）。

@@ -1,5 +1,5 @@
-// 重拍 README 用的畫面素材 → assets/readme/{hero.gif, layouts.jpg, outputs.png}
-// 用法：node tools/make-readme-assets.mjs [--out assets/readme] [--font 字型檔]
+// 重拍 README 用的畫面素材 → assets/readme/{hero.gif, layouts.jpg, outputs.png, gallery.jpg}
+// 用法：node tools/make-readme-assets.mjs [--out assets/readme] [--font 字型檔] [--only gallery]
 // 需要：Node.js、ffmpeg、npm ci，以及 npx playwright install chromium
 //       （或設環境變數 CHROME_PATH 指向現成的 Chrome／Chromium）。
 // 歌詞全部是自創的合成內容；畫面用與離線渲染相同的 __loadProject／__renderFrame 產生，所以和實際輸出一致。
@@ -18,7 +18,7 @@ const args = Object.fromEntries(process.argv.slice(2).reduce((a, x, i, all) => {
   if (x.startsWith('--')) a.push([x.slice(2), all[i + 1] && !all[i + 1].startsWith('--') ? all[i + 1] : true]);
   return a; }, []));
 const out = resolve(args.out && args.out !== true ? args.out : join(root, 'assets/readme'));
-const W = 1280, H = 720, FPS = 30;
+const W = 1280, H = 720, FPS = 30, only = args.only;
 const die = m => { console.error('錯誤：' + m); process.exit(1); };
 if (spawnSync('ffmpeg', ['-version']).error) die('找不到 ffmpeg（終端機輸入 ffmpeg -version 要能執行）。');
 
@@ -72,7 +72,7 @@ async function shoot(rows, config, picks) {   // picks: {格數: 檔名}
 }
 
 // ① hero 動圖：每 3 格取 1 格（10 fps），約 11 秒
-{
+if (!only) {
   const d = join(tmp, 'hero'); mkdirSync(d);
   const picks = {}; let n = 0;
   for (let i = 0; i < Math.ceil(11 * FPS); i += 3) picks[i] = join(d, `f${String(n++).padStart(4, '0')}.png`);
@@ -83,14 +83,14 @@ async function shoot(rows, config, picks) {   // picks: {格數: 檔名}
   ff(['-framerate', '10', '-i', join(d, 'f%04d.png'), '-vf', 'scale=640:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=40:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=2:diff_mode=rectangle', '-loop', '0', join(out, 'hero.gif')]);
 }
 // ② 版型拼圖
-{
+if (!only) {
   const files = [];
   for (const [i, [line, cfg]] of SHOTS.entries()) { const f = join(tmp, `s${i}.png`); files.push(f); await shoot([[0.2, 3.4, line]], { ...BASE, ...cfg }, { [Math.round(2.0 * FPS)]: f }); console.log('版型', i + 1); }
   const sc = files.map((_, i) => `[${i}:v]scale=640:360[v${i}]`).join(';');
   ff([...files.flatMap(f => ['-i', f]), '-filter_complex', `${sc};[v0][v1][v2]hstack=3[r1];[v3][v4][v5]hstack=3[r2];[r1][r2]vstack`, '-frames:v', '1', '-q:v', '3', join(out, 'layouts.jpg')]);
 }
 // ③ 同一句話的三種輸出：完整畫面／透明字層（疊在棋盤格上）／綠幕
-{
+if (!only) {
   const row = [[0.2, 3.4, '#pv-lyric+fade+fade^bc 風吹過{月台}(末班車)']], cfg = { ...BASE, vignette: 0.12 }, at = Math.round(2.0 * FPS);
   const m = ['final', 'alpha', 'chroma'].map(k => join(tmp, `m-${k}.png`));
   await shoot(row, cfg, { [at]: m[0] });
@@ -102,6 +102,17 @@ async function shoot(rows, config, picks) {   // picks: {格數: 檔名}
     '-filter_complex', `[3:v]trim=end_frame=1,setpts=PTS-STARTPTS[chk];[1:v]format=rgba[al];[chk][al]overlay=format=auto,format=rgb24[alc];[0:v]scale=640:360${lab('完整畫面（背景＋文字）')}[p1];[alc]scale=640:360${lab('透明字層  --alpha')}[p2];[2:v]scale=640:360${lab('綠幕  --chroma')}[p3];[p1][p2][p3]hstack=3`,
     '-frames:v', '1', join(out, 'outputs.png')]);
 }
+// ④ 效果圖鑑：開啟一般介面，打開後截圖
+{
+  const pg = await (await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1 })).newPage();
+  pg.on('pageerror', e => console.error('頁面錯誤：', e.message));
+  await pg.goto(pathToFileURL(join(root, 'dist/index.html')).href); await pg.evaluate(() => window.__ready);
+  await pg.click('#galb'); await pg.waitForTimeout(1500);
+  mkdirSync(out, { recursive: true });
+  const f = join(tmp, 'gallery.png'); await pg.screenshot({ path: f });
+  ff(['-i', f, '-frames:v', '1', '-q:v', '3', join(out, 'gallery.jpg')]);
+  await pg.context().close();
+}
 await browser.close();
 rmSync(tmp, { recursive: true, force: true });
-console.log('完成：' + out + '（hero.gif、layouts.jpg、outputs.png）');
+console.log('完成：' + out + '（hero.gif、layouts.jpg、outputs.png、gallery.jpg）');
