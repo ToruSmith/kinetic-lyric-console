@@ -14,33 +14,27 @@
 - `tools/find-effect.mjs`：依情緒、能量、特徵查效果；`docs/agent-skill/kinetic-lyric/` 提供 AI 上標記流程。
 - 全部 313 個效果都有語意資料草稿，供圖鑑與查詢工具使用；審核前不放進速查表。新增一次一個主角、動作語氣一致的編排規則。
 - `tools/check-srt.mjs`：不需瀏覽器的帶標記 SRT 檢查器。檢查名稱（附建議）、語法與手冊的常見錯誤；`--against` 另外確認時間碼與歌詞沒有被改動。
+- `docs/ai-cheatsheet.md`：精簡版 AI 速查表（約 16KB，完整手冊約 57KB）。由 `tools/gen-cheatsheet.mjs` 從卡帶與手冊表格自動產生，包含之後新增的卡帶；實驗室項目不列入。可用 `npm run cheatsheet` 重新產生。
+- 產生器自帶檢查：各種類總數必須等於 README 的「共 N 種…」，規則文字與範例標記裡的每個名稱都必須真的存在。
+- `README.en.md`：英文版 README（與中文版頂端互相連結）。`tools/gen-cheatsheet.mjs` 會檢查它的功能總數與卡帶數是否與中文版一致。
+- 下一個 Release 會附上 `ai-cheatsheet.md`。
+- `.github/`：PR 範本、Issue 範本（回報問題、效果點子）、`CODEOWNERS`。
 
 ### 變更
 - 速查表的逐字進場標示補齊 `stagger`、`ripple` 等手冊清單內的項目。
 - 名稱來源抽成 `tools/lib-names.mjs`，由速查表與檢查器共用。
+- `npm run check`、`npm run check:fast` 與 CI 的 `verify` 會檢查 `docs/catalog.md` 與 `docs/ai-cheatsheet.md` 是否為最新。
+- README「請 AI 幫你上標記」改為建議貼速查表；完整手冊仍可使用。
 
 ### 修正
 - `@underline`、`@strike` 在逐字版型上看不到線；`~rainbow` 對白字沒有效果；`blink-in` 不會閃爍；`checker-in` 沒有棋盤格。
-- 遮罩式進退場（`open-h`、`iris`、`close-v`、`wipe-up-out` 等）改貼合文字範圍，不再一閃而過。這會改變這些效果的畫面，`test/golden` 要在固定環境重建。
+- 遮罩式進退場（`open-h`、`iris`、`close-v`、`wipe-up-out` 等）改貼合文字範圍，不再一閃而過。標記名稱不變，舊 SRT 仍可使用；用到上述效果的句子畫面會改變，`test/golden` 要在固定環境重建（見 `CONTRIBUTING.md`）。
 - 圖鑑樣式改成只作用在圖鑑內，不再影響句子編輯器的字級。
 - 檢查器與手冊統一 `~` 規則：建議 1 個、上限 3 個，隨機產生兩個特效時不再報錯。
 - 內建效果說明改在建置時產生，不再提交產生檔；新增卡帶時 `gen-catalog` 會自動更新 README 數量。
 - CI 路徑加入 `docs/manual.md` 與 README，手冊改動不會漏檢。
 - 把 JIZURA 系列說明殘留的日文改成繁體中文，並把「同上」改成可以單獨閱讀的說明。
 - 更新手冊、架構文件與 `core/ui/thumbs.js` 註解裡已過時的路徑。
-
-## [0.2.0] - 2026-10-20
-
-### 新增
-- `docs/ai-cheatsheet.md`：精簡版 AI 速查表（約 16KB，完整手冊約 57KB）。由 `tools/gen-cheatsheet.mjs` 從卡帶與手冊表格自動產生，包含之後新增的卡帶；實驗室項目不列入。可用 `npm run cheatsheet` 重新產生。
-- 產生器自帶檢查：各種類總數必須等於 README 的「共 N 種…」，規則文字與範例標記裡的每個名稱都必須真的存在。
-- `README.en.md`：英文版 README（與中文版頂端互相連結）。`tools/gen-cheatsheet.mjs` 會檢查它的功能總數與卡帶數是否與中文版一致。
-- Release 會附上 `ai-cheatsheet.md`（`release.yml` 的 `files` 加了一行；已發布的 v0.2.0 要手動重跑 release workflow 才會補上）。
-- `.github/`：PR 範本、Issue 範本（回報問題、效果點子）、`CODEOWNERS`。
-
-### 變更
-- `npm run check`、`npm run check:fast` 與 CI 的 `verify` 會檢查 `docs/catalog.md` 與 `docs/ai-cheatsheet.md` 是否為最新。
-- README「請 AI 幫你上標記」改為建議貼速查表；完整手冊仍可使用。
 
 ## [0.2.0] - 2026-10-19
 
