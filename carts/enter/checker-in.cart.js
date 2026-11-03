@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '市松（近似）：棋盤格分兩階段浮現' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['科技', '復古'], tags: ['遮罩'], use: '科技或遊戲感的段落開頭', draft: true },
   play(ctx) {
     const A = ctx.anim;
     const el = ctx.el;

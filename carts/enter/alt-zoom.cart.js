@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '交替縮放：偶數字從鏡頭前撲來、奇數字從遠處長出' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'high', mood: ['力量', '俏皮'], tags: ['縮放', '逐字'], use: '短句要有衝擊與節奏時', draft: true },
   perChar: {
       gap: 45, // 每字延遲（毫秒）
       keyframes: (i,n)=>i%2===0?[{opacity:0,transform:"scale(2.4)",filter:"blur(8px)"},{opacity:1,transform:"none",filter:"blur(0)"}]:[{opacity:0,transform:"scale(.02)"},{opacity:1,transform:"scale(1.12)",offset:.65},{opacity:1,transform:"none"}],

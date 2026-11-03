@@ -14,6 +14,7 @@
 | `label.zh` | ✓ | 中文顯示名稱（風格包以它登記，須唯一）；`label.en` 選填 |
 | `author` `license` `source` `demo` | | `demo`：一句帶標記的範例歌詞，如 `#ink-bleed 看天台上{流星}` |
 | `rand` | | 逐句隨機的適配資料（見下表），**不給＝不進隨機池** |
+| `meta` | | 語意資料（見下方「`meta` 語意資料」）；選填，不影響畫面 |
 
 不認得的欄位一律拒絕（防拼錯），登記失敗只影響該卡帶，原因記在 `Console.errors` 並由 `selfCheck` 列出。
 
@@ -47,6 +48,21 @@
 | `layout` | `sceneThemes: ['tech'｜'grunge']`、`sparse`、`textCanvas`、`strong`、`noEnter`、`needSub` |
 | `scene` | `theme: 'neutral'｜'tech'｜'grunge'`（必填才進池） |
 | `fx` | `group: 'cam'｜'color'｜'char'｜'jitter'｜'rot'`（同組互斥）、`strong`、`domOnly` |
+
+## `meta` 語意資料
+
+給圖庫、搜尋與 AI 挑選效果用。選填，新增卡帶仍然只需要一個檔案。說明文字沿用 `label.zh`，規格由 `tools/lib-meta.mjs` 從程式碼推得，兩者都不要重複寫進 `meta`。
+
+| 鍵 | 必填 | 說明 |
+|---|---|---|
+| `energy` | ✓ | `low`、`mid` 或 `high` |
+| `mood` | ✓ | 情緒陣列，只能用 `MOODS` 詞表內的詞 |
+| `tags` | ✓ | 動作特徵陣列，只能用 `TAGS` 詞表內的詞 |
+| `use` | ✓ | 何時使用，最多 40 字 |
+| `minSec` | | 建議的最短句長（秒） |
+| `draft` | | 草稿標記。`energy`、`mood` 是推測時寫 `true`，人工審核後刪除 |
+
+詞表在 `tools/lib-meta.mjs`，`npm run effect-index` 會驗證並更新 `docs/effect-index.tsv`。
 
 ## 規約（`npm run lint` 強制）
 

@@ -1,0 +1,35 @@
+# kind	id	energy	mood	tags	desc	use	spec	draft
+enter	slide-l	mid	通用	位移,淡入	由左側滑入	一般句子，需要方向感時	動 opacity、transform	draft
+enter	slide-r	mid	通用	位移,淡入	由右側滑入	一般句子，與 slide-l 成對使用	動 opacity、transform	draft
+enter	whip	high	熱血,力量	位移,模糊,過衝	快速甩入（帶模糊，微過衝）	快歌裡急促切入的句子	動 opacity、transform、filter；緩動 cubic-bezier(.1,.8,.2,1)	draft
+enter	pop	high	俏皮	縮放,過衝	彈出（微過衝）	短促輕快的強調句	動 opacity、transform	draft
+enter	stretch-in	mid	通用	變形	橫向伸展開來	俐落的標題式句子	動 opacity、transform	draft
+enter	big-jump	high	俏皮,熱血	位移,彈性	由下大跳躍落定	快歌副歌的開場句	動 opacity、transform	draft
+enter	squash-land	high	俏皮	彈性,變形	落下壓扁再回彈	有落地重拍的輕快句	動 opacity、transform	draft
+enter	wobble-land	high	俏皮	彈性,旋轉	落下後搖晃定位	活潑落地後還在晃動的句子	動 opacity、transform	draft
+enter	stamp-in	high	力量,熱血	縮放	像蓋章一樣由大壓下	想像蓋章一樣定下結論	動 opacity、transform	draft
+enter	blur-in	low	抒情,夢幻,通用	模糊,淡入	整句由模糊變清楚	抒情歌的安全預設	動 opacity、filter	draft
+enter	open-h	mid	通用,科技	遮罩	由中央向左右展開	簡潔俐落地揭開一句話	動 clipPath、opacity	draft
+enter	unfold	mid	復古,安靜	3D	由上緣向下折開（3D）	像紙張展開的段落開頭	動 opacity、transform、transformOrigin	draft
+enter	roll-in	high	俏皮	旋轉	滾動進入（轉一圈）	搞笑或誇張的段落，少量使用	動 opacity、transform	draft
+enter	blink-in	mid	懸疑,科技	閃爍	點滅幾下後亮起	想讓文字延遲後突然亮起	動 opacity；緩動 steps(1,end)	draft
+enter	overexpose	mid	夢幻,抒情	光效,模糊	過曝白光漸收成正常	回憶、光芒或情緒釋放	動 opacity、filter	draft
+enter	blinds-in	mid	科技,復古	遮罩	百葉窗（8 條橫帶）展開	段落開頭，想帶一點機械感	動 maskImage、WebkitMaskImage；緩動 linear	draft
+enter	wipe-diag	mid	通用	擦除	斜向擦出	段落切換或設計感標題	動 clipPath、opacity；緩動 linear	draft
+enter	fan-open	mid	抒情,俏皮	旋轉,逐字	逐字像摺扇依序打開	想要優雅展開的句子	逐字，每字間隔 60ms；動 opacity	draft
+enter	domino-in	mid	俏皮	3D,旋轉,逐字	逐字像骨牌依序立起	節奏分明、字數不多的句子	逐字，每字間隔 90ms；動 opacity	draft
+enter	bubble-in	mid	俏皮,溫柔	縮放,逐字	逐字像氣泡浮出	輕快可愛的短句	逐字，每字間隔 70ms；動 opacity、transform	draft
+enter	dot-grow	mid	俏皮,科技	縮放,逐字	逐字由一個小點長成字	輕快的短句	逐字，每字間隔 70ms；動 opacity、transform	draft
+enter	magnet	mid	科技,俏皮	位移,逐字	逐字由左右兩側被吸到定位	字詞從兩側聚合的段落轉折	逐字，每字間隔 50ms；動 opacity	draft
+enter	spiral-in	mid	夢幻,俏皮	旋轉,位移,逐字	逐字沿螺旋軌跡聚攏	奇幻感的短句，少量使用	逐字，每字間隔 60ms；動 opacity、transform	draft
+enter	drop-stagger	mid	俏皮,溫柔	位移,過衝,逐字	逐字依序落下並微彈	輕盈落下的主歌句	逐字，每字間隔 70ms；動 opacity、transform	draft
+enter	type	mid	科技,復古,安靜	逐字	打字機：逐字瞬間出現	像打字或內心獨白的句子	由 play() 控制	draft
+enter	random-order	mid	懸疑,科技	淡入,逐字	逐字以固定的打亂順序淡入（同一句每次相同）	想打破閱讀順序的句子	由 play() 控制	draft
+enter	bleed-in	low	溫柔,抒情	模糊,縮放,逐字	暈染：逐字由糊變清並微微彈大	慢歌裡想細細浮現的句子	逐字，每字間隔 55ms；動 opacity、transform、filter	draft
+enter	cursor-sweep	mid	科技	擦除,光效,逐字	游標掃過：強調色細棒由左掃到右，字被掃到就出現	像介面掃描般揭露句子	由 play() 控制	draft
+enter	track-expand	low	通用,抒情	字距,淡入	字距擴張：字距由緊縮撐開到正常並淡入	高級感字幕或安靜句	由 play() 控制	draft
+enter	alt-zoom	high	力量,俏皮	縮放,逐字	交替縮放：偶數字從鏡頭前撲來、奇數字從遠處長出	短句要有衝擊與節奏時	逐字，每字間隔 45ms；動 opacity、transform	draft
+enter	stop-motion	mid	俏皮,復古	手作感,逐字	逐格動畫：逐字停格跳向定位，每格姿勢不同	手作、復古或不完美的氣質	由 play() 控制	draft
+enter	checker-in	mid	科技,復古	遮罩	市松（近似）：棋盤格分兩階段浮現	科技或遊戲感的段落開頭	由 play() 控制	draft
+enter	focus-pull	low	抒情,夢幻	模糊,字距	對焦	副歌前的安靜句、回憶感	動 opacity、filter、letterSpacing	draft
+enter	rise-stagger	low	抒情,通用	位移,逐字	逐字上浮	主歌的細膩逐字浮現	逐字，每字間隔 55ms；動 opacity、transform	draft

@@ -5,6 +5,7 @@ Console.cart({
   label: { zh: '逐格動畫：逐字停格跳向定位，每格姿勢不同' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['俏皮', '復古'], tags: ['手作感', '逐字'], use: '手作、復古或不完美的氣質', draft: true },
   play(ctx) {
     const A = ctx.anim;
     const spL = () => ctx.speed;

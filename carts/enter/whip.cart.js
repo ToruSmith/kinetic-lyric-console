@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '快速甩入（帶模糊，微過衝）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'high', mood: ['熱血', '力量'], tags: ['位移', '模糊', '過衝'], use: '快歌裡急促切入的句子', draft: true },
   keyframes: [{opacity:0,transform:"translateX(-30cqw)",filter:"blur(10px)"},{opacity:1,transform:"translateX(1.5cqw)",filter:"blur(0)",offset:.75},{opacity:1,transform:"none"}],
   easing: "cubic-bezier(.1,.8,.2,1)",
 });

@@ -5,6 +5,7 @@ Console.cart({
   label: { zh: '百葉窗（8 條橫帶）展開' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['科技', '復古'], tags: ['遮罩'], use: '段落開頭，想帶一點機械感', draft: true },
   keyframes: bl(1,8),
   easing: "linear",
 });

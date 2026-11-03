@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '字距擴張：字距由緊縮撐開到正常並淡入' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['通用', '抒情'], tags: ['字距', '淡入'], use: '高級感字幕或安靜句', draft: true },
   play(ctx) {
     const A = ctx.anim;
     const el = ctx.el;

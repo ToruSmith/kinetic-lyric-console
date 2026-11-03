@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '游標掃過：強調色細棒由左掃到右，字被掃到就出現' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['擦除', '光效', '逐字'], use: '像介面掃描般揭露句子', draft: true },
   play(ctx) {
     const A = ctx.anim;
     const el = ctx.el;

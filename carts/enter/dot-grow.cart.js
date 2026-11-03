@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '逐字由一個小點長成字' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['俏皮', '科技'], tags: ['縮放', '逐字'], use: '輕快的短句', draft: true },
   perChar: {
       gap: 70, // 每字延遲（毫秒）
       keyframes: (i,n)=>[{opacity:0,transform:"scale(.05)",filter:"blur(3px)"},{opacity:1,transform:"scale(1)",filter:"blur(0)"}],

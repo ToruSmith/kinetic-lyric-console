@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '逐字以固定的打亂順序淡入（同一句每次相同）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['懸疑', '科技'], tags: ['淡入', '逐字'], use: '想打破閱讀順序的句子', draft: true },
   play(ctx) {
     const A = ctx.anim;
     const el = ctx.el;
