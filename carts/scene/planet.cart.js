@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'planet', apiVersion: 1,
   label: { zh: '行星' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '科技'], tags: ['背景'], use: '宇宙主題', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'planet', amount: 45, cost: '中',
   lab: true,

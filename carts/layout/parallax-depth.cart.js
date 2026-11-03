@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'parallax-depth', apiVersion: 1,
   label: { zh: '多層景深視差' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['夢幻', '通用'], tags: ['鏡頭'], use: '多層景深', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const SWd = ctx.sw;

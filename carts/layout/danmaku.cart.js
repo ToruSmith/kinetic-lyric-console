@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'danmaku', apiVersion: 1,
   label: { zh: '滿版：彈幕，三行由右向左飄過' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '科技'], tags: ['滿版'], use: '彈幕感，少量使用', draft: true },
   flags: { full: true },
   rand: { sceneThemes: ['tech'], strong: true },
   render(ctx) {

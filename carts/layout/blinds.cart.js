@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'blinds', apiVersion: 1,
   label: { zh: '文字被切成 24 條細條，上下交錯滑入（百葉窗）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '復古'], tags: ['遮罩'], use: '段落切換感', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const fit = ctx.fit;

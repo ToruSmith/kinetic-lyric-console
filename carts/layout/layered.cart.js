@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'layered', apiVersion: 1,
   label: { zh: '疊層字：主文後方三層強調色描邊殘影，向右下展開' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '復古'], tags: ['陰影'], use: '多層描邊', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const { _fz } = ctx.lib;

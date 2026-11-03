@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'blurfocus', apiVersion: 1,
   label: { zh: '由模糊且字距很寬的狀態慢慢對焦' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['模糊', '字距'], use: '慢歌細膩對焦', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const CE = ctx.centerIn;

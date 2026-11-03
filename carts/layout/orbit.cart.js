@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'orbit', apiVersion: 1,
   label: { zh: '文字沿圓弧排列並緩慢旋轉' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['夢幻', '俏皮'], tags: ['旋轉'], use: '短句環繞', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;
     const txtEl = ctx.text;

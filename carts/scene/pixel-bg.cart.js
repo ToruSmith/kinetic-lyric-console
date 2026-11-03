@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'pixel-bg', apiVersion: 1,
   label: { zh: '像素背景' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['復古', '科技'], tags: ['背景'], use: '像素背景', draft: true },
   rand: { theme: 'tech' },
   layer: 'under', group: 'pix', amount: 40, cost: '中',
   lab: true,

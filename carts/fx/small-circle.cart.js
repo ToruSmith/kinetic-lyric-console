@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '整句沿小圓軌跡移動（半徑<1% 畫面高）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['夢幻', '通用'], tags: ['位移'], use: '長句的微動', draft: true },
   rand: { group: 'cam' },
   play(ctx) {
     const A = ctx.anim;

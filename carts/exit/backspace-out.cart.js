@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '退格刪除：由句尾一字一字刪掉 （整句版由右往左削去）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['科技', '懸疑'], tags: ['擦除', '逐字'], use: '收回一句話、反悔的語氣', draft: true },
   keyframes: [{clipPath:"inset(0)",easing:"steps(9,end)"},{clipPath:"inset(0 100% 0 0)"}],
   perChar(ctx) {
     const c = ctx.el;

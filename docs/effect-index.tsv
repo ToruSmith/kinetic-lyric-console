@@ -1,4 +1,114 @@
 # kind	id	energy	mood	tags	desc	use	spec	draft
+layout	lowerleft	low	通用	排版	左下角文字加一條裝飾線，最像一般歌詞字幕；無標記時的預設	最像一般歌詞字幕的預設		draft
+layout	split	mid	力量,通用	排版,關鍵字	文字被 {} 切成兩個詞，貼在畫面左右兩側，適合兩個字的強調（如 {靠}{近}）；有 {} 的詞用強調色	兩個詞左右對照		draft
+layout	center	low	通用	排版	置中，最適合搭配樣式與進場動畫，最安全、通用的選擇	最安全的通用選擇		draft
+layout	bounce	high	俏皮,熱血	位移,逐字,彈性	置中，逐字從下方彈起，適合節奏明快的句子	節奏明快的句子		draft
+layout	slam	high	力量,熱血	縮放	大字由 3 倍大「砸」到定位（約 0.26 秒），短促有力，適合短句重點	≤6 字的重擊短句		draft
+layout	neon	mid	復古,科技	光效	置中文字加上白芯與多層強調色光暈	霓虹夜景主題		draft
+layout	karaoke	low	通用	光效,逐字	逐字變亮	跟唱句		draft
+layout	typewriter	low	科技,安靜	逐字	打字機：逐字出現，後面跟著閃爍游標，字比較小	打字或獨白		draft
+layout	vertical	low	安靜,抒情	直排	直排，靠右，旁邊一條細直線；長句會自動縮小	直排短句		draft
+layout	blurfocus	low	抒情,夢幻	模糊,字距	由模糊且字距很寬的狀態慢慢對焦	慢歌細膩對焦		draft
+layout	wipe	mid	通用	擦除	由左向右擦出	由左揭開		draft
+layout	glitch	high	科技,懸疑	故障,閃爍	主文疊兩層紅藍殘影，像訊號干擾般閃動	故障感，光敏風險請少量		draft
+layout	stack	mid	通用,力量	排版	長句拆成最多 3 行堆疊，行與行交替靠左、靠右	長句分行堆疊		draft
+layout	outline-big	mid	力量,通用	描邊,排版	前 3 個字放大成空心背景字，整句以小字疊在前面	大空心字背景		draft
+layout	subtitle-box	low	通用	排版	底部半透明黑底框字幕，逐字變亮	底部字幕，最不遮影片		draft
+layout	poster	mid	力量,通用	排版,關鍵字	海報式大字（取第一個 {}，沒有就用整句）＋細線＋小字	高潮海報句		draft
+layout	flash-words	high	力量,熱血	閃爍	以空白／標點分詞，一個詞一個詞快速閃現，例如 快 跑 不 要 停下來；沒有空白時每 2 字一組	快節奏分詞，光敏風險請少量		draft
+layout	keyword	mid	通用,力量	排版,關鍵字	{} 關鍵字放大成強調色，其餘小字排在旁邊；沒寫 {} 時取前 2 字	有明確關鍵詞的句子		draft
+layout	trail	mid	科技,夢幻	陰影	主文後方多層半透明殘影，左右橫移	拖影速度感		draft
+layout	text-mask	high	力量,夢幻	漸層,遮罩	粗體大字，字內填入流動的漸層（文字當遮罩）	高潮或段落轉折		draft
+layout	longshadow	mid	復古,力量	陰影	粗體大字帶 45 度的強調色長影	海報感標題		draft
+layout	bubble	mid	俏皮	排版,彈性	白底對話泡泡，彈性出現	對話或可愛語氣		draft
+layout	blinds	mid	科技,復古	遮罩	文字被切成 24 條細條，上下交錯滑入（百葉窗）	段落切換感		draft
+layout	hanko	mid	復古,安靜	直排,關鍵字	日式直排加印章方塊	和風主題		draft
+layout	collage	mid	俏皮,復古	手作感,逐字	拼貼風：每個字像剪貼的貼紙，隨機底色與字體（同一句固定）	街頭拼貼		draft
+layout	handwrite	low	溫柔,抒情	手作感,逐字	手寫：逐字出現並描繪底線；預設用手寫字體，若你指定了字體則尊重你的選擇	手寫信感		draft
+layout	marker	low	俏皮,通用	關鍵字	螢光筆：字下半加半透明色帶，不蓋字	螢光筆強調		draft
+layout	scroll	low	通用,抒情	排版	捲動歌詞：同時顯示前後各兩句，目前句最大，其他句模糊淡出（需要上下文，第一句與最後一句會少一邊）	同時看前後句		draft
+layout	orbit	mid	夢幻,俏皮	旋轉	文字沿圓弧排列並緩慢旋轉	短句環繞		draft
+layout	diagonal	mid	熱血,力量	排版,關鍵字	斜 8 度，上方大字（第一個 {}，沒有取前 2 字）加下方整句	斜向衝擊標題		draft
+layout	circle-badge	mid	俏皮,復古	旋轉,關鍵字	整句沿圓環排列並旋轉，中央放一個大字（第一個 {}，沒有取首字）	徽章感短句		draft
+layout	split-screen	mid	通用,力量	遮罩,位移	句子切成上下兩半，各自從左右滑入，中間一條線	上下分割的對比句		draft
+layout	ripple-pool	low	夢幻,抒情	背景,節拍	隨拍子擴散的水環（支援 WebGL2 時文字會被水波折射，否則走簡化版）	水面、夢境主題		draft
+layout	constellation	mid	夢幻,科技	背景	星點連線後聚成字	星空主題，避開短句		draft
+layout	particle-form	mid	夢幻,科技	背景	粒子聚成字再散開	高潮聚字，避開短句		draft
+layout	parallax-depth	mid	夢幻,通用	鏡頭	多層景深視差	多層景深		draft
+layout	polaroid	low	溫柔,復古	排版	相紙卡依序滑入疊放	回憶相片		draft
+layout	page-flip	mid	抒情,通用	3D	3D 翻頁露出下一句（會顯示前一句；單獨使用時前後空白）	翻頁敘事，勿連用		draft
+layout	ink-bleed	low	抒情,安靜	遮罩,質感	墨點暈開揭露	墨色、東方抒情		draft
+layout	laser-scan	mid	科技	滿版,光效	亮線掃過露出文字（偶數句橫向、奇數句直向）	掃描揭露		draft
+layout	split-flap	mid	復古,科技	逐字	機場翻板	機場翻板，避開長句		draft
+layout	wave-path	mid	夢幻,俏皮	位移	文字沿波浪流動	沿波浪流動		draft
+layout	mirror-reflect	low	抒情,夢幻	質感	水面倒影	水面倒影		draft
+layout	cylinder	mid	科技,通用	3D	滾筒翻轉（會顯示前後句）	前後句滾動，勿連用		draft
+layout	iris-frame	mid	復古,懸疑	滿版,遮罩	光圈框（偶數句圓、奇數句矩形）	光圈聚焦的轉折句		draft
+layout	annotate	mid	俏皮,通用	關鍵字,手作感	手繪圈選、底線、星號標記 {關鍵字}（三種標記輪流）	筆記感強調		draft
+layout	underline-draw	low	通用,溫柔	細線,逐字	底線畫出	底線畫出的安靜句		draft
+layout	scatter	mid	俏皮,懸疑	位移,逐字	散落字：每字在格內隨機偏移、旋轉、縮放，由四方飛入	凌亂、失序		draft
+layout	strip	mid	通用,力量	排版	字條：強調色長條上的反白字，左右交錯滑入	色帶標語		draft
+layout	cards	mid	俏皮,復古	排版,逐字	字卡：每字（>8 字時每 2 字）一張白卡，落下排成列	短句字卡		draft
+layout	glow-cards	mid	科技,夢幻	排版,光效	發光字卡：暗底＋強調色發光邊框	發光字卡		draft
+layout	layered	mid	俏皮,復古	陰影	疊層字：主文後方三層強調色描邊殘影，向右下展開	多層描邊		draft
+layout	falling	mid	懸疑,科技	背景,逐字	字雨：背景持續落下的淡字＋主文逐字落下彈跳	文字雨		draft
+layout	formula	mid	科技	背景	公式覆蓋：主文後方漂浮的等寬公式碎片（種子產生）	理工、程式主題		draft
+layout	pv-lyric	low	抒情,夢幻	關鍵字,排版	橫排、靠左（預設落在畫面左側、約 54% 高度）。一般字是細黑體小字，{} 內的字變成毛筆大字（約 1.9 倍大，發光、色差收斂、帶淡墨暈影）。(註解) 會出現在關鍵字右下角，前面帶 ‹‹‹。沒寫 {} 時，自動把句尾 2 個字當關鍵字。	日系 PV 抒情歌		draft
+layout	pv-vertical	low	抒情,夢幻	關鍵字,直排	pv-lyric 的直排版，靠右，由上往下展開。	PV 段落轉折		draft
+layout	hud-frame	mid	科技	滿版,細線	滿版：遊戲介面風，文字搭配細線框與資訊標記	遊戲或系統介面		draft
+layout	marquee	mid	熱血,復古	滿版	滿版：跑馬燈，兩排橫向捲動，一排實心一排空心	跑馬燈，少量使用		draft
+layout	danmaku	mid	俏皮,科技	滿版	滿版：彈幕，三行由右向左飄過	彈幕感，少量使用		draft
+layout	border-run	mid	科技,熱血	滿版,光效	滿版：畫面邊框有光線跑動	段落高潮，少量使用		draft
+layout	zoom-tunnel	high	力量,熱血	滿版,縮放	滿版：多層殘影由小放大衝向鏡頭，穿越隧道感	高潮穿越		draft
+layout	staggered-text	mid	俏皮,通用	位移,逐字	奇偶字上下錯位，從相反方向滑入	奇偶錯位		draft
+layout	noise-text	high	懸疑,科技	故障	主文加兩層色差殘影，每 80ms 換一次抖動位置	不安定的色差		draft
+layout	victim-outline	mid	懸疑	描邊	空心粗描邊字，後方錯位的強調色描邊像粉筆輪廓，輕微抖動	粉筆輪廓		draft
+layout	cute-outline	mid	俏皮	描邊,逐字	圓潤白色厚描邊貼紙字＋彩色字心，逐字彈跳、交替傾斜	貼紙可愛風		draft
+layout	vertical-sub	low	安靜,抒情	直排,排版	主文橫排偏左，右側一條直排淡色回聲字＋細線	橫直對照		draft
+layout	hero-text	high	力量,熱血	陰影,縮放	粗體巨字＋六層強調色擠出立體陰影，重重砸入	重擊標題		draft
+layout	shatter-text	high	力量,熱血	變形	4 片碎片拼合	碎裂拼合的高潮		draft
+layout	crayon-shatter	high	俏皮,力量	手作感	碎片拼合，字心強調色、粗糙描邊與微傾斜	塗鴉感標題		draft
+layout	margin	low	安靜,通用	排版,細線	文字靠角落（左下／右上／右下／左中依句子編號輪替），旁邊拉出一條髮絲線，線尾收在小方點；線先拉出，文字再淡入並向內收	貼邊的高級字幕		draft
+layout	baseline	low	安靜,通用	排版,細線	2～3 行字，每行下一條橫跨畫面的髮絲基線；{} 關鍵字下再加一條強調色粗線（沒有 {} 就不畫）。基線依行由左拉出，文字跟著淡入，粗線最後拉出	不遮影片的高級字幕		draft
+layout	full-track	low	安靜,通用	排版,字距	每個字平均撐開到整個畫面寬（直式畫面改為高度），左右（上下）留 6～8；超過 12 字改兩行（直式兩欄）各自撐開；字從中心向兩側散開，線再拉出	寬銀幕感		draft
+layout	line-focus	low	安靜,通用	排版,細線,關鍵字	顯示整句，{} 內是「這一鏡的片段」，其餘降到 .45 透明度；片段以底線／圓點／框線標出（依句子編號輪替）；整句先淡入，再把標記拉出。沒有 {} 就整句正常顯示、不畫標記	強調句中片段		draft
+layout	scale-steps	mid	力量,通用	排版,縮放	一句拆成 2～7 段（依逗號／空白切，切不出來就平均切），字級依比例逐段放大（或縮小），基線對齊；由小到大依序淡入，底下一條髮絲線	語氣逐段加強		draft
+layout	headline-lead	low	通用,安靜	排版,關鍵字	左下一組「大標題＋短強調線＋小導語」。標題＝{} 內的字；沒有 {} 就取前半句；導語＝其餘	新聞標題感		draft
+layout	footnote	low	安靜,通用	排版,細線	正文在下三分之一，句尾加 ※；最下方細線＋小字註腳（註腳＝副文	旁白或註腳		draft
+layout	quote	low	安靜,通用	排版	文字置中，左上與右下各一個大引號（強調色、半透明；字級最大約文字的 2.2 倍，不遮影片）	引言語氣		draft
+layout	tilt-vertical	low	安靜,通用	直排,細線	文字轉 90 度橫躺，沿畫面右緣由上往下讀，旁邊一條細線；字小、佔寬很窄	貼右緣的直排字		draft
+layout	v-ruler	low	科技,安靜	細線,排版	左緣一條垂直刻度尺（每 5 格一長刻度），一個強調色小標記停在文字的高度；文字在尺右側，左對齊	刻度尺感		draft
+layout	list-table	low	安靜,科技	排版,細線	像目錄或表格，每行一條細分隔線；用換行分行，行內用 ｜ 分成「項目｜內容」兩欄；單行長句自動拆成 2～4 行	目錄或資料感		draft
+layout	ruby	low	安靜,通用	排版	每個字上方一行小注音。注音取自副文（	注音或譯注		draft
+layout	big-sandwich	mid	力量,通用	排版,關鍵字	關鍵字放大置中，前後文字縮小夾在兩側（直式畫面改為上下夾）；關鍵字＝{} 內第一段，沒有就取最長字詞或正中間的字；大字上限約畫面高度 26%	單一關鍵字放大		draft
+layout	cross	low	安靜,通用	排版,關鍵字	關鍵字在中央，前文在它左邊橫排＋上方直排、後文在右邊橫排＋下方直排（直排是淡淡的回聲，只取最近 6 字）；字都小，不遮影片	細膩的關鍵字十字		draft
+layout	frame-box	low	安靜,復古	排版,細線	畫框：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角）	裱框語句		draft
+layout	corners	low	安靜,通用	排版,細線	對角配置：句子切成兩段放在對角，一條細線拐彎連過去	不遮影片的對角配置		draft
+layout	drop-cap	low	安靜,通用	排版	首字放大：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字）	雜誌感開頭		draft
+layout	split-cut	mid	力量,科技	遮罩	斷裂錯位：每行字從中線切成上下兩半左右錯開，中間一條強調色細線	斷裂感標題		draft
+layout	erode-repeat	mid	懸疑,安靜	排版	削減反覆：同一句重複 2～5 行，每行多（或少）一段，主行高亮	重複與遞減的語氣		draft
+layout	justify-stack	mid	力量,通用	排版	等寬對齊：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字）	海報式等寬排字		draft
+enter	fade	low	通用,安靜	淡入	柔和淡入	沒有特別想法時的安全選擇		draft
+enter	rise	low	通用,抒情	位移,淡入	由下方升起並淡入	一般句子的安全選擇		draft
+enter	drop	mid	通用,俏皮	位移,過衝	由上方落下，微彈	主歌裡想帶點重量的句子		draft
+enter	zoomin	mid	通用,力量	縮放	由小放大	短句重點或副歌開頭		draft
+enter	zoomout	mid	力量,抒情	縮放	由大縮小（從近處落定）	從近處落定的重點句		draft
+enter	spin	mid	科技,通用	3D,旋轉	3D 轉向正面（Y 軸轉 90°）	段落開頭的轉折句		draft
+enter	flip	mid	俏皮,科技	3D,旋轉,逐字	逐字 3D 翻起（沒有逐字資料時整句）	節奏明確的短句		draft
+enter	stagger	low	抒情,安靜	淡入,逐字	逐字依序淡入	慢歌逐字浮現		draft
+enter	mask-up	mid	通用,力量	遮罩,位移	由下向上遮罩揭露	俐落的標題式句子		draft
+enter	elastic	high	俏皮	縮放,彈性	彈性放大再回彈	輕快的強調句		draft
+enter	swing	mid	俏皮	旋轉,彈性	左右搖擺定位	輕鬆搖擺的句子		draft
+enter	ripple	mid	俏皮,溫柔	位移,逐字	逐字依序波浪浮起	波浪感的輕快句		draft
+enter	scramble	mid	科技,懸疑	故障,逐字	亂碼逐字還原（科技、故障；短句不適合）	科技感的長句，避開短句		draft
+enter	split-reveal	mid	通用,科技	遮罩	中線向上下展開	從中線揭開的段落開頭		draft
+enter	blur-stagger	low	抒情,夢幻	模糊,逐字	逐字由模糊變清楚（沒有逐字資料的版型退回整句淡入）	慢歌細膩浮現		draft
+enter	track-in	low	通用,安靜	字距,淡入	字距由寬收攏	高級感字幕		draft
+enter	skew-in	high	熱血,力量	位移,變形	斜切滑入（直排文字改從上方進入）	快歌裡有速度感的句子		draft
+enter	wipe	mid	通用	擦除	由左向右擦出	簡潔地由左揭開		draft
+enter	clock-wipe	mid	復古,科技	擦除	時鐘式順時針擦出（不支援圓錐遮罩的瀏覽器退為斜向擦出）	時間或循環主題的句子		draft
+enter	neon-on	mid	復古,科技	閃爍,光效	霓虹燈閃爍點亮	霓虹、夜晚主題		draft
+enter	iris	mid	復古,懸疑	遮罩	圓形光圈由小開大	段落開頭或聚焦一句話		draft
 enter	slide-l	mid	通用	位移,淡入	由左側滑入	一般句子，需要方向感時	動 opacity、transform	draft
 enter	slide-r	mid	通用	位移,淡入	由右側滑入	一般句子，與 slide-l 成對使用	動 opacity、transform	draft
 enter	whip	high	熱血,力量	位移,模糊,過衝	快速甩入（帶模糊，微過衝）	快歌裡急促切入的句子	動 opacity、transform、filter；緩動 cubic-bezier(.1,.8,.2,1)	draft
@@ -33,3 +143,172 @@ enter	stop-motion	mid	俏皮,復古	手作感,逐字	逐格動畫：逐字停格
 enter	checker-in	mid	科技,復古	遮罩	市松（近似）：棋盤格分兩階段浮現	科技或遊戲感的段落開頭	由 play() 控制	draft
 enter	focus-pull	low	抒情,夢幻	模糊,字距	對焦	副歌前的安靜句、回憶感	動 opacity、filter、letterSpacing	draft
 enter	rise-stagger	low	抒情,通用	位移,逐字	逐字上浮	主歌的細膩逐字浮現	逐字，每字間隔 55ms；動 opacity、transform	draft
+exit	fade	low	通用,安靜	淡入	柔和淡出	沒有特別想法時的安全選擇		draft
+exit	sink	low	抒情,安靜	位移,淡入	向下沉並淡出	情緒下沉的句尾		draft
+exit	zoomout-fade	mid	通用,夢幻	縮放,淡入	放大並淡出	情緒往外擴散的句尾		draft
+exit	blur-out	low	抒情,夢幻,通用	模糊,淡入	模糊並淡出	柔和結束一句話		draft
+exit	slide-out	mid	通用	位移,淡入	向左滑出	一般句子的方向感收尾		draft
+exit	dissolve	low	抒情,夢幻	模糊,逐字	逐字溶解（帶模糊）	逐字慢慢消散	動 opacity、filter	draft
+exit	shatter	high	力量,熱血	位移,旋轉,逐字	逐字碎裂飛散	高潮或段落轉折的碎裂		draft
+exit	glitch-out	high	科技,懸疑	故障	訊號故障錯位後消失	科技、賽博或訊號中斷	動 opacity、transform、filter	draft
+exit	vacuum	mid	懸疑,科技	縮放	向畫面中心縮小吸走	被吸走般的結束	動 opacity、transform、filter	draft
+exit	sweep-cover	mid	科技,通用	擦除,光效	一條強調色細線由左掃過、把字蓋掉	設計感的掃除收尾	動 clipPath、backgroundImage、backgroundRepeat、backgroundSize、backgroundPosition	draft
+exit	wipe-out	mid	通用	擦除	由左向右擦掉	簡潔擦掉	動 clipPath	draft
+exit	clock-out	mid	復古,科技	擦除	時鐘式順時針擦掉	時間或循環主題		draft
+exit	slide-r-out	mid	通用	位移,淡入	向右滑出	與由左進場成對使用	動 opacity、transform	draft
+exit	slide-up-out	mid	通用	位移,淡入	向上移出	輕快往上收尾	動 opacity、transform	draft
+exit	slide-down-out	mid	通用,抒情	位移,淡入	向下移出	往下收尾的句子	動 opacity、transform	draft
+exit	tip-over	mid	俏皮,復古	3D,旋轉	像牌子一樣向後倒下（3D）	像牌子倒下的段落收尾	動 opacity、transform	draft
+exit	flip-out	mid	通用,科技	3D,旋轉	3D 轉開消失	段落切換	動 opacity、transform	draft
+exit	stretch-out	mid	科技,復古	變形	橫向收窄成一條線	收成一條線的結束	動 opacity、transform	draft
+exit	squash-out	mid	俏皮	變形	縱向壓扁消失	輕快收尾	動 opacity、transform	draft
+exit	pop-out	high	俏皮	縮放,過衝	先脹大再彈沒	輕快短句的收尾	動 opacity、transform	draft
+exit	fly-through	high	力量,熱血	縮放,模糊	衝向鏡頭放大並模糊	衝向下一段的轉折	動 opacity、transform、filter	draft
+exit	close-h	mid	通用,科技	遮罩	由左右向中央閉合	俐落閉合	動 clipPath	draft
+exit	close-v	mid	通用,科技	遮罩	由上下向中線閉合	俐落閉合	動 clipPath	draft
+exit	wipe-r-out	mid	通用	擦除	由右向左擦掉	與由右進場成對使用	動 clipPath	draft
+exit	wipe-up-out	mid	通用	擦除	向上捲掉	往上捲掉	動 clipPath	draft
+exit	wipe-down-out	mid	通用	擦除	向下捲掉	往下捲掉	動 clipPath	draft
+exit	blinds-out	mid	科技,復古	遮罩	百葉窗閉合	與百葉窗進場成對	動 maskImage、WebkitMaskImage	draft
+exit	flicker-out	mid	懸疑,科技	閃爍	閃爍幾下後熄滅	燈光熄滅感，閃爍句少量使用	動 opacity	draft
+exit	roll-out	high	俏皮	旋轉	滾動離場（轉一圈）	誇張的段落收尾	動 opacity、transform	draft
+exit	twist-out	high	力量,俏皮	旋轉,變形	扭轉斜切縮小消失	情緒強烈的收尾	動 opacity、transform	draft
+exit	track-out	low	通用,安靜	字距,淡入	字距向外撐開並淡出	高級感字幕收尾	動 opacity	draft
+exit	blur-out-stagger	low	抒情,夢幻	模糊,逐字	逐字依序模糊消失	慢歌逐字消失	逐字	draft
+exit	gravity	high	力量,俏皮	位移,旋轉,逐字	逐字重力落下（各自旋轉）	情緒崩落的句子	逐字	draft
+exit	leaf-fall	low	抒情,溫柔	位移,旋轉,逐字	逐字像落葉飄落	感傷或季節主題	逐字	draft
+exit	domino-out	mid	俏皮	3D,旋轉,逐字	逐字像骨牌依序倒下	節奏感收尾	逐字	draft
+exit	wave-out	mid	俏皮,溫柔	位移,逐字	逐字依序起伏後崩落	輕快波浪收尾	逐字	draft
+exit	backspace-out	mid	科技,懸疑	擦除,逐字	退格刪除：由句尾一字一字刪掉 （整句版由右往左削去）	收回一句話、反悔的語氣	逐字；動 clipPath	draft
+exit	echo-out	low	夢幻,抒情	縮放,光效	殘響（近似）：放大擴散並帶光暈漸隱	餘韻很長的句尾	動 opacity、transform、filter	draft
+exit	diag-wipe-out	mid	通用	擦除	斜向擦除退場：一條斜線掃過把字擦掉	設計感收尾	動 clipPath	draft
+exit	spin-out	mid	俏皮,夢幻	旋轉,縮放,逐字	旋轉消失：逐字旋轉縮小消失	奇幻或輕快收尾	逐字；動 opacity、transform	draft
+exit	slash-out	high	力量,熱血	位移,逐字	一刀兩斷（近似）：字分成左右兩半掉開	斬斷語氣的高潮句	逐字；動 opacity、transform	draft
+exit	strike-out	mid	力量,懸疑	擦除,變形,逐字	畫線消去：每字先被畫一條強調色線，再壓扁消失	否定、劃掉一句話	逐字；動 opacity、transform	draft
+exit	cascade-out	low	抒情,通用	位移,淡入,逐字	逐字下落	主歌的細膩收尾	逐字	draft
+exit	drift-up-out	low	抒情,夢幻	位移,模糊	上飄淡出	輕輕飄走的句尾	動 opacity、transform、filter	draft
+fx	float	low	抒情,通用	位移	緩慢上下漂浮（4 秒一循環）	長句停留時保持微動		draft
+fx	shake	high	力量,熱血	位移,閃爍	快速小幅抖動（0.16 秒一循環，持續整句）	高潮短句，光敏風險請少量		draft
+fx	flicker	high	懸疑,復古	閃爍	亮度不規則閃爍（1.3 秒一循環）	高潮或恐怖感，光敏風險請少量		draft
+fx	rainbow	high	俏皮	閃爍	彩虹色循環	歡樂高潮句，光敏風險請少量		draft
+fx	wave	mid	俏皮,溫柔	位移,逐字	逐字波動	輕快的長句	由 play() 控制	draft
+fx	shimmer	low	夢幻,抒情	光效	流光掃過	想讓字有光澤	由 play() 控制	draft
+fx	gradient-flow	low	夢幻,通用	光效,漸層	漸層流動	副歌的柔和變化	由 play() 控制	draft
+fx	chromatic	mid	科技,懸疑	故障,節拍	色差抖動（隨 BPM）	電子、賽博風格	由 play() 控制	draft
+fx	outline-pulse	mid	科技,熱血	光效,節拍	輪廓光隨拍脈動	隨節拍推動情緒	由 play() 控制	draft
+fx	highlight-word	low	通用,溫柔	光效,逐字	逐字依序亮起（時間分配給整句）	跟唱或強調逐字進行	由 play() 控制	draft
+fx	cam-pull	low	通用,抒情	鏡頭,縮放	鏡頭拉遠（整句 1.06→1）	高級感字幕的緩慢運鏡	由 play() 控制	draft
+fx	cam-pan-l	low	通用	鏡頭,位移	鏡頭左移（<3% 畫面寬）	長句的緩慢橫移	由 play() 控制	draft
+fx	cam-pan-r	low	通用	鏡頭,位移	鏡頭右移	長句的緩慢橫移	由 play() 控制	draft
+fx	cam-tilt-up	low	通用,夢幻	鏡頭,位移	鏡頭上仰	情緒上揚的句子	由 play() 控制	draft
+fx	breathe	low	抒情,安靜,通用	縮放	整句微微呼吸（放大縮小）	慢歌長句保持生命感	由 play() 控制	draft
+fx	track-breathe	low	抒情,安靜	字距	字距輕微呼吸	高級感的微動	由 play() 控制	draft
+fx	zoom-slow	low	抒情,通用	鏡頭,縮放	整句在句子時間內慢慢推近	情緒慢慢累積的長句	由 play() 控制	draft
+fx	focus-rack	low	夢幻,抒情	模糊,逐字	逐字依序輕微失焦再對焦	恍惚、回憶感	由 play() 控制	draft
+fx	stopmotion	mid	俏皮,復古	手作感	定格動畫感（每 0.4 秒循環的小幅抖動與傾斜）	手作或定格動畫氣質	由 play() 控制	draft
+fx	pulse	mid	通用,熱血	縮放,節拍	隨拍脈動（縮放）	快歌維持節奏	由 play() 控制	draft
+fx	heartbeat	mid	抒情,力量	縮放,節拍	心跳式雙拍脈動	心跳、緊張或告白	由 play() 控制	draft
+fx	beat-jump	high	俏皮,熱血	位移,節拍	隨拍輕輕跳起	輕快跟拍	由 play() 控制	draft
+fx	drum	high	力量,熱血	縮放,節拍	太鼓：重拍時突然放大再收	重拍明顯的段落	由 play() 控制	draft
+fx	slow-rotate	low	抒情,夢幻	旋轉	極緩慢左右傾斜（±1.2°）	慢歌的微傾斜	由 play() 控制	draft
+fx	sway-char	mid	俏皮,溫柔	旋轉,逐字	逐字左右搖擺（相位錯開）	輕鬆搖擺	由 play() 控制	draft
+fx	small-circle	low	夢幻,通用	位移	整句沿小圓軌跡移動（半徑<1% 畫面高）	長句的微動	由 play() 控制	draft
+fx	jelly	mid	俏皮	變形,節拍	果凍式橫縮縱伸交替	可愛輕快	由 play() 控制	draft
+fx	noise-drift	low	懸疑,夢幻	位移,逐字	逐字沿固定的雜訊軌跡漂移（非亂數）	不安定或漂浮感	由 play() 控制	draft
+fx	shadow-sway	low	懸疑,抒情	陰影	影子搖曳：字的影子方向與長度慢慢擺動	孤獨或光影主題	由 play() 控制	draft
+fx	stretch-beat	mid	俏皮,熱血	變形,節拍	橫伸節拍：每拍橫向撐開再彈回	跟拍的彈性感	由 play() 控制	draft
+fx	dangle	mid	俏皮	旋轉,逐字	懸吊：每字像吊著，從上緣左右擺動	懸吊晃動的趣味句	由 play() 控制	draft
+fx	wind-gust	mid	抒情,俏皮	變形,逐字	突風：約每 2.2 秒一陣風，字由左而右被吹歪再彈回	風、季節或情緒起伏	由 play() 控制	draft
+fx	tilt-down	low	通用	鏡頭,位移	下搖（鏡頭）：字從下方升入定位，只動一次	句子開始時的一次運鏡	由 play() 控制	draft
+fx	dolly-in	low	抒情,通用	鏡頭,縮放	推軌（鏡頭）：整句期間慢慢推近，只動一次	情緒推近的長句	由 play() 控制	draft
+fx	step-zoom	mid	力量,熱血	鏡頭,縮放	階梯推近（鏡頭）：2～3 次快速小推（每次 +4%），只動一次	分段加強語氣	由 play() 控制	draft
+fx	char-pulse	mid	通用,俏皮	縮放,逐字,節拍	逐字脈動	逐字跟拍	由 play() 控制	draft
+fx	gentle-bob	low	抒情,通用	位移	輕晃	長句的緩慢漂浮	動 translate；循環 3600ms；緩動 ease-in-out	draft
+style	neon	mid	復古,科技	光效	白芯加多層強調色光暈	霓虹夜景主題		draft
+style	glow-soft	low	夢幻,抒情	光效	淡白與強調色的柔和光暈	柔和發光		draft
+style	chromatic	mid	科技,懸疑	故障	文字左右帶紅青色差	電子、賽博風格		draft
+style	longshadow	mid	復古,力量	陰影	45 度的強調色長影	海報感，疊影片時注意可讀性		draft
+style	trail	mid	科技,夢幻	陰影	向左漸淡的水平殘影	有速度感的殘影		draft
+style	outline	mid	通用,力量	描邊	字心透明，只留文字色描邊	空心字的設計感		draft
+style	stamp	high	力量,復古	描邊	蓋章（單行置中最合適）	單行置中的印章語氣		draft
+style	double-line	mid	復古,力量	描邊	雙重邊：粗外框＋細內線	加重字形的標題句		draft
+style	emphasis-dot	low	安靜,抒情	關鍵字	傍點：字上加圓點（直式在右側）	含蓄強調		draft
+style	shadow-stack	mid	復古	陰影	多重影：三層水平漸淡	多層影的設計感		draft
+style	split-tone	mid	復古,科技	漸層	上下二色	雙色標題感		draft
+style	underline	low	通用	關鍵字	底線（強調色）	簡單強調		draft
+style	strike	mid	懸疑,力量	關鍵字	刪除線（強調色）	否定、刪除語氣		draft
+style	marker	low	俏皮,通用	關鍵字	螢光筆：字下半加半透明色帶，不蓋字	筆記感強調		draft
+style	shadow-soft	low	通用	陰影	柔和黑影（提高可讀性）	疊影片時提高可讀性		draft
+style	shadow-offset	mid	復古,俏皮	陰影	偏移硬影	硬影的海報感		draft
+style	tracking-wide	low	通用,安靜	字距	字距加寬 0.14em	高級感字幕		draft
+style	grad-v	low	通用,夢幻	漸層	直向漸層：上本色、下強調色	上下雙色		draft
+style	extrude-3d	mid	力量,復古	陰影,3D	立體：短而實的 3D 厚度（比 longshadow 短）	厚實標題句		draft
+style	echo-diag	mid	夢幻,復古	陰影	輪廓殘響（近似）：右上方向的淡出殘影	輪廓餘韻		draft
+style	condensed	low	通用,力量	變形	長體：字形橫向壓窄	窄字的海報感		draft
+style	extended	low	通用,科技	變形	平體：字形橫向拉寬（上限 1.08）	寬字的科技感		draft
+style	step-baseline	mid	俏皮	位移,逐字	高低錯位：奇偶字上下交錯	活潑的字高變化		draft
+style	gradient	low	夢幻,通用	漸層	字內上下漸層（文字色到強調色）	柔和色彩變化		draft
+style	karaoke	low	通用	光效,逐字	逐字變亮	跟唱句		draft
+style	gloss-sweep	low	夢幻,通用	光效,逐字	光澤掃過：逐字亮帶掃一次	一次性的光澤強調		draft
+style	glitch	high	科技,懸疑	故障	間歇出現色差與小位移，像訊號干擾	故障感，光敏風險請少量		draft
+style	emboss	low	復古,通用	陰影	浮雕	紙質或凸起質感		draft
+style	tint-sweep	low	通用,抒情	漸層,逐字	染色掃過	句內情緒轉色		draft
+scene	halftone	mid	復古,俏皮	背景,質感	半色調網點：斜向漸層＋緩慢波動，隨拍脹縮	漫畫網點		draft
+scene	dots	low	通用	背景	點陣網：等大圓點緩慢漂移	低調圖案		draft
+scene	checker	mid	俏皮,復古	背景	棋盤格	遊戲或幾何		draft
+scene	burst	high	力量,熱血	背景	放射線	爆發式放射		draft
+scene	radial-rects	high	力量,科技	背景	放射長方塊	放射衝擊		draft
+scene	perspective-grid	mid	科技,復古	背景	透視格線（地平線以下，向前捲動；線色向地平線漸隱）	復古未來		draft
+scene	flow-lines	low	夢幻,科技	背景	流動曲線	流動感		draft
+scene	stripes	mid	復古,俏皮	背景	平行四邊形條紋（向右慢移）	條紋律動		draft
+scene	hatch	mid	力量,復古	背景,質感	斜線填紋	斜線粗獷		draft
+scene	diag-split	high	力量,熱血	背景	斜切分割：一側染強調色	斜切分割，會遮影片		draft
+scene	blocks	mid	通用,科技	背景	背景色塊（種子位置，慢漂）	構成色塊，會遮影片		draft
+scene	breathing-blocks	low	科技,通用	背景	呼吸方塊格	呼吸方格		draft
+scene	squares	low	通用,科技	背景	置中套疊方框	構成方框		draft
+scene	glow-ring	low	夢幻,抒情	背景,光效	發光圓環	光環		draft
+scene	rings	mid	通用,科技	背景,節拍	同心圓擴散	擴散圓		draft
+scene	pulse-circle	mid	熱血,通用	背景,節拍	隨拍脈動圓	脈動		draft
+scene	glitch-bars	high	科技,懸疑	裝飾,故障	故障橫條：每 1/10 秒換一組（種子隨時間格）	故障橫條		draft
+scene	guides	low	安靜,通用	裝飾,細線	構圖參考：三分線＋黃金螺旋	構圖線		draft
+scene	dashed-lines	low	安靜,通用	裝飾,細線	虛線參考線（虛線緩慢流動）	虛線裝飾		draft
+scene	ruler	low	科技,安靜	裝飾,細線	尺規刻度（上緣、左緣）＋移動指標	尺規刻度		draft
+scene	target	mid	科技,懸疑	裝飾,細線	瞄準框：圓環＋缺口十字＋旋轉四角	瞄準框		draft
+scene	color-wash	low	通用,抒情	裝飾	整面染色（強調色）	整面染色，會遮影片		draft
+scene	gradient-fade	low	抒情,通用	裝飾,漸層	底部漸層遮罩（強調色向上淡出）	底部漸層		draft
+scene	pink-stripes	mid	俏皮	背景	粉紅條紋	粉紅條紋		draft
+scene	diag-fill	mid	力量,通用	背景,節拍	斜向填色	斜向色帶		draft
+scene	diag-structure	mid	力量,科技	背景,細線	斜向結構線	斜向骨架		draft
+scene	crop-marks	low	安靜,通用	裝飾,細線	裁切標記	裁切標記		draft
+scene	crosshair	low	科技,安靜	裝飾,細線	照準線	照準線		draft
+scene	dimension-lines	low	安靜,科技	裝飾,細線	寸法線	製圖標註		draft
+scene	edge-ticks	low	安靜,通用	裝飾,細線	邊緣刻度	取景刻度		draft
+scene	drift-lines	low	安靜,抒情	背景,細線	飄移細線	飄移細線		draft
+scene	organic-blob	low	溫柔,夢幻	背景	有機色塊	有機色塊		draft
+scene	edge-clouds	low	夢幻,溫柔	背景	邊緣雲	邊緣雲朵		draft
+scene	scattered-shapes	mid	俏皮	背景	散落幾何	散落圖形		draft
+scene	diamond-shapes	low	通用,夢幻	背景	菱形群	菱形		draft
+scene	shadow-shapes	low	懸疑,抒情	背景	陰影幾何	陰影圖形		draft
+scene	balancing-circles	low	夢幻,通用	背景	平衡圓	平衡圓形		draft
+scene	web-lines	low	科技,懸疑	背景,細線	蛛網連線	網狀連線		draft
+scene	cross-pattern	low	通用	背景	十字圖案	十字圖案		draft
+scene	triangle-grid	mid	通用,科技	背景	三角網格	三角格		draft
+scene	pink-grid	mid	俏皮	背景	粉紅方格	粉紅格線		draft
+scene	jigsaw-grid	low	俏皮,通用	背景	拼圖格	拼圖格		draft
+scene	texture-bg	low	安靜,復古	背景,質感	紙質紋理	紙質紋理		draft
+scene	pixel-bg	mid	復古,科技	背景	像素背景	像素背景		draft
+scene	star-trail	low	夢幻,抒情	背景	星軌	星軌		draft
+scene	light-spot	low	抒情,夢幻	背景,光效	光斑	柔光斑		draft
+scene	screen-border	low	安靜,通用	裝飾,細線	螢幕邊框	畫面邊框		draft
+scene	scalloped-border	low	溫柔,俏皮	裝飾	波浪花邊	花邊		draft
+scene	hud-corners	mid	科技	裝飾,細線	HUD 四角	HUD 邊角		draft
+scene	hud-info	mid	科技	裝飾	HUD 資訊面板（右上）	HUD 資訊		draft
+scene	hud-status	mid	科技	裝飾	HUD 狀態文字（左下）	HUD 狀態列		draft
+scene	data-monitors	mid	科技	裝飾	資料監視器（右下）	數據監視器		draft
+scene	pixel-window	mid	復古,科技	裝飾	像素視窗（左上）	像素視窗		draft
+scene	desktop-icon	mid	科技,復古	裝飾	桌面圖示（左側一排）	復古桌面		draft
+scene	smear-brush	mid	力量,懸疑	裝飾,質感	塗抹筆刷	塗抹筆刷		draft
+scene	paper-tear	mid	復古,力量	裝飾,質感	撕紙邊	撕紙		draft
+scene	blood-splatter	high	力量,懸疑	裝飾,質感	噴濺	血腥主題，謹慎使用		draft
+scene	crime-tape	mid	懸疑,力量	裝飾	警戒膠帶	警戒膠帶		draft
+scene	planet	low	夢幻,科技	背景	行星	宇宙主題		draft

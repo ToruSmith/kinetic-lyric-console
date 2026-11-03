@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'crayon-shatter', apiVersion: 1,
   label: { zh: '碎片拼合，字心強調色、粗糙描邊與微傾斜' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['俏皮', '力量'], tags: ['手作感'], use: '塗鴉感標題', draft: true },
   flags: { lab: true },
   rand: { sceneThemes: ['grunge'], strong: true },
   render(ctx) {

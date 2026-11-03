@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '削減反覆：同一句重複 2～5 行，每行多（或少）一段，主行高亮' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['懸疑', '安靜'], tags: ['排版'], use: '重複與遞減的語氣', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

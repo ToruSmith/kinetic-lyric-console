@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'hero-text', apiVersion: 1,
   label: { zh: '粗體巨字＋六層強調色擠出立體陰影，重重砸入' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['力量', '熱血'], tags: ['陰影', '縮放'], use: '重擊標題', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

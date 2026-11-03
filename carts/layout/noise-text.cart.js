@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'noise-text', apiVersion: 1,
   label: { zh: '主文加兩層色差殘影，每 80ms 換一次抖動位置' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['懸疑', '科技'], tags: ['故障'], use: '不安定的色差', draft: true },
   flags: { lab: true },
   rand: { sceneThemes: ['grunge'], strong: true },
   render(ctx) {

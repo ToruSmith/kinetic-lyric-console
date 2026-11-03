@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'gentle-bob', apiVersion: 1,
   label: { zh: '輕晃', en: 'Gentle Bob' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '通用'], tags: ['位移'], use: '長句的緩慢漂浮', draft: true },
   rand: { group: 'cam' }, // 逐句隨機時，與同樣動 translate 的特效互斥
   keyframes: [{ translate: '0 0' }, { translate: '0 -.9cqh' }, { translate: '0 0' }],
   duration: 3600,

@@ -5,9 +5,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from './build.mjs';
 import { collectNames, fail } from './lib-names.mjs';
-import { loadCarts, metaProblems, deriveSpec } from './lib-meta.mjs';
+import { loadCarts, loadBuiltinMeta, metaProblems, deriveSpec } from './lib-meta.mjs';
 
-const { U } = collectNames(), carts = loadCarts(), KINDS = ['layout', 'enter', 'exit', 'fx', 'style', 'scene'];
+const { U } = collectNames(), carts = loadCarts(), builtin = loadBuiltinMeta(), KINDS = ['layout', 'enter', 'exit', 'fx', 'style', 'scene'];
 const cartOf = new Map(carts.map(c => [`${c.kind}:${c.id}`, c]));
 const problems = [];
 const rows = [['# kind', 'id', 'energy', 'mood', 'tags', 'desc', 'use', 'spec', 'draft'].join('\t')];
@@ -15,11 +15,11 @@ let done = 0, total = 0;
 const clean = s => String(s || '').replace(/\*\*吃 `\{\}`\*\*[：:]?\s*/, '').replace(/[`*◆]/g, '').replace(/\s+/g, ' ').trim();
 for (const kind of KINDS) for (const e of U[kind]) {
   total++;
-  const c = cartOf.get(`${kind}:${e.name}`), m = c && c.meta;
+  const c = cartOf.get(`${kind}:${e.name}`), m = (c && c.meta) || builtin[kind]?.[e.name];
   if (!m) continue;
   done++;
   for (const p of metaProblems(m)) problems.push(`${kind}:${e.name} ${p}`);
-  rows.push([kind, e.name, m.energy, m.mood.join(','), m.tags.join(','), clean(e.desc), m.use, deriveSpec(c), m.draft ? 'draft' : ''].join('\t'));
+  rows.push([kind, e.name, m.energy, m.mood.join(','), m.tags.join(','), clean(e.desc), m.use, c ? deriveSpec(c) : '', m.draft ? 'draft' : ''].join('\t'));
 }
 if (problems.length) fail('meta 有問題：\n' + problems.join('\n'));
 const text = rows.join('\n') + '\n', out = path.join(ROOT, 'docs/effect-index.tsv');

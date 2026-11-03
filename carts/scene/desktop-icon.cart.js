@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'desktop-icon', apiVersion: 1,
   label: { zh: '桌面圖示（左側一排）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '復古'], tags: ['裝飾'], use: '復古桌面', draft: true },
   rand: { theme: 'tech' },
   layer: 'over', group: 'icon', amount: 40, cost: '輕',
   lab: true,

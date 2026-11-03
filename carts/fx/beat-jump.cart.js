@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '隨拍輕輕跳起' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'high', mood: ['俏皮', '熱血'], tags: ['位移', '節拍'], use: '輕快跟拍', draft: true },
   rand: { group: 'cam', strong: true },
   play(ctx) {
     const A = ctx.anim;

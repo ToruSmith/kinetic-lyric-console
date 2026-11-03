@@ -1,8 +1,9 @@
-/* 拖影 */
+/* 主文後方多層半透明殘影，左右橫移 */
 Console.cart({
   kind: 'layout', id: 'trail', apiVersion: 1,
-  label: { zh: '拖影' },
+  label: { zh: '主文後方多層半透明殘影，左右橫移' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '夢幻'], tags: ['陰影'], use: '拖影速度感', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const fit = ctx.fit;

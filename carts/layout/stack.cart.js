@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'stack', apiVersion: 1,
   label: { zh: '長句拆成最多 3 行堆疊，行與行交替靠左、靠右' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用', '力量'], tags: ['排版'], use: '長句分行堆疊', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const txtEl = ctx.text;

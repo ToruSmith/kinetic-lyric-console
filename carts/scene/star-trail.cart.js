@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'star-trail', apiVersion: 1,
   label: { zh: '星軌' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '抒情'], tags: ['背景'], use: '星軌', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'star', amount: 45, cost: '輕',
   lab: true,

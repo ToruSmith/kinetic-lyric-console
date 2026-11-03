@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'subtitle-box', apiVersion: 1,
   label: { zh: '底部半透明黑底框字幕，逐字變亮' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用'], tags: ['排版'], use: '底部字幕，最不遮影片', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;
     const txtEl = ctx.text;

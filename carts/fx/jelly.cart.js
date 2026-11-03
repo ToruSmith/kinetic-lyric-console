@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '果凍式橫縮縱伸交替' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['俏皮'], tags: ['變形', '節拍'], use: '可愛輕快', draft: true },
   rand: { group: 'cam' },
   play(ctx) {
     const A = ctx.anim;

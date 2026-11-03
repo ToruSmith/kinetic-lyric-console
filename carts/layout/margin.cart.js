@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '文字靠角落（左下／右上／右下／左中依句子編號輪替），旁邊拉出一條髮絲線，線尾收在小方點；線先拉出，文字再淡入並向內收' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['排版', '細線'], use: '貼邊的高級字幕', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

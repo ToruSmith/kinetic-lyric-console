@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '懸吊：每字像吊著，從上緣左右擺動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['俏皮'], tags: ['旋轉', '逐字'], use: '懸吊晃動的趣味句', draft: true },
   rand: { group: 'rot', domOnly: true },
   play(ctx) {
     const cl = () => ctx.charEls();

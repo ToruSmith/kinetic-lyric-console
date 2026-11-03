@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'typewriter', apiVersion: 1,
   label: { zh: '打字機：逐字出現，後面跟著閃爍游標，字比較小' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['科技', '安靜'], tags: ['逐字'], use: '打字或獨白', draft: true },
   rand: { sceneThemes: ['tech'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

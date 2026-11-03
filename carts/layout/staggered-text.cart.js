@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'staggered-text', apiVersion: 1,
   label: { zh: '奇偶字上下錯位，從相反方向滑入' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '通用'], tags: ['位移', '逐字'], use: '奇偶錯位', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

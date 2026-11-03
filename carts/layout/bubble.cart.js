@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'bubble', apiVersion: 1,
   label: { zh: '白底對話泡泡，彈性出現' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮'], tags: ['排版', '彈性'], use: '對話或可愛語氣', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize;
     const CE = ctx.centerIn;

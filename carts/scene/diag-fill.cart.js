@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'diag-fill', apiVersion: 1,
   label: { zh: '斜向填色' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['力量', '通用'], tags: ['背景', '節拍'], use: '斜向色帶', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'split', amount: 50, cost: '輕',
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告

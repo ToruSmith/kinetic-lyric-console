@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'center', apiVersion: 1,
   label: { zh: '置中，最適合搭配樣式與進場動畫，**最安全、通用的選擇**' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用'], tags: ['排版'], use: '最安全的通用選擇', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const SWd = ctx.sw;

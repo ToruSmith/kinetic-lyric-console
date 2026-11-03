@@ -3,6 +3,7 @@ Console.cart({
   kind: 'style', id: 'emboss', apiVersion: 1,
   label: { zh: '浮雕', en: 'Emboss' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['復古', '通用'], tags: ['陰影'], use: '紙質或凸起質感', draft: true },
   scope: 'element',
   apply(ctx) {
     ctx.shadow('-.03em -.03em 0 rgba(255,255,255,.55)');

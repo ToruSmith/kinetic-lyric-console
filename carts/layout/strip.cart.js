@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'strip', apiVersion: 1,
   label: { zh: '字條：強調色長條上的反白字，左右交錯滑入' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用', '力量'], tags: ['排版'], use: '色帶標語', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const SWd = ctx.sw;

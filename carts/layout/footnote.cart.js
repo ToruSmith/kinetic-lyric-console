@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '正文在下三分之一，句尾加 ※；最下方細線＋小字註腳（註腳＝副文' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['排版', '細線'], use: '旁白或註腳', draft: true },
   flags: { lab: true, ownSub: true },
   rand: { needSub: true },
   render(ctx) {

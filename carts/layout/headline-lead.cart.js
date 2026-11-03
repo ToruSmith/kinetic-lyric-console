@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '左下一組「大標題＋短強調線＋小導語」。標題＝{} 內的字；沒有 {} 就取前半句；導語＝其餘' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['通用', '安靜'], tags: ['排版', '關鍵字'], use: '新聞標題感', draft: true },
   flags: { brace: true, lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

@@ -34,6 +34,7 @@
  "core/ui/style-pack-panel.js",
  "core/lib/typography.js",
  "core/api/console.js",
+ "core/api/effect-meta.js",
  "@carts",
  "core/api/data-carts.js",
  "core/kernel/boot.js",

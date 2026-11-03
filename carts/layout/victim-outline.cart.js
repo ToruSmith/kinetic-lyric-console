@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'victim-outline', apiVersion: 1,
   label: { zh: '空心粗描邊字，後方錯位的強調色描邊像粉筆輪廓，輕微抖動' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['懸疑'], tags: ['描邊'], use: '粉筆輪廓', draft: true },
   flags: { lab: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {

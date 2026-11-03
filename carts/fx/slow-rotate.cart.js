@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '極緩慢左右傾斜（±1.2°）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['旋轉'], use: '慢歌的微傾斜', draft: true },
   rand: { group: 'rot' },
   play(ctx) {
     const A = ctx.anim;

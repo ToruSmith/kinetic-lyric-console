@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'falling', apiVersion: 1,
   label: { zh: '字雨：背景持續落下的淡字＋主文逐字落下彈跳' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['懸疑', '科技'], tags: ['背景', '逐字'], use: '文字雨', draft: true },
   rand: { strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

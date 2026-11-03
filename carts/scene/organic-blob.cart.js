@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'organic-blob', apiVersion: 1,
   label: { zh: '有機色塊' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['溫柔', '夢幻'], tags: ['背景'], use: '有機色塊', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'blob', amount: 40, cost: '輕',
   lab: true,

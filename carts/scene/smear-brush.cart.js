@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'smear-brush', apiVersion: 1,
   label: { zh: '塗抹筆刷' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['力量', '懸疑'], tags: ['裝飾', '質感'], use: '塗抹筆刷', draft: true },
   rand: { theme: 'grunge' },
   layer: 'under', group: 'smear', amount: 35, cost: '中',
   lab: true,

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'diagonal', apiVersion: 1,
   label: { zh: '**吃 `{}`**：斜 8 度，上方大字（第一個 `{}`，沒有取前 2 字）加下方整句' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['熱血', '力量'], tags: ['排版', '關鍵字'], use: '斜向衝擊標題', draft: true },
   flags: { brace: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'track-breathe', apiVersion: 1,
   label: { zh: '字距輕微呼吸' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '安靜'], tags: ['字距'], use: '高級感的微動', draft: true },
   rand: { group: 'char', domOnly: true },
   play(ctx) {
     const tel = () => ctx.textEls();

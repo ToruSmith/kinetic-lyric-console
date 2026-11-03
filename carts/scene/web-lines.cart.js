@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'web-lines', apiVersion: 1,
   label: { zh: '蛛網連線' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['科技', '懸疑'], tags: ['背景', '細線'], use: '網狀連線', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'web', amount: 45, cost: '中',
   lab: true,

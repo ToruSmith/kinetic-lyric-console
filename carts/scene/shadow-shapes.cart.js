@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'shadow-shapes', apiVersion: 1,
   label: { zh: '陰影幾何' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['懸疑', '抒情'], tags: ['背景'], use: '陰影圖形', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'shadow', amount: 40, cost: '輕',
   lab: true,

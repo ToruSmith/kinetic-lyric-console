@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'highlight-word', apiVersion: 1,
   label: { zh: '逐字依序亮起（時間分配給整句）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用', '溫柔'], tags: ['光效', '逐字'], use: '跟唱或強調逐字進行', draft: true },
   rand: { group: 'char', domOnly: true },
   play(ctx) {
     const cl = () => ctx.charEls();

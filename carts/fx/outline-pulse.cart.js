@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'outline-pulse', apiVersion: 1,
   label: { zh: '輪廓光隨拍脈動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '熱血'], tags: ['光效', '節拍'], use: '隨節拍推動情緒', draft: true },
   rand: { group: 'color', domOnly: true },
   play(ctx) {
     const tel = () => ctx.textEls();

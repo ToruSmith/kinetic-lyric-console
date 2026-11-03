@@ -5,6 +5,7 @@ Console.cart({
   label: { zh: '旋轉消失：逐字旋轉縮小消失' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['俏皮', '夢幻'], tags: ['旋轉', '縮放', '逐字'], use: '奇幻或輕快收尾', draft: true },
   keyframes: [{opacity:1,transform:"none"},{opacity:0,transform:"rotate(200deg) scale(.05)"}],
   perChar(ctx) {
     const c = ctx.el;

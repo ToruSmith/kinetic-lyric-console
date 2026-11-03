@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '文字轉 90 度橫躺，沿畫面右緣由上往下讀，旁邊一條細線；字小、佔寬很窄' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['直排', '細線'], use: '貼右緣的直排字', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

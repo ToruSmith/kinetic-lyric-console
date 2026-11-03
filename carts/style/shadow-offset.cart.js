@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '偏移硬影' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['復古', '俏皮'], tags: ['陰影'], use: '硬影的海報感', draft: true },
   scope: 'element',
   apply(ctx) {
     const addSh = (el, s) => ctx.shadow(s);

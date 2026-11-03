@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'scalloped-border', apiVersion: 1,
   label: { zh: '波浪花邊' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['溫柔', '俏皮'], tags: ['裝飾'], use: '花邊', draft: true },
   rand: { theme: 'neutral' },
   layer: 'over', group: 'border', amount: 45, cost: '輕',
   lab: true,

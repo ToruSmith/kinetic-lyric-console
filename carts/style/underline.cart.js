@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '底線（強調色）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['通用'], tags: ['關鍵字'], use: '簡單強調', draft: true },
   scope: 'element',
   apply(ctx) {
     const e = ctx.el;

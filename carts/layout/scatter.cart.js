@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'scatter', apiVersion: 1,
   label: { zh: '散落字：每字在格內隨機偏移、旋轉、縮放，由四方飛入' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '懸疑'], tags: ['位移', '逐字'], use: '凌亂、失序', draft: true },
   rand: { sceneThemes: ['grunge'], strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

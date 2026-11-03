@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'annotate', apiVersion: 1,
   label: { zh: '**吃 `{}`**：手繪圈選、底線、星號標記 `{關鍵字}`（三種標記輪流）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '通用'], tags: ['關鍵字', '手作感'], use: '筆記感強調', draft: true },
   flags: { brace: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {

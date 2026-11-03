@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'cards', apiVersion: 1,
   label: { zh: '字卡：每字（>8 字時每 2 字）一張白卡，落下排成列' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '復古'], tags: ['排版', '逐字'], use: '短句字卡', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const { _chs } = ctx.lib;

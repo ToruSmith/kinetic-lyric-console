@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '推軌（鏡頭）：整句期間慢慢推近，只動一次' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['抒情', '通用'], tags: ['鏡頭', '縮放'], use: '情緒推近的長句', draft: true },
   rand: { group: 'cam' },
   play(ctx) {
     const A = ctx.anim;

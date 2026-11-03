@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'balancing-circles', apiVersion: 1,
   label: { zh: '平衡圓' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '通用'], tags: ['背景'], use: '平衡圓形', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'circles', amount: 45, cost: '輕',
   lab: true,

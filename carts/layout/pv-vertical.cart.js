@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'pv-vertical', apiVersion: 1,
   label: { zh: '**吃 `{}`**：`pv-lyric` 的直排版，靠右，由上往下展開。' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['關鍵字', '直排'], use: 'PV 段落轉折', draft: true },
   flags: { brace: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;

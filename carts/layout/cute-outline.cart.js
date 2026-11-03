@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'cute-outline', apiVersion: 1,
   label: { zh: '圓潤白色厚描邊貼紙字＋彩色字心，逐字彈跳、交替傾斜' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮'], tags: ['描邊', '逐字'], use: '貼紙可愛風', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

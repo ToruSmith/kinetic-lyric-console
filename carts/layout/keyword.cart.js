@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'keyword', apiVersion: 1,
   label: { zh: '**吃 `{}`**：`{}` 關鍵字放大成強調色，其餘小字排在旁邊；沒寫 `{}` 時取前 2 字' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用', '力量'], tags: ['排版', '關鍵字'], use: '有明確關鍵詞的句子', draft: true },
   flags: { brace: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize;

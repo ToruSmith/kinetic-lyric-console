@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'hud-info', apiVersion: 1,
   label: { zh: 'HUD 資訊面板（右上）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['裝飾'], use: 'HUD 資訊', draft: true },
   rand: { theme: 'tech' },
   layer: 'over', group: 'hudi', amount: 50, cost: '輕',
   lab: true,

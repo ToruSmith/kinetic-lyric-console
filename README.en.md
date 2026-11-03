@@ -85,7 +85,7 @@ An SRT for this tool can carry a tag in front of each line of lyrics, for exampl
 
 The meaning: `#layout` `+enter` `+exit` `~sustained effect` `^position` `@text style`, and `{}` marks the keyword. The full names and rules are in the [manual](docs/manual.md), which was written to be read by an AI in the first place.
 
-**How:** give the [AI cheat sheet](docs/ai-cheatsheet.md) (about 16 KB; the name lists are generated from the carts, so newly added effects are included) to an AI together with your SRT, then paste one of the prompts below. If you want the AI to see the full explanation and the details of every name, give it the [manual](docs/manual.md) (about 57 KB) instead.
+**How:** give the [AI cheat sheet](docs/ai-cheatsheet.md) (about 17 KB; the name lists are generated from the carts, so newly added effects are included) to an AI together with your SRT, then paste one of the prompts below. If you want the AI to see the full explanation and the details of every name, give it the [manual](docs/manual.md) (about 57 KB) instead.
 
 **① Tag the whole song**
 ```

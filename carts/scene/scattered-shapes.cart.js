@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'scattered-shapes', apiVersion: 1,
   label: { zh: '散落幾何' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮'], tags: ['背景'], use: '散落圖形', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'shapes', amount: 45, cost: '輕',
   lab: true,

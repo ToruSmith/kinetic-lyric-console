@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'shatter-text', apiVersion: 1,
   label: { zh: '4 片碎片拼合' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['力量', '熱血'], tags: ['變形'], use: '碎裂拼合的高潮', draft: true },
   flags: { lab: true },
   rand: { sceneThemes: ['grunge'], strong: true },
   render(ctx) {

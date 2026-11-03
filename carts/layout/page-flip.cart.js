@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'page-flip', apiVersion: 1,
   label: { zh: '3D 翻頁露出下一句（會顯示前一句；單獨使用時前後空白）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['抒情', '通用'], tags: ['3D'], use: '翻頁敘事，勿連用', draft: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'vertical-sub', apiVersion: 1,
   label: { zh: '主文橫排偏左，右側一條直排淡色回聲字＋細線' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['安靜', '抒情'], tags: ['直排', '排版'], use: '橫直對照', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'zoom-tunnel', apiVersion: 1,
   label: { zh: '滿版：多層殘影由小放大衝向鏡頭，穿越隧道感' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['力量', '熱血'], tags: ['滿版', '縮放'], use: '高潮穿越', draft: true },
   flags: { full: true },
   rand: { strong: true },
   render(ctx) {

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'wave', apiVersion: 1,
   label: { zh: '逐字波動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '溫柔'], tags: ['位移', '逐字'], use: '輕快的長句', draft: true },
   rand: { group: 'char' },
   play(ctx) {
     const cl = () => ctx.charEls();

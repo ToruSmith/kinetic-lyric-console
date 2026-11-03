@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'split-flap', apiVersion: 1,
   label: { zh: '機場翻板' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['復古', '科技'], tags: ['逐字'], use: '機場翻板，避開長句', draft: true },
   rand: { sceneThemes: ['tech'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'formula', apiVersion: 1,
   label: { zh: '公式覆蓋：主文後方漂浮的等寬公式碎片（種子產生）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['背景'], use: '理工、程式主題', draft: true },
   rand: { sceneThemes: ['tech'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'hud-corners', apiVersion: 1,
   label: { zh: 'HUD 四角' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['裝飾', '細線'], use: 'HUD 邊角', draft: true },
   rand: { theme: 'tech' },
   layer: 'over', group: 'hudc', amount: 50, cost: '輕',
   lab: true,

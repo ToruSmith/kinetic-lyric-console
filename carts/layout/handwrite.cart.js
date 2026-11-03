@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'handwrite', apiVersion: 1,
   label: { zh: '手寫：逐字出現並描繪底線；預設用手寫字體，若你指定了字體則尊重你的選擇' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['溫柔', '抒情'], tags: ['手作感', '逐字'], use: '手寫信感', draft: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'pixel-window', apiVersion: 1,
   label: { zh: '像素視窗（左上）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['復古', '科技'], tags: ['裝飾'], use: '像素視窗', draft: true },
   rand: { theme: 'tech' },
   layer: 'over', group: 'win', amount: 40, cost: '輕',
   lab: true,

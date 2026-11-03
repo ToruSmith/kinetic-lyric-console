@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'gradient-flow', apiVersion: 1,
   label: { zh: '漸層流動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '通用'], tags: ['光效', '漸層'], use: '副歌的柔和變化', draft: true },
   rand: { group: 'color', domOnly: true },
   play(ctx) {
     const cl = () => ctx.charEls();
