@@ -45,6 +45,10 @@ t('規則警告', () => {
   w(srt(...Array(5).fill('#center+fade+fade~glitch 歌')), /光敏/);
   w('1\n00:00:01,000 --> 00:00:04,000\n#center+fade+fade 一\n\n2\n00:00:03,000 --> 00:00:05,000\n#center+fade+fade 二\n', /重疊/);
 });
+t('逐句轉場', () => {
+  assert.deepEqual(checkSrt(srt('#center+fade+fade&trans-wipe 歌', '#center+fade+fade&halftone:60,trans-zoom 歌')).issues, []);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade&trans-boom 歌')), 'error'), /trans-boom/);
+});
 t('--against：時間與歌詞被改會被抓到，只加標記不會', () => {
   const base = srt('夜色漸漸深了', '看天台上流星');
   assert.equal(checkSrt(srt('#center+rise+fade 夜色{漸漸}深了||NIGHT', '#pv-lyric+fade+fade 看天台上{流星}(路過)'), { against: base }).stats.errors, 0);

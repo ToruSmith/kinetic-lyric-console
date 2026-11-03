@@ -599,6 +599,10 @@
 
 整體畫面隨拍的後製（不是場景，不佔層數）：全域 `beatShake`（震動 %）、`beatZoom`（縮放 %）、`beatTilt`（傾斜度）、`beatHue`（色相度）。單句可在 `&` 裡覆寫：`&bfx-shake:3`、`&bfx-zoom:3`、`&bfx-tilt:2`、`&bfx-hue:20`，或 `&bfx-off`（這句關閉）。
 
+### 7.75 逐句轉場
+
+全域 `trans` 決定整首的句間轉場。想讓某一句不同時，在 `&` 裡寫 `trans-cut`、`trans-flash`、`trans-crossfade`、`trans-wipe` 或 `trans-zoom`，例如 `#center+fade+fade&trans-wipe 副歌開始`。它只影響這句進場時的轉場，不算場景層，也不會取消全域底層場景。建議只放在段落轉折。
+
 ### 7.8 每句文字大小（`$`）
 
 - 語法：`$大字高度比例,整體縮放%`，放在 `^位置` 之後、`*字體` 之前。例：`#slam+zoomin+blur-out^bc$0.4,130 不要{回頭}`。只填縮放寫成 `$,120`；只填大字比例寫成 `$0.4`。只有文字大小、其他都自動的句子寫成 `#$,120 歌詞`。

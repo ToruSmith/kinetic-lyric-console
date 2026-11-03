@@ -22,7 +22,7 @@ function edTags(i){const x=subs[i],a=[],pv=subs[i-1];
  a.push(x.auto?["a","自動"]:["l",x.lay]);
  if(x.fx)a.push(["",x.fx.split(",")[0]+(x.fx.includes(",")?"+":"")]);
  if(x.st)a.push(["s","@"+x.st.split(",")[0]+(x.st.includes(",")?"+":"")]);
- if(x.scene){const t=x.scene.split(",").filter(z=>!/^(bfx-|none)/.test(z));a.push(["c","場景 "+(t.length?t[0].split(":")[0]+(t.length>1?"+"+(t.length-1):""):"…")])}
+ if(x.scene){const t=x.scene.split(",").filter(z=>!/^(bfx-|trans-|none)/.test(z));a.push(["c","場景 "+(t.length?t[0].split(":")[0]+(t.length>1?"+"+(t.length-1):""):"…")])}
  if(x.pos)a.push(["p","位置 "+x.pos]);
  if(x.font)a.push(["","字 "+x.font]);
  if(x.bigR>0||x.txtS>0)a.push(["","字級 "+[x.bigR>0?"大"+x.bigR:"",x.txtS>0?x.txtS+"%":""].filter(Boolean).join("·")]);
@@ -140,7 +140,7 @@ function edDetail(i){const d=$("#edm"),sd=d&&d.querySelector(".edside");if(!sd)r
  /* 4. 場景層 */
  G("scn","場景層（&）",b=>{
   const sc=inp("text",x.scene,"halftone:60,burst"),setSc=v=>{E(()=>{x.scene=v},"sc"+i);sc.value=v};sc.onchange=()=>setSc(sc.value.replace(/\s/g,""));
-  sc.title="名稱[:強度]，逗號分隔，最多 "+(CONFIG.sceneMax||3)+" 層；也可寫 bfx-shake:3 這類節拍後製";F("場景層",sc,b);
+  sc.title="名稱[:強度]，逗號分隔，最多 "+(CONFIG.sceneMax||3)+" 層；也可寫 bfx-shake:3 這類節拍後製，或 trans-wipe 這類句間轉場";F("場景層",sc,b);
   const bx=edMk("div","edbtns"),pb=btn("＋ 挑選場景",()=>openScenePop(pb,()=>x.scene||"",v=>setSc(v)),"開啟場景層挑選窗");bx.append(pb,btn("清除這句場景",()=>setSc(""),"改為跟隨全域底層"));b.append(bx);
   b.append(edMk("div","edhint","留空＝跟隨全域底層（目前："+(CONFIG.sceneAll||"無")+"）。Ctrl+K 搜尋「場景層」可一鍵套用。"))});
  /* 5. 位置 */
