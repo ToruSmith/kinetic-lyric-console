@@ -32,7 +32,7 @@ function applyStyles(c,sb,dur){
  let st=(sb.st||"").split(",").filter(x=>ST[x]||STC[x]);
  if(st.length>3){note("單句最多同時 3 個樣式，已忽略多餘的");st=st.slice(0,3)}
  if(st.includes("karaoke")&&st.includes("gradient"))note("karaoke 與 gradient 同時使用會搶同一個顏色，以 karaoke 為準");
- st.sort((a,b)=>(a==="karaoke")-(b==="karaoke"));
+ const stRank=k=>k==="underline"||k==="strike"?2:k==="karaoke"?1:0;st.sort((a,b)=>stRank(a)-stRank(b));   /* 底線要畫在每個字上，所以排在會拆字的樣式之後 */
  st.forEach(k=>{if(ST[k])tEls(c).forEach(e=>ST[k](e));else STC[k](c,sb,dur)})}
 const SUB_OWN=new Set();   /* 自己負責畫副文（||）的版型（ruby／footnote），addSub 不再重複畫 */
 function addSub(sb,c,small,left){

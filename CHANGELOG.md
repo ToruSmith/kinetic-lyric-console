@@ -8,6 +8,7 @@
 - 卡帶選填的 `meta` 語意資料與 `docs/effect-index.tsv` 索引；規格由程式碼推得，`draft: true` 代表情緒與能量仍待人工審核。
 - README 新增「只用圖鑑挑的效果」提示詞，Release 附上 Agent Skill，新增測試列入 CI。
 - 補齊 `docs/usage.md`、英文 README 與手冊對圖鑑、檢查器、查詢工具和逐句轉場的說明。
+- 句子編輯器加入「句間轉場」選單；效果圖鑑可以直接套用到目前句或勾選句，並可復原。新增效果可見性測試。
 - 逐句轉場：`&trans-wipe` 這類標記只改這一句的句間轉場。
 - 效果圖鑑：用真實引擎試看 313 個效果，可篩選、挑選並複製給 AI；支援 `?pick=` 連結。
 - `tools/find-effect.mjs`：依情緒、能量、特徵查效果；`docs/agent-skill/kinetic-lyric/` 提供 AI 上標記流程。
@@ -19,6 +20,9 @@
 - 名稱來源抽成 `tools/lib-names.mjs`，由速查表與檢查器共用。
 
 ### 修正
+- `@underline`、`@strike` 在逐字版型上看不到線；`~rainbow` 對白字沒有效果；`blink-in` 不會閃爍；`checker-in` 沒有棋盤格。
+- 遮罩式進退場（`open-h`、`iris`、`close-v`、`wipe-up-out` 等）改貼合文字範圍，不再一閃而過。這會改變這些效果的畫面，`test/golden` 要在固定環境重建。
+- 圖鑑樣式改成只作用在圖鑑內，不再影響句子編輯器的字級。
 - 檢查器與手冊統一 `~` 規則：建議 1 個、上限 3 個，隨機產生兩個特效時不再報錯。
 - 內建效果說明改在建置時產生，不再提交產生檔；新增卡帶時 `gen-catalog` 會自動更新 README 數量。
 - CI 路徑加入 `docs/manual.md` 與 README，手冊改動不會漏檢。

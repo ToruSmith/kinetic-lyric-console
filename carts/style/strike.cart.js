@@ -7,7 +7,7 @@ Console.cart({
   meta: { energy: 'mid', mood: ['懸疑', '力量'], tags: ['關鍵字'], use: '否定、刪除語氣', draft: true },
   scope: 'element',
   apply(ctx) {
-    const e = ctx.el;
-    e.style.textDecoration="line-through";e.style.textDecorationColor="var(--a)";e.style.textDecorationThickness=".07em"
+    // text-decoration 不會傳進 inline-block 的逐字元素，所以畫在每個字上
+    ctx.perChar().forEach(e => { e.style.textDecoration="line-through";e.style.textDecorationColor="var(--a)";e.style.textDecorationThickness=".07em"; });
   },
 });

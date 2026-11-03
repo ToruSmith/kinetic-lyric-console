@@ -54,6 +54,33 @@ await p.mouse.click(900, 400); await p.waitForTimeout(200);
 assert.equal(await p.locator('#gal.on').count(), 0); assert.ok(await p.evaluate(() => subs === __s)); assert.equal(await p.locator('#edm').isVisible(), true);
 await p.context().close();
 
+// 套用：寫進真實字幕、可復原、樣式疊加有上限
+p = await open();
+await p.evaluate(() => { CONFIG.autoPerf = false; subs = parseSRT('1\n00:00:01,000 --> 00:00:03,000\n#center+fade+fade 第一句\n\n2\n00:00:03,000 --> 00:00:05,000\n#center+fade+fade&halftone:60,trans-wipe 第二句\n\n3\n00:00:05,000 --> 00:00:07,000\n#center+fade+fade 第三句\n'); subsReplaced(); EDSEL.add(1); EDSEL.add(2); });
+await p.click('#galb'); await p.waitForTimeout(200);
+await p.locator('#gal .gc[data-id="enter:pop"]').click(); await p.getByRole('button', { name: '套用到第 1 句' }).click();
+assert.match(await p.evaluate(() => GAL.state.sel), /enter:pop/);
+await p.click('[data-gk="scene"]'); await p.locator('#gal .gc[data-id="scene:rings"]').click(); await p.getByRole('button', { name: '套用到勾選（2）' }).click();
+await p.click('[data-gk="style"]'); await p.locator('#gal .gc[data-id="style:underline"]').click(); await p.getByRole('button', { name: '套用到勾選（2）' }).click();
+await p.keyboard.press('Escape'); await p.waitForTimeout(200);
+const got = await p.evaluate(() => subs.map(x => tag(x) + x.raw));
+assert.match(got[0], /^#center\+pop\+fade/); assert.match(got[1], /@underline&halftone:60,trans-wipe,rings 第二句/); assert.match(got[2], /@underline&rings 第三句/);
+assert.equal(await p.evaluate(() => { undo(); undo(); undo(); return subs[0].en; }), 'fade');
+await p.context().close();
+
+// 句子編輯器的轉場選單
+p = await open();
+await p.evaluate(() => { CONFIG.autoPerf = false; subs = parseSRT('1\n00:00:01,000 --> 00:00:03,000\n#center+fade+fade&halftone:60,bfx-shake:2 歌\n'); subsReplaced(); });
+await p.click('#ed'); await p.waitForTimeout(250);
+await p.evaluate(() => document.querySelectorAll('#edm details').forEach(d => { d.open = true; }));
+assert.notEqual(await p.evaluate(() => getComputedStyle(document.querySelector('#edm details .gb')).fontSize), '11px', '圖鑑樣式不能影響編輯器');
+const ts = p.locator('select[aria-label="這一句的句間轉場"]'); await ts.selectOption('wipe'); await p.waitForTimeout(100);
+assert.equal(await p.evaluate(() => subs[0].scene), 'halftone:60,bfx-shake:2,trans-wipe');
+await p.evaluate(() => document.querySelectorAll('#edm details').forEach(d => { d.open = true; }));
+await p.locator('select[aria-label="這一句的句間轉場"]').selectOption(''); await p.waitForTimeout(100);
+assert.equal(await p.evaluate(() => subs[0].scene), 'halftone:60,bfx-shake:2');
+await p.context().close();
+
 p = await open('?pick=enter:rise,fx:breathe,enter:rise,evil:x,enter:%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E,https://x.test/a.js');
 assert.deepEqual(await p.evaluate(() => GAL.state.picks), ['enter:rise', 'fx:breathe']);
 assert.equal(await p.locator('#gal.on').count(), 1); assert.equal(await p.locator('#gal img').count(), 0);
