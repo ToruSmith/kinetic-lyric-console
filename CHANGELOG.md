@@ -2,7 +2,7 @@
 
 格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)。版本內容以各 [Release](https://github.com/ToruSmith/kinetic-lyric-console/releases) 為準；本檔把使用者看得到的變更集中在一處。
 
-## [未發布]
+## [0.3.0] - 2026-11-03
 
 ### 新增
 - 卡帶選填的 `meta` 語意資料與 `docs/effect-index.tsv` 索引；規格由程式碼推得，`draft: true` 代表情緒與能量仍待人工審核。
@@ -48,5 +48,6 @@
 
 - 卡帶化重構後的第一個公開版本（Release 沒有附說明，詳見 [commits](https://github.com/ToruSmith/kinetic-lyric-console/commits/v0.1.1)）。
 
+[0.3.0]: https://github.com/ToruSmith/kinetic-lyric-console/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ToruSmith/kinetic-lyric-console/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/ToruSmith/kinetic-lyric-console/commits/v0.1.1

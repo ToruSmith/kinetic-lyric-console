@@ -1,6 +1,6 @@
 {
  "name": "kinetic-lyric-console",
- "version": "0.2.0",
+ "version": "0.3.0",
  "description": "動態歌詞字幕「遊戲機」：主機＋可插拔卡帶（版型、進退場、特效、樣式、場景、風格包）",
  "private": true,
  "type": "module",
