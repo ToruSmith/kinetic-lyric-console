@@ -111,6 +111,7 @@ Console.cart({
 | M2 | `ctx` 外觀層、卡帶驗證工具、與 `legacy/` 的逐像素對照 ✅（`test/carts.mjs`、`test/regress.mjs`；範本與 11 個示範卡帶） |
 | M3 | 每種各一個代表性卡帶，舊內容分批搬遷（每批跑回歸，有差異就退回那批） |
 | M4 | `CONTRIBUTING`、卡帶範本與 `new-cart` 工具、manifest 產生手冊／縮圖／隨機適配表、刪除 `legacy/` ✅（new-cart、自動卡帶清單、順序過渡層移除、隨機適配表改由卡帶 `rand` 宣告，皆已完成） |
+| M6 | 語意層：選填 `meta`、`docs/effect-index.tsv`、SRT 檢查器、效果圖鑑。`meta` 不影響畫面；內建項目放 `core/api/effect-meta.js`，不是卡帶必填欄位，維持「新增一個效果只需一個檔案」。`?pick=` 只帶已登記的名稱，不載入程式碼 |
 
 ## 10. 待確認
 
