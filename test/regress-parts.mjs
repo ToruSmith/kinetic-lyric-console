@@ -8,15 +8,15 @@ import { resolve } from 'node:path';
 import { readFileSync, writeFileSync } from 'node:fs';
 const [oldF, newF, aspect = '16:9', kindArg = 'scene,enter,exit,fx,style'] = process.argv.slice(2);
 if (!oldF || !newF) { console.log('用法：node test/regress-parts.mjs 舊.html 新.html [16:9|9:16] [種類,…]'); process.exit(2) }
-const kinds = kindArg.split(','), [W, H] = aspect === '9:16' ? [540, 960] : [960, 540], fps = 5, SLOT = 4, TXT = '{街}頭的{霓虹}與雨';
+const kinds = kindArg.split(','), [W, H] = aspect === '9:16' ? [540, 960] : [960, 540], fps = 10, SLOT = 4, TXT = '{街}頭的{霓虹}與雨';
 const browser = await chromium.launch(process.env.CHROME_PATH ? { executablePath: process.env.CHROME_PATH, args: ['--no-sandbox', '--enable-unsafe-swiftshader'] } : { args: ['--enable-unsafe-swiftshader'] });
 const sha = b => createHash('sha1').update(b).digest('hex');
 const tc = t => { const ms = Math.round(t * 1000), z = (n, l = 2) => String(n).padStart(l, '0'); return `${z(Math.floor(ms / 3600000))}:${z(Math.floor(ms / 60000) % 60)}:${z(Math.floor(ms / 1000) % 60)},${z(ms % 1000, 3)}` };
 const open = async f => { const p = await (await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1 })).newPage(); const errs = []; p.on('pageerror', e => errs.push(e.message));
   await p.goto(pathToFileURL(resolve(f)).href + `?render=1&fps=${fps}`); await p.evaluate(() => window.__ready); return { p, errs } };
 const tagFor = { scene: n => `#center&${n}:100`, enter: n => `#center+${n}`, exit: n => `#center+fade+${n}`, fx: n => `#center~${n}`, style: n => `#center@${n}` };
-// 取樣：句首 +0.2 開始；進場在開頭、退場在結尾（最後 0.4 秒），其他取中段與近尾端
-const sample = { scene: [1.2, 2.6], enter: [.3, .6], exit: [2.9, 3.05], fx: [1.2, 2.5], style: [.5, 2.0] };
+// 取樣：句首 +0.2 開始；進場取開頭、退場取結尾，動畫前段也要取到，遮罩式效果才看得出變化；其他取中段與近尾端
+const sample = { scene: [1.2, 2.6], enter: [.1, .2, .3, .6], exit: [2.7, 2.8, 2.9, 3.05], fx: [1.2, 2.5], style: [.5, 2.0] };
 async function run(file, parts) {
   const { p, errs } = await open(file);
   if (!parts) parts = await p.evaluate(() => ({ scene: [...SCENE_NAMES], enter: [...new Set(ENTERS)], exit: [...new Set(EXITS)], fx: [...new Set(FXS)], style: [...new Set([...Object.keys(ST), ...Object.keys(STC)])] }));

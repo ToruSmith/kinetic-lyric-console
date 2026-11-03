@@ -27,5 +27,17 @@ assert.ok(new Set(ck).size >= 3 && ck.some(h => h !== blank), 'checker-in 沒有
 assert.ok(new Set(await frames('#center+fade+fade~rainbow', [1, 1.4, 1.8, 2.2])).size >= 3, 'rainbow 在白字上沒有變化');
 const plain = (await frames('#center+fade+fade', [1.5]))[0];
 for (const n of ['underline', 'strike', 'outline', 'neon']) assert.notEqual((await frames(`#center+fade+fade@${n}`, [1.5]))[0], plain, `樣式沒有效果：${n}`);
+// 句子變長時，內距會讓量到的高度超過橫條本身；不能因此略過換算
+{
+  const p = await (await browser.newContext({ viewport: { width: 960, height: 540 }, deviceScaleFactor: 1 })).newPage();
+  await p.goto(pathToFileURL(resolve(PAGE)).href + `?render=1&fps=${fps}`); await p.evaluate(() => window.__ready);
+  for (const text of ['夜色漸漸深了', '{街}頭的{霓虹}與雨']) {
+    await p.evaluate(s => window.__loadProject({ srt: s, config: {} }), `1\n00:00:00,200 --> 00:00:03,200\n#center+wipe+fade ${text}\n`);
+    await p.evaluate(() => window.__renderFrame(1));
+    const fit = await p.evaluate(() => anims.some(a => a.effect.getKeyframes().some(f => /^inset\(-?[\d.]+px -?[\d.]+px/.test(f.clipPath || '') && !/%/.test(f.clipPath))));
+    assert.ok(fit, `遮罩沒有貼合文字：${text}`);
+  }
+  await p.context().close();
+}
 await browser.close();
 console.log('效果可見性｜通過');
