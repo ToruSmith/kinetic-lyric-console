@@ -168,3 +168,31 @@ body.rec #thtip,html.rendering #thtip,body.rec .thpop,html.rendering .thpop{disp
 .edlist:focus-visible{outline:2px solid var(--a);outline-offset:-2px}
 /* 面板最上方：現在這一句實際生效的設定（唯讀，見 09-ui-panel.js 的 curInfo） */
 #curinfo{margin:0 0 6px;padding:6px 8px;border:1px solid #2a3252;border-radius:6px;background:rgba(122,168,255,.08);font-size:11px;line-height:1.6;color:#cfe0ff;word-break:break-all}
+#gal{position:fixed;top:44px;left:8px;bottom:8px;width:340px;display:none;flex-direction:column;gap:8px;padding:10px;z-index:40;background:rgba(10,12,20,.97);border:1px solid #3a4470;border-radius:8px;font-size:13px}
+#gal.on{display:flex}
+#gal input:not([type=checkbox]),#gal select{min-width:0;background:#141a2e;color:#fff;border:1px solid #3a4470;border-radius:4px;padding:5px}
+#gal button{cursor:pointer}
+.gtop{display:flex;align-items:center;gap:8px}
+.gtop #galX{margin-left:auto}
+.gtabs{display:flex;flex-wrap:wrap;gap:4px}
+.gtabs button.on{background:var(--a);color:#050608}
+.gf{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.gf input:not([type=checkbox]){grid-column:1/-1}
+.gl{grid-column:1/-1}
+.gn{color:#a9b1cc;font-size:11px}
+.gls{flex:1;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:6px}
+.gc{padding:7px;border:1px solid #2a3150;border-radius:6px;cursor:pointer}
+.gc:hover,.gc:focus{border-color:#7aa8ff;outline:0}
+.gc.cur{border-color:var(--a);background:#141a2e}
+.gh{display:flex;align-items:center;gap:6px}
+.gb{color:#a9b1cc;font-size:11px}
+.gp{margin-left:auto;font-size:11px;padding:2px 7px}
+.gp.on{background:var(--a);color:#050608}
+.gd{margin-top:4px}
+.gu,.gt2{margin-top:2px;color:#a9b1cc;font-size:12px}
+.gtray{display:flex;flex-direction:column;gap:6px;padding-top:8px;border-top:1px solid #2a3150}
+.gr{display:flex;gap:6px}
+.gr .primary{flex:1}
+body.galOn #panel{display:none}
+body.rec #gal,html.rendering #gal{display:none!important}
+@media (max-width:760px){#gal{top:auto;left:8px;right:8px;bottom:8px;width:auto;height:58vh}}

@@ -23,7 +23,11 @@ for (const kind of KINDS) for (const e of U[kind]) {
 }
 if (problems.length) fail('meta 有問題：\n' + problems.join('\n'));
 const text = rows.join('\n') + '\n', out = path.join(ROOT, 'docs/effect-index.tsv');
+// 內建項目在執行期沒有說明文字，由手冊表格產生給圖鑑使用
+const desc = {};
+for (const kind of KINDS) for (const e of U[kind]) if (!cartOf.has(`${kind}:${e.name}`)) (desc[kind] ||= {})[e.name] = clean(e.desc);
+const descText = `/* 由 tools/gen-effect-index.mjs 從 docs/manual.md 產生，請勿手改。 */\nconst EFFECT_DESC=${JSON.stringify(desc, null, 1)};\n`, descOut = path.join(ROOT, 'core/api/effect-desc.js');
 if (process.argv.includes('--check')) {
-  if ((fs.existsSync(out) ? fs.readFileSync(out, 'utf8') : '') !== text) fail('docs/effect-index.tsv 不是最新，請執行 npm run effect-index');
+  if ((fs.existsSync(out) ? fs.readFileSync(out, 'utf8') : '') !== text || (fs.existsSync(descOut) ? fs.readFileSync(descOut, 'utf8') : '') !== descText) fail('docs/effect-index.tsv 不是最新，請執行 npm run effect-index');
   console.log(`✓ docs/effect-index.tsv 是最新（語意資料 ${done}/${total}）`);
-} else { fs.writeFileSync(out, text); console.log(`✓ 已寫入 docs/effect-index.tsv（語意資料 ${done}/${total}）`); }
+} else { fs.writeFileSync(out, text); fs.writeFileSync(descOut, descText); console.log(`✓ 已寫入 docs/effect-index.tsv（語意資料 ${done}/${total}）`); }

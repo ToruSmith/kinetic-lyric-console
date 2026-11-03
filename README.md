@@ -106,6 +106,8 @@
 
 拿到 AI 回覆後：存成 `.srt` → 網頁頂欄 **載入 ▾ → 載入字幕** 就能預覽；喜歡的話再用 **匯出** 精靈輸出。名稱寫錯時工具不會壞（未知版型會退回 `lowerleft`），載入字幕時提示列會列出不認得的名稱；可以直接請 AI「只用速查表裡的名稱重寫」。
 
+不知道效果叫什麼時，打開頂欄的 **🎞 圖鑑**，看動畫、挑效果，再按「複製給 AI」。
+
 想依情緒找效果：`node tools/find-effect.mjs 抒情 模糊 --kind enter`。使用支援 Agent Skills 的工具時，可以載入 [`docs/agent-skill/kinetic-lyric/`](docs/agent-skill/kinetic-lyric/SKILL.md)。
 
 有裝 Node.js 的話，匯入前可以先檢查：`node tools/check-srt.mjs 帶標記.srt --against 原始.srt`。它會指出寫錯的名稱並建議正確名稱，也會確認 AI 沒有改動時間碼或歌詞。

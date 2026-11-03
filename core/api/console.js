@@ -111,7 +111,7 @@ const Console=(()=>{
 
  function cart(d,opt){   /* opt.user＝使用者端載入的資料型卡帶（只有風格包；見 api/data-carts.js），可被 removeUserPack 移除；失敗時回傳錯誤訊息（內建卡帶忽略回傳值） */
   try{validate(d);if(opt&&opt.user&&d.kind!=="pack")bad(d,"使用者端只能載入資料型卡帶（pack）");AD[d.kind](d);applyRand(d);
-   carts.push(Object.freeze({kind:d.kind,id:d.id,label:Object.freeze({...d.label}),source:d.source||null,author:d.author||null,license:d.license||null,demo:d.demo||null,
+   carts.push(Object.freeze({kind:d.kind,id:d.id,label:Object.freeze({...d.label}),source:d.source||null,author:d.author||null,license:d.license||null,demo:d.demo||null,meta:d.meta?Object.freeze({...d.meta}):null,
     name:d.kind==="pack"?d.label.zh:d.id,user:!!(opt&&opt.user)}));return""}
   catch(e){errors.push(e.message);console.error(e.message);return e.message}
  }

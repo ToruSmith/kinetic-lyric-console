@@ -17,6 +17,7 @@ function quickActions(){
   {id:"ld-media",g:"載入",t:"載入音樂／影片",h:"",k:"media audio video 音樂 影片 媒體",run:click("#fm")},
   {id:"ld-json",g:"載入",t:"匯入設定 JSON／渲染專案",h:"project.json 整包還原",k:"import json 匯入 還原 設定 專案",run:click("#cfgImport")},
   {id:"ld-demo",g:"載入",t:"載入範例",h:"",k:"demo 範例 示範",run:click("#demo")},
+  {id:"ed-gallery",g:"編輯",t:"效果圖鑑（看動畫、挑效果）",h:"",k:"gallery 圖鑑 效果 挑選 預覽 情緒",run:click("#galb")},
   {id:"ed-editor",g:"編輯",t:"句子編輯器（開／關）",h:"",k:"editor 編輯器 逐句",run:click("#ed")},
   {id:"ed-rnd",g:"編輯",t:"隨機化版型與動畫",h:"可復原",k:"random 隨機 靈感",on:needSubs,run:click("#rnd")},
   {id:"ed-undo",g:"編輯",t:"復原",h:"Ctrl+Z",k:"undo 復原",on:()=>histOf===subs&&histA.length?true:"沒有可復原的動作",run:undo},
