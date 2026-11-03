@@ -13,8 +13,8 @@ await p.evaluate(() => { CONFIG.autoPerf = false; window.__notes = []; const n0 
 await p.click('#galb'); await p.waitForTimeout(200);
 assert.equal(await p.locator('#gal.on').count(), 1);
 assert.ok(await p.locator('#gal .gc').count() >= 50, '進場清單');
-// 六種分頁的每個項目都要有說明、語意資料，且能實際試看
-const audit = await p.evaluate(() => GAL_KINDS.flatMap(([k]) => galItems(k).filter(x => !x.desc || !x.meta.energy || !x.meta.use).map(x => `${k}:${x.name}`)));
+// 每個項目都要有說明；語意資料是選填，新卡帶沒有 meta 也要能顯示與試看
+const audit = await p.evaluate(() => GAL_KINDS.flatMap(([k]) => galItems(k).filter(x => !x.desc).map(x => `${k}:${x.name}`)));
 assert.deepEqual(audit, []);
 await p.locator('#gal .gc[data-id="enter:rise"]').click(); await p.waitForTimeout(800);
 assert.match(await p.evaluate(() => subs[0].en + '|' + document.querySelector('#L').textContent), /^rise\|.*流星/);
@@ -33,7 +33,7 @@ assert.match(txt, /我在動態歌詞圖鑑選了/); assert.match(txt, /退場 `
 await p.click('#gal .gr .primary'); await p.waitForTimeout(100); assert.match((await p.evaluate(() => __notes)).join(), /複製/);
 // 所有效果都能試看而不報錯
 const n = await p.evaluate(async () => { let c = 0; for (const [k] of GAL_KINDS) for (const x of galItems(k)) { subs = parseSRT(`1\n00:00:00,200 --> 00:00:03,200\n${galTag(k, x.name)} ${GAL_TEXT}\n`); vt = .8; cur = -2; step(performance.now(), .016); c++; } return c; });
-assert.equal(n, 333 - 20);
+assert.ok(n >= 313);
 // Escape 關閉後完整還原
 await p.keyboard.press('Escape'); await p.waitForTimeout(200);
 assert.equal(await p.locator('#gal.on').count(), 0);

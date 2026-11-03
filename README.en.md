@@ -85,7 +85,7 @@ An SRT for this tool can carry a tag in front of each line of lyrics, for exampl
 
 The meaning: `#layout` `+enter` `+exit` `~sustained effect` `^position` `@text style`, and `{}` marks the keyword. The full names and rules are in the [manual](docs/manual.md), which was written to be read by an AI in the first place.
 
-**How:** give the [AI cheat sheet](docs/ai-cheatsheet.md) (about 25 KB; the name lists are generated from the carts, so newly added effects are included) to an AI together with your SRT, then paste one of the prompts below. If you want the AI to see the full explanation and the details of every name, give it the [manual](docs/manual.md) (about 57 KB) instead.
+**How:** give the [AI cheat sheet](docs/ai-cheatsheet.md) (about 17 KB; the name lists are generated from the carts, so newly added effects are included) to an AI together with your SRT, then paste one of the prompts below. If you want the AI to see the full explanation and the details of every name, give it the [manual](docs/manual.md) (about 57 KB) instead.
 
 **① Tag the whole song**
 ```
@@ -108,7 +108,7 @@ Following the cheat sheet, tag the whole song, and also give a small config JSON
 
 When the AI replies: save it as `.srt`, then use **Load ▾ → Load subtitles** in the top bar to preview it. If you like it, export with the **Export** wizard. A wrong name won't break anything (an unknown layout falls back to `lowerleft`), and the status bar lists the names it didn't recognise when you load the file. You can simply ask the AI to "rewrite using only the names in the cheat sheet".
 
-Not sure what an effect is called? Open **🎞 圖鑑** in the top bar, preview the animations, pick the ones you like and copy them for your AI. To change the transition for one line, add `&trans-wipe` to its tag (manual section 7.75). To search by mood or feature: `node tools/find-effect.mjs 抒情 模糊 --kind enter`. Tools that read Agent Skills can load [`docs/agent-skill/kinetic-lyric/`](docs/agent-skill/kinetic-lyric/SKILL.md).
+Not sure what an effect is called? Open **🎞 圖鑑** in the top bar, preview the animations, pick the ones you like and copy them for your AI, then tell it to use only that list. To change the transition for one line, add `&trans-wipe` to its tag (manual section 7.75). To search by mood or feature: `node tools/find-effect.mjs 抒情 模糊 --kind enter`. Tools that read Agent Skills can load [`docs/agent-skill/kinetic-lyric/`](docs/agent-skill/kinetic-lyric/SKILL.md).
 
 With Node.js installed, you can check the file before importing it: `node tools/check-srt.mjs tagged.srt --against original.srt`. It reports misspelled names with suggestions and confirms that the timecodes and lyrics were not changed.
 

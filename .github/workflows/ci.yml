@@ -27,7 +27,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run lint            # 不需瀏覽器，最先跑，卡帶違規在這裡就擋下
-      - run: node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check   # 不需瀏覽器；清單與 AI 速查表必須與卡帶同步
+      - run: node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node tools/gen-effect-index.mjs --check && node test/srt-check.mjs && node test/meta.mjs   # 不需瀏覽器；清單與 AI 速查表必須與卡帶同步
       - name: 安裝 Chromium（快取）
         uses: actions/cache@v4
         id: pw
@@ -40,6 +40,10 @@ jobs:
         if: steps.pw.outputs.cache-hit == 'true'
       - name: 卡帶驗證（合約、確定性、九宮格位置、不連網）
         run: node test/carts.mjs
+      - name: 效果圖鑑
+        run: node test/gallery.mjs
+      - name: 逐句轉場
+        run: node test/transition.mjs
       - name: 完整測試與新舊像素對照（僅手動）
         if: github.event_name == 'workflow_dispatch' && inputs.full
         run: |
