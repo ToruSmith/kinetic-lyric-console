@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { ROOT } from './build.mjs';
 import { collectNames } from './lib-names.mjs';
 
+const TRANS = ['cut', 'flash', 'crossfade', 'wipe', 'zoom'];
 const KIND_ZH = { layout: '版型', enter: '進場', exit: '退場', fx: '持續特效', style: '樣式', scene: '場景' };
 const SLOW_LAYOUTS = new Set(['particle-form', 'constellation']), SLOW_ENTERS = new Set(['scramble']);
 const FLASHING = new Set(['flicker', 'glitch', 'shake', 'rainbow', 'flash-words']);
@@ -100,7 +101,7 @@ export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
     if (st.length > 3) err(it, '`@` 每句最多 3 個');
     fx.forEach(n => name(it, 'fx', n)); st.forEach(n => name(it, 'style', n));
     let layers = 0;
-    scene.forEach(t => { const n = t.split(':')[0]; if (n === 'none' || /^bfx-/.test(n)) return; layers++; name(it, 'scene', n); });
+    scene.forEach(t => { const n = t.split(':')[0]; if (n === 'none' || /^bfx-/.test(n)) return; if (n.startsWith('trans-')) { if (!TRANS.includes(n.slice(6))) err(it, `轉場 \`${n}\` 不存在，可用：${TRANS.map(x => 'trans-' + x).join('、')}`); return; } layers++; name(it, 'scene', n); });
     if (layers > SCENE_MAX) warn(it, `場景超過預設上限 ${SCENE_MAX} 層（\`sceneMax\`）`);
     if (x.pos) {
       if (/^alt:/.test(x.pos)) err(it, 'SRT 不支援 `^alt:`，請逐句輪流寫 `^bl`、`^br`');

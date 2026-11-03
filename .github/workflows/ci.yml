@@ -42,6 +42,8 @@ jobs:
         run: node test/carts.mjs
       - name: 效果圖鑑
         run: node test/gallery.mjs
+      - name: 逐句轉場
+        run: node test/transition.mjs
       - name: 完整測試與新舊像素對照（僅手動）
         if: github.event_name == 'workflow_dispatch' && inputs.full
         run: |

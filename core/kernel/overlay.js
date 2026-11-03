@@ -1,7 +1,7 @@
 /* ===== [OVERLAY] 句間轉場 transition() 與疊加層 overlays()（bokeh 漏光 閃電 刮痕 CRT VHS；第二層 Canvas，位於字幕之上）===== */
 ["bokeh","leak","lightning","scratch","crt","vhs","invBar"].forEach(k=>{if(!(k in CONFIG))CONFIG[k]=false});
 let wipeT=0,bk=[],bolt=null,lt=0,jit=0,had=false;
-function transition(){const t=CONFIG.trans;
+function transition(){const t=sceneTrans(subs[cur])||CONFIG.trans;
  if(t==="flash")flashT=1;else if(t==="wipe")wipeT=1;
  else if(t==="crossfade")L.animate([{opacity:0},{opacity:1}],{duration:450});
  else if(t==="zoom")$("#pulse").animate([{transform:"scale(1.3)",filter:"blur(10px)"},{transform:"scale(1)",filter:"blur(0)"}],{duration:450,easing:"ease-out"})}

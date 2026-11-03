@@ -75,7 +75,7 @@ function tagProblems(list){
   if(x.ex&&!EXITS.includes(x.ex))add(i,"退場",x.ex);
   (x.fx||"").split(",").filter(Boolean).forEach(f=>{if(!FXS.includes(f))add(i,"特效",f)});
   (x.st||"").split(",").filter(Boolean).forEach(f=>{if(!ST[f]&&!STC[f])add(i,"樣式",f)});
-  (x.scene||"").split(",").filter(Boolean).forEach(t=>{const n=t.split(":")[0];if(n!=="none"&&!/^bfx-/.test(n)&&!SCENES[n])add(i,"場景",n)});
+  (x.scene||"").split(",").filter(Boolean).forEach(t=>{const n=t.split(":")[0];if(n==="none"||/^bfx-/.test(n))return;if(n.startsWith("trans-")){if(!TRANS_NAMES.includes(n.slice(6)))add(i,"轉場",n);return}if(!SCENES[n])add(i,"場景",n)});
  });
  return out}
 function tagProblemsNote(list){

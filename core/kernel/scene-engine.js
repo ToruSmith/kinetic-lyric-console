@@ -8,8 +8,12 @@ const SCENES={},SCENE_NAMES=[],SCENE_COST={輕:1,中:2,重:4};
 function regScene(n,layer,grp,def,draw,o){o=o||{};SCENES[n]={layer,grp,def,draw,lab:!!o.lab,cost:SCENE_COST[o.cost]?o.cost:"輕"};SCENE_NAMES.push(n)}
 /* 場景來源字串：該句自己的 &；沒有就用全域底層 CONFIG.sceneAll（句子索引的純函數）。"none"＝這句明確不要場景（也不套全域）。
    語法：名稱[:強度[:速度[:節拍連動[:X偏移%[:Y偏移%]]]]]；強度 0–100（預設各場景）、速度 0–4 倍（預設 1）、節拍連動 0–100（預設 100）、偏移 −100–100（畫面 %）。舊的「名稱:強度」完全相容。
-   保留字：none；bfx-shake／bfx-zoom／bfx-tilt／bfx-hue:數值（單句節拍後製覆寫）、bfx-off（這句關閉節拍後製）——不算場景、不佔層數。 */
-const sceneSrc=sb=>(sb&&(sb.scene||CONFIG.sceneAll))||"";
+   保留字：trans-*（這一句的句間轉場）；none；bfx-shake／bfx-zoom／bfx-tilt／bfx-hue:數值（單句節拍後製覆寫）、bfx-off（這句關閉節拍後製）——不算場景、不佔層數。 */
+/* 句間轉場 trans-cut／flash／crossfade／wipe／zoom 只改這一句進場時的轉場：不算場景，也不會讓這句失去全域底層場景 */
+const TRANS_NAMES=["cut","flash","crossfade","wipe","zoom"];
+const noTrans=s=>s&&s.includes("trans-")?s.split(",").filter(t=>!t.startsWith("trans-")).join(","):s;
+const sceneTrans=sb=>{const s=sb&&sb.scene;if(!s||!s.includes("trans-"))return"";const t=s.split(",").reverse().find(x=>x.startsWith("trans-"));return t&&TRANS_NAMES.includes(t.slice(6))?t.slice(6):""};
+const sceneSrc=sb=>(sb&&(noTrans(sb.scene)||CONFIG.sceneAll))||"";
 function sceneBfx(sb){const s=sceneSrc(sb);if(!s)return null;let o=null;s.split(",").forEach(t=>{const q=t.split(":"),n=q[0];if(n==="bfx-off")o={shake:0,zoom:0,tilt:0,hue:0};else if(/^bfx-(shake|zoom|tilt|hue)$/.test(n)&&q[1]!==undefined&&q[1]!==""&&isFinite(+q[1])){o=o||{};o[n.slice(4)]=+q[1]}});return o}
 function sceneList(sb){
  const mx=Math.max(1,Math.round(+CONFIG.sceneMax||3)),src=sceneSrc(sb),key=src+"|"+mx;

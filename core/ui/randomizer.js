@@ -40,7 +40,7 @@ function rndScene(x,lay,o,rng){const F=rndFit(lay),mx=Math.max(1,Math.round(+CON
  const first=[...under,...over].filter(fits);if(!first.length)return null;
  const u1=under.filter(fits);take(rndPick(u1.length?u1:over.filter(fits),rng));   /* 第一層：優先 under（不蓋文字） */
  if(Math.min(mx,2)>1&&(rng||Math.random)()<.5){const o2=SCENES[pickL[0]].layer==="over"?[]:over.filter(fits),c=o2.length?o2:under.filter(fits);if(c.length)take(rndPick(c,rng))}   /* 第二層：優先 over，否則不同群組的 under */
- const keep=String(x.scene||"").split(",").filter(t=>/^bfx-/.test(t));return[...pickL,...keep].join(",")}
+ const keep=String(x.scene||"").split(",").filter(t=>/^(bfx|trans)-/.test(t));return[...pickL,...keep].join(",")}
 /* 持續特效：1～2 個（單句上限 3，見 build()）；強烈特效只給高能量版型；要 DOM 文字的特效不給文字在 canvas 的版型；同組互斥 */
 function rndFx(lay,o,rng){const F=rndFit(lay),strong=rndSet(RND_FX_STRONG),dom=rndSet(RND_FX_DOM),grp={};Object.keys(RND_FX_GRP).forEach(g=>rndSet(RND_FX_GRP[g]).forEach(f=>grp[f]=g));
  let c=FXS.filter(f=>(F.strong||!strong.has(f))&&!(F.textCanvas&&dom.has(f)));const out=[],used=new Set();

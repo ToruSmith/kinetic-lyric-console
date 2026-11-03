@@ -104,9 +104,19 @@
 依照這份手冊為整首上標記，另外附一小段 config JSON（3–6 個欄位），讓整體配色與字體符合【主題】。
 ```
 
+**④ 只用我在圖鑑挑的效果**
+
+```
+依照這份速查表替下面的 SRT 上標記。效果只能用我貼的這份清單，整體情緒是【描述】。不適合的句子用 center、fade。
+【貼上「複製給 AI」的內容】
+【貼上你的 SRT】
+```
+
 拿到 AI 回覆後：存成 `.srt` → 網頁頂欄 **載入 ▾ → 載入字幕** 就能預覽；喜歡的話再用 **匯出** 精靈輸出。名稱寫錯時工具不會壞（未知版型會退回 `lowerleft`），載入字幕時提示列會列出不認得的名稱；可以直接請 AI「只用速查表裡的名稱重寫」。
 
 不知道效果叫什麼時，打開頂欄的 **🎞 圖鑑**，看動畫、挑效果，再按「複製給 AI」。
+
+段落轉折想換轉場時，在標記加 `&trans-wipe`，只影響這一句（手冊 7.75）。
 
 想依情緒找效果：`node tools/find-effect.mjs 抒情 模糊 --kind enter`。使用支援 Agent Skills 的工具時，可以載入 [`docs/agent-skill/kinetic-lyric/`](docs/agent-skill/kinetic-lyric/SKILL.md)。
 
@@ -126,9 +136,9 @@
 core/    主機：解析、時間軸、編輯器、匯出；卡帶登記層（api/console.js）
 carts/   卡帶，一個效果一個檔案：layout enter exit fx style scene pack（_template 是範本）
 render/  離線渲染（Node＋Playwright＋ffmpeg）
-tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、SRT 檢查（check-srt）、縮圖（make-thumbs）
+tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、語意索引（gen-effect-index）、效果查詢（find-effect）、SRT 檢查（check-srt）、縮圖（make-thumbs）
 test/    合約、位置、綠幕、分層、後製、行為等測試；golden/ 是畫面指紋基準
-docs/    手冊、卡帶合約、架構規劃、使用說明
+docs/    手冊、速查表、效果索引、卡帶合約、架構規劃、使用說明、Agent Skill
 ```
 
 6 個依賴全域畫面功能的版型（text-mask、hanko、ink-bleed、ripple-pool、constellation、particle-form）維持在 `core/legacy/`，不做成卡帶——它們要注入 SVG 濾鏡、註冊 CSS 屬性或使用水面 GL，不符合卡帶「純函式、不碰全域」的規則。

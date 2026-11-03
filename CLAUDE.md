@@ -10,3 +10,6 @@
 4. **Actions 額度要省**：新增或修改 workflow 前先讀規劃文件第 8 節。驗證優先在本機／沙箱跑，不要靠每次 push 觸發 CI。
 5. 檔名一律 ASCII、小寫、連字號；中文只放在內容裡（見規劃文件第 5 節）。
 6. 移植自第三方的內容（例如 JIZURA）要在 `THIRD_PARTY_NOTICES.md` 保留授權標示。
+7. 公開效果名稱寫在使用者的 SRT 裡，不要改名或刪除；非改不可時先保留舊名相容。
+8. 新增測試時，同時列入 `package.json` 的 `check`；能快速跑完的也列入 `.github/workflows/ci.yml`。
+9. `meta` 是選填，不能變成新增卡帶的必要條件。改動 `meta`、內建語意資料或手冊表格後，執行 `npm run effect-index`。

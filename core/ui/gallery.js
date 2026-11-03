@@ -1,5 +1,6 @@
 /* ===== [GALLERY] 效果圖鑑：看真實引擎的動畫、依情緒與特徵篩選、挑選後複製給 AI =====
    試看時暫時把 subs 換成一句範例，關閉時完整還原，不寫入歷史、不存檔、不改任何句子。
+   開啟時是真正的模態：擋住頂欄、編輯器、快捷鍵與拖放，避免匯出或編輯到範例句；點空白處或按 Esc 關閉。
    ?pick=enter:rise,fx:breathe 只帶效果名稱：名稱必須已登記，否則略過；絕不載入程式碼（見架構文件第 7 節）。 */
 const GAL_KINDS=[["enter","進場"],["exit","退場"],["fx","特效"],["style","樣式"],["layout","版型"],["scene","場景"]];
 const GAL_TEXT="看見{流星}",GAL_LEN=3,GAL_LEAD=.2;
@@ -16,7 +17,7 @@ function galCopyText(picks,memo){const zh=Object.fromEntries(GAL_KINDS);
  return`我在動態歌詞圖鑑選了這些效果，請只用這些替歌詞上標記：\n${L.join("\n")}${memo?`\n備註：${memo}`:""}\n連結參數：?pick=${picks.join(",")}`}
 const GAL=(()=>{
  if(RENDER)return{open(){},close(){},isOn:()=>false};
- const S={kind:"enter",q:"",energy:"",mood:"",lab:false,picks:[],sel:""};let saved=null,box=null,list=null,tray=null;
+ const S={kind:"enter",q:"",energy:"",mood:"",lab:false,picks:[],sel:""};let saved=null,box=null,list=null,tray=null,scrim=null;
  const mk=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e};
  function preview(kind,n){
   const t=`1\n00:00:00,200 --> 00:00:03,200\n${galTag(kind,n,innerWidth<=760?"tc":"")} ${GAL_TEXT}\n`;
@@ -47,15 +48,17 @@ const GAL=(()=>{
   const mo=mk("select");mo.id="galM";mo.setAttribute("aria-label","情緒");mo.add(new Option("全部情緒",""));[...new Set(Object.values(BUILTIN_META).flatMap(o=>Object.values(o)).flatMap(m=>m.mood).concat(Console.carts.flatMap(c=>c.meta?c.meta.mood:[])))].sort().forEach(v=>mo.add(new Option(v,v)));mo.onchange=()=>{S.mood=mo.value;draw()};
   const lb=mk("label","gl");const ck=mk("input");ck.type="checkbox";ck.onchange=()=>{S.lab=ck.checked;draw()};lb.append(ck," 含實驗室");
   const f=mk("div","gf");f.append(q,en,mo,lb);list=mk("div","gls");tray=mk("div","gtray");
-  box.append(h,tabs,f,mk("div","gn","情緒與能量是草稿，僅供參考。點效果會在畫面上試看。"),list,tray);document.body.append(box)}
+  box.append(h,tabs,f,mk("div","gn","情緒與能量是草稿，僅供參考。點效果會在畫面上試看。"),list,tray);scrim=mk("div");scrim.id="galS";scrim.onclick=close;document.body.append(scrim,box)}
  function open(){if(saved||recording)return;if(!box)build();
   saved={subs,vt,playing,hasMedia,sel:selIdx,lastBuilt};if(hasMedia)m.pause();hasMedia=false;
-  if($("#ed").classList.contains("on")||document.body.classList.contains("ed"))note("效果圖鑑開啟中，句子編輯器的內容不會被更動");
   box.classList.add("on");document.body.classList.add("galOn");const first=galFilter(galItems(S.kind),S)[0];if(first)preview(first.kind,first.name);draw();box.querySelector("#galQ").focus()}
  function close(){if(!saved)return;const o=saved;saved=null;box.classList.remove("on");document.body.classList.remove("galOn");
-  subs=o.subs;vt=o.vt;hasMedia=o.hasMedia;cur=-2;lastBuilt=o.lastBuilt;selIdx=o.sel;playing=o.playing;$("#play").textContent=playing?"暫停":"播放";if(hasMedia&&playing)m.play();}
+  subs=o.subs;vt=o.vt;hasMedia=o.hasMedia;cur=-2;lastBuilt=o.lastBuilt;selIdx=o.sel;playing=o.playing;$("#play").textContent=playing?"暫停":"播放";if(hasMedia&&playing)m.play();edRender()}
  TICKS.push(()=>{if(saved&&vt>=GAL_LEAD+GAL_LEN+.5){vt=0;cur=-2}if(saved&&!playing)playing=true});
- document.addEventListener("keydown",e=>{if(e.key==="Escape"&&saved){e.stopPropagation();close()}});
+ document.addEventListener("keydown",e=>{if(!saved)return;if(e.key==="Escape"){e.stopPropagation();close();return}
+  const typing=box.contains(e.target)&&/INPUT|SELECT/.test(e.target.tagName),card=e.target.classList&&e.target.classList.contains("gc");
+  if(card&&(e.key==="Enter"||e.key===" "))return;if(e.key==="Tab"||(typing&&!e.ctrlKey&&!e.metaKey))return;e.stopImmediatePropagation();if(!typing&&(e.key===" "||e.ctrlKey||e.metaKey))e.preventDefault()},true);
+ ["dragover","drop"].forEach(t=>document.addEventListener(t,e=>{if(saved){e.preventDefault();e.stopImmediatePropagation()}},true));
  const p=new URLSearchParams(location.search).get("pick");
  if(p!==null)window.addEventListener("load",()=>{S.picks=galParsePicks(p);if(S.picks.length){S.kind=S.picks[0].split(":")[0];open();note(`已載入 ${S.picks.length} 個選取的效果`)}});
  return{open,close,isOn:()=>!!saved,state:S}})();

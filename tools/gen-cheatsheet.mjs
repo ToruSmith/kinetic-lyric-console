@@ -66,7 +66,7 @@ md += `> 另有實驗室版型 ${labN.layout} 個、實驗室場景 ${labN.scene
   for (const [k] of KINDS) names[k] = new Set(usable(k).map(e => e.name));
   const any = new Set(Object.values(names).flatMap(s => [...s])), allLab = new Set(U.layout.concat(U.scene).filter(e => e.lab).map(e => e.name));
   const prose = rules.replace(/```[\s\S]*?```/g, '');
-  const NOT_NAMES = new Set(['config', 'json', 'srt']);   // 規則檔裡出現、但不是效果名稱的英文詞
+  const NOT_NAMES = new Set(['config', 'json', 'srt', 'trans-cut', 'trans-flash', 'trans-crossfade', 'trans-wipe', 'trans-zoom']);   // 規則檔裡出現、但不是效果名稱的英文詞
   for (const n of backticks(prose)) if (/^[a-z][a-z0-9-]*$/.test(n) && !NOT_NAMES.has(n)) { if (allLab.has(n)) fail(`規則檔提到實驗室項目 \`${n}\`，但規則 13 說不要預設挑選`); if (!any.has(n)) fail(`規則檔提到的名稱 \`${n}\` 不存在（改名或刪除了？）`) }
   for (const [, code] of rules.matchAll(/```\n(\d+\n[\s\S]*?)```/g)) {
     for (const m of code.matchAll(/^#([a-z][\w-]*)\+([a-z][\w-]*)\+([a-z][\w-]*)(?:~([a-z][\w-]*))?(?:\^[a-z:\d.-]+)?(?:@([a-z][\w-]*(?:,[a-z][\w-]*)*))?/gm)) {
