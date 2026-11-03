@@ -108,6 +108,8 @@
 
 不知道效果叫什麼時，打開頂欄的 **🎞 圖鑑**，看動畫、挑效果，再按「複製給 AI」。
 
+段落轉折想換轉場時，在標記加 `&trans-wipe`，只影響這一句（手冊 7.75）。
+
 想依情緒找效果：`node tools/find-effect.mjs 抒情 模糊 --kind enter`。使用支援 Agent Skills 的工具時，可以載入 [`docs/agent-skill/kinetic-lyric/`](docs/agent-skill/kinetic-lyric/SKILL.md)。
 
 有裝 Node.js 的話，匯入前可以先檢查：`node tools/check-srt.mjs 帶標記.srt --against 原始.srt`。它會指出寫錯的名稱並建議正確名稱，也會確認 AI 沒有改動時間碼或歌詞。
@@ -126,9 +128,9 @@
 core/    主機：解析、時間軸、編輯器、匯出；卡帶登記層（api/console.js）
 carts/   卡帶，一個效果一個檔案：layout enter exit fx style scene pack（_template 是範本）
 render/  離線渲染（Node＋Playwright＋ffmpeg）
-tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、SRT 檢查（check-srt）、縮圖（make-thumbs）
+tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、語意索引（gen-effect-index）、效果查詢（find-effect）、SRT 檢查（check-srt）、縮圖（make-thumbs）
 test/    合約、位置、綠幕、分層、後製、行為等測試；golden/ 是畫面指紋基準
-docs/    手冊、卡帶合約、架構規劃、使用說明
+docs/    手冊、速查表、效果索引、卡帶合約、架構規劃、使用說明、Agent Skill
 ```
 
 6 個依賴全域畫面功能的版型（text-mask、hanko、ink-bleed、ripple-pool、constellation、particle-form）維持在 `core/legacy/`，不做成卡帶——它們要注入 SVG 濾鏡、註冊 CSS 屬性或使用水面 GL，不符合卡帶「純函式、不碰全域」的規則。

@@ -6,6 +6,7 @@
 
 ### 新增
 - 卡帶選填的 `meta` 語意資料與 `docs/effect-index.tsv` 索引；規格由程式碼推得，`draft: true` 代表情緒與能量仍待人工審核。
+- 補齊 `docs/usage.md`、英文 README 與手冊對圖鑑、檢查器、查詢工具和逐句轉場的說明。
 - 逐句轉場：`&trans-wipe` 這類標記只改這一句的句間轉場。
 - 效果圖鑑：用真實引擎試看 313 個效果，可篩選、挑選並複製給 AI；支援 `?pick=` 連結。
 - `tools/find-effect.mjs`：依情緒、能量、特徵查效果；`docs/agent-skill/kinetic-lyric/` 提供 AI 上標記流程。

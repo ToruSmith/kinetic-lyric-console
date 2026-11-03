@@ -108,6 +108,8 @@ Following the cheat sheet, tag the whole song, and also give a small config JSON
 
 When the AI replies: save it as `.srt`, then use **Load ▾ → Load subtitles** in the top bar to preview it. If you like it, export with the **Export** wizard. A wrong name won't break anything (an unknown layout falls back to `lowerleft`), and the status bar lists the names it didn't recognise when you load the file. You can simply ask the AI to "rewrite using only the names in the cheat sheet".
 
+Not sure what an effect is called? Open **🎞 圖鑑** in the top bar, preview the animations, pick the ones you like and copy them for your AI. To change the transition for one line, add `&trans-wipe` to its tag (manual section 7.75). To search by mood or feature: `node tools/find-effect.mjs 抒情 模糊 --kind enter`. Tools that read Agent Skills can load [`docs/agent-skill/kinetic-lyric/`](docs/agent-skill/kinetic-lyric/SKILL.md).
+
 With Node.js installed, you can check the file before importing it: `node tools/check-srt.mjs tagged.srt --against original.srt`. It reports misspelled names with suggestions and confirms that the timecodes and lyrics were not changed.
 
 > The manual's name tables cover the original parts. The cheat sheet ([`docs/ai-cheatsheet.md`](docs/ai-cheatsheet.md)) and [`docs/catalog.md`](docs/catalog.md) are generated from the carts and include everything added later. The cheat sheet is also attached to every Release as `ai-cheatsheet.md`.
@@ -124,7 +126,7 @@ With Node.js installed, you can check the file before importing it: `node tools/
 core/    host: parsing, timeline, editor, export; the cart registry (api/console.js)
 carts/   carts, one effect per file: layout enter exit fx style scene pack (_template is the template)
 render/  offline rendering (Node + Playwright + ffmpeg)
-tools/   build, new-cart, catalog and cheat-sheet generators, thumbnails (make-thumbs)
+tools/   build, new-cart, catalog, cheat-sheet and effect-index generators, effect search (find-effect), SRT checker (check-srt), thumbnails (make-thumbs)
 test/    contract, position, green screen, layers, post-processing and behaviour tests; golden/ holds the pixel-fingerprint baselines
 docs/    manual, cart contract, architecture plan, usage guide
 ```
