@@ -29,6 +29,6 @@ description: 為 kinetic-lyric-console 的 SRT 歌詞上標記、挑選動態效
 
 ## 注意
 
-- `docs/effect-index.tsv` 裡標 `draft` 的情緒與能量是推測，只能當參考。
+- `docs/effect-index.tsv` 裡標 `draft` 的情緒與能量是未審核的推測，只能當參考，不能當成規則。
 - 閃爍類效果有光敏風險，只給少數高潮句。
 - 風格判斷由使用者決定。不確定時給一個小範例，不要整首重做。

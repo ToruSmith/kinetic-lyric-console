@@ -83,7 +83,7 @@
 
 意思是：`#版型` `+進場` `+退場` `~持續特效` `^位置` `@文字樣式`，`{}` 標出關鍵字。完整名稱與規則都在 [功能手冊](docs/manual.md)——它本來就是寫給 AI 讀的。
 
-**做法**：把精簡速查表 [`docs/ai-cheatsheet.md`](docs/ai-cheatsheet.md)（約 25KB，名稱清單由卡帶自動產生，新增的效果也在內）和你的 SRT 一起給 AI，再貼下面其中一段。想讓 AI 看完整說明與每個名稱的細節，可改貼 [`docs/manual.md`](docs/manual.md)（約 57KB）：
+**做法**：把精簡速查表 [`docs/ai-cheatsheet.md`](docs/ai-cheatsheet.md)（約 17KB，名稱清單由卡帶自動產生，新增的效果也在內）和你的 SRT 一起給 AI，再貼下面其中一段。想讓 AI 看完整說明與每個名稱的細節，可改貼 [`docs/manual.md`](docs/manual.md)（約 57KB）：
 
 **① 整首上標記**
 ```
