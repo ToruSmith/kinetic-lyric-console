@@ -1,7 +1,7 @@
-/* 同上，字心強調色、粗糙描邊與微傾斜 */
+/* 碎片拼合，字心強調色、粗糙描邊與微傾斜 */
 Console.cart({
   kind: 'layout', id: 'crayon-shatter', apiVersion: 1,
-  label: { zh: '同上，字心強調色、粗糙描邊與微傾斜' },
+  label: { zh: '碎片拼合，字心強調色、粗糙描邊與微傾斜' },
   author: 'kinetic-lyric-console', license: 'MIT',
   flags: { lab: true },
   rand: { sceneThemes: ['grunge'], strong: true },

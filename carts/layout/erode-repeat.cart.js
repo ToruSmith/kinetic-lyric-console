@@ -1,7 +1,7 @@
-/* 削り反復：同一句重複 2～5 行，每行多（或少）一段，主行高亮 */
+/* 削減反覆：同一句重複 2～5 行，每行多（或少）一段，主行高亮 */
 Console.cart({
   kind: 'layout', id: 'erode-repeat', apiVersion: 1,
-  label: { zh: '削り反復：同一句重複 2～5 行，每行多（或少）一段，主行高亮' },
+  label: { zh: '削減反覆：同一句重複 2～5 行，每行多（或少）一段，主行高亮' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   flags: { lab: true },

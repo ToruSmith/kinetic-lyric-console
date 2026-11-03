@@ -1,10 +1,10 @@
 /* ===== [THUMBS] 縮圖預覽：版型／場景層／風格包／預設組合 的「懸停預覽」與「縮圖挑選窗」。純 UI 輔助，不碰 CONFIG／subs／畫面渲染，離線渲染（RENDER）完全不啟用。
-   資料：thumbs/sheet.webp（單張精靈圖，首次需要時才載入；檔案不在就自動略過、功能照常）＋ 28-thumbs-idx.js（TH_DATA：名稱→格子位置，兩者都由 node test/make-thumbs.mjs 產生，勿手改）。
+   資料：thumbs/sheet.webp（單張精靈圖，首次需要時才載入；檔案不在就自動略過、功能照常）＋ core/ui/thumbs-index.js（TH_DATA：名稱→格子位置，兩者都由 node test/make-thumbs.mjs 產生，勿手改）。
    用法（其他檔案只需這兩種，不依賴載入順序）：
      ① 任何元素加 data-th="lay:名稱｜scene:名稱｜pack:名稱｜preset:名稱" → 滑鼠停留 0.15 秒顯示預覽（chipBox(...,kind)、edPackBtns、⚡快捷選單已接好）。
      ② 下拉選單：把 select 用 thRow(select,kind) 包起來（kind＝lay／scene／pack／pre；pre＝預設組合，自動分辨風格包或一般預設）→ 多一顆 🖼 按鈕開縮圖挑選窗，
         挑選後只是改 select.value 並觸發 change，原本的 onchange 照跑；滑鼠停在 select 上也會預覽「目前選項」。
-   新增版型／場景／風格包後：node test/make-thumbs.mjs → node build.mjs；漏拍的項目介面會自動略過（?check=1 的 selfCheck 會列出）。 */
+   新增版型／場景／風格包後：npm run thumbs → npm run build；漏拍的項目介面會自動略過（?check=1 的 selfCheck 會列出）。 */
 var thM=null,thSt=0,thQ=[],thTimer=0,thCur=null,thTipEl=null,thPop=null;   /* thSt：0 未載入 1 載入中 2 可用 -1 檔案不存在 */
 const TH_LABEL={lay:"版型",scene:"場景層",pack:"風格包",preset:"預設組合"};
 function thIx(key){   /* key→精靈圖格子序號；沒有縮圖回 -1 */

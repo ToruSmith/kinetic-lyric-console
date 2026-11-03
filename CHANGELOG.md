@@ -2,6 +2,19 @@
 
 格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)。版本內容以各 [Release](https://github.com/ToruSmith/kinetic-lyric-console/releases) 為準；本檔把使用者看得到的變更集中在一處。
 
+## [未發布]
+
+### 新增
+- `tools/check-srt.mjs`：不需瀏覽器的帶標記 SRT 檢查器。檢查名稱（附建議）、語法與手冊的常見錯誤；`--against` 另外確認時間碼與歌詞沒有被改動。
+
+### 變更
+- 速查表的逐字進場標示補齊 `stagger`、`ripple` 等手冊清單內的項目。
+- 名稱來源抽成 `tools/lib-names.mjs`，由速查表與檢查器共用。
+
+### 修正
+- 把 JIZURA 系列說明殘留的日文改成繁體中文，並把「同上」改成可以單獨閱讀的說明。
+- 更新手冊、架構文件與 `core/ui/thumbs.js` 註解裡已過時的路徑。
+
 ## [0.2.0] - 2026-10-20
 
 ### 新增

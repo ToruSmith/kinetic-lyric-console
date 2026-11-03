@@ -1,8 +1,8 @@
-/* 線で消す：每字先被畫一條強調色線，再壓扁消失 */
+/* 畫線消去：每字先被畫一條強調色線，再壓扁消失 */
 const swL = (i,n)=>i/Math.max(1,n-1);
 Console.cart({
   kind: 'exit', id: 'strike-out', apiVersion: 1,
-  label: { zh: '線で消す：每字先被畫一條強調色線，再壓扁消失' },
+  label: { zh: '畫線消去：每字先被畫一條強調色線，再壓扁消失' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   keyframes: [{opacity:1,transform:"none"},{opacity:1,transform:"none",offset:.5},{opacity:0,transform:"scaleY(.05)"}],

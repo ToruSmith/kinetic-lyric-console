@@ -1,7 +1,7 @@
-/* 縦グラデ：上本色、下強調色 */
+/* 直向漸層：上本色、下強調色 */
 Console.cart({
   kind: 'style', id: 'grad-v', apiVersion: 1,
-  label: { zh: '縦グラデ：上本色、下強調色' },
+  label: { zh: '直向漸層：上本色、下強調色' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   scope: 'element',

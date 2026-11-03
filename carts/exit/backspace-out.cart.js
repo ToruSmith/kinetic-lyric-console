@@ -1,7 +1,7 @@
-/* バックスペース：由句尾一字一字刪掉 （整句版由右往左削去） */
+/* 退格刪除：由句尾一字一字刪掉 （整句版由右往左削去） */
 Console.cart({
   kind: 'exit', id: 'backspace-out', apiVersion: 1,
-  label: { zh: 'バックスペース：由句尾一字一字刪掉 （整句版由右往左削去）' },
+  label: { zh: '退格刪除：由句尾一字一字刪掉 （整句版由右往左削去）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   keyframes: [{clipPath:"inset(0)",easing:"steps(9,end)"},{clipPath:"inset(0 100% 0 0)"}],

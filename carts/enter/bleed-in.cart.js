@@ -1,7 +1,7 @@
-/* にじみ：逐字由糊變清並微微彈大 */
+/* 暈染：逐字由糊變清並微微彈大 */
 Console.cart({
   kind: 'enter', id: 'bleed-in', apiVersion: 1,
-  label: { zh: 'にじみ：逐字由糊變清並微微彈大' },
+  label: { zh: '暈染：逐字由糊變清並微微彈大' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   perChar: {

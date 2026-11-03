@@ -1,7 +1,7 @@
-/* 断ち割り：每行字從中線切成上下兩半左右錯開，中間一條強調色細線 */
+/* 斷裂錯位：每行字從中線切成上下兩半左右錯開，中間一條強調色細線 */
 Console.cart({
   kind: 'layout', id: 'split-cut', apiVersion: 1,
-  label: { zh: '断ち割り：每行字從中線切成上下兩半左右錯開，中間一條強調色細線' },
+  label: { zh: '斷裂錯位：每行字從中線切成上下兩半左右錯開，中間一條強調色細線' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   flags: { lab: true },

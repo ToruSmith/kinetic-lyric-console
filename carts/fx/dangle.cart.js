@@ -1,7 +1,7 @@
-/* ぶら下がり：每字像吊著，從上緣左右擺動 */
+/* 懸吊：每字像吊著，從上緣左右擺動 */
 Console.cart({
   kind: 'fx', id: 'dangle', apiVersion: 1,
-  label: { zh: 'ぶら下がり：每字像吊著，從上緣左右擺動' },
+  label: { zh: '懸吊：每字像吊著，從上緣左右擺動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   rand: { group: 'rot', domOnly: true },

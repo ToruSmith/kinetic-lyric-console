@@ -1,7 +1,7 @@
-/* ドリー（鏡頭）：整句期間慢慢推近，只動一次 */
+/* 推軌（鏡頭）：整句期間慢慢推近，只動一次 */
 Console.cart({
   kind: 'fx', id: 'dolly-in', apiVersion: 1,
-  label: { zh: 'ドリー（鏡頭）：整句期間慢慢推近，只動一次' },
+  label: { zh: '推軌（鏡頭）：整句期間慢慢推近，只動一次' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   rand: { group: 'cam' },

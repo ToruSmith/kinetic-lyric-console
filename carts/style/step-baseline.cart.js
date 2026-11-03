@@ -1,7 +1,7 @@
-/* 段違い：奇偶字上下交錯 */
+/* 高低錯位：奇偶字上下交錯 */
 Console.cart({
   kind: 'style', id: 'step-baseline', apiVersion: 1,
-  label: { zh: '段違い：奇偶字上下交錯' },
+  label: { zh: '高低錯位：奇偶字上下交錯' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   scope: 'element',

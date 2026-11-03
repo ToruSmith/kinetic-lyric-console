@@ -1,7 +1,7 @@
-/* 影が揺れる：字的影子方向與長度慢慢擺動 */
+/* 影子搖曳：字的影子方向與長度慢慢擺動 */
 Console.cart({
   kind: 'fx', id: 'shadow-sway', apiVersion: 1,
-  label: { zh: '影が揺れる：字的影子方向與長度慢慢擺動' },
+  label: { zh: '影子搖曳：字的影子方向與長度慢慢擺動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   rand: { group: 'color' },

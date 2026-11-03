@@ -35,7 +35,7 @@ kinetic-lyric-console/
 │  ├─ layout/ enter/ exit/ fx/ style/ scene/ pack/   （逐字退場併入 exit）
 │  └─ _template/       每種的範本
 ├─ render/             離線渲染（Playwright＋ffmpeg）
-├─ tools/              build、new-cart、make-thumbs、gen-docs
+├─ tools/              build、new-cart、make-thumbs、gen-catalog、gen-cheatsheet、check-srt
 ├─ test/               卡帶驗證、行為測試、確定性、新舊對照
 ├─ docs/               導覽與卡帶 API（清單部分由程式產生）
 ├─ examples/
@@ -58,7 +58,7 @@ kinetic-lyric-console/
 
 ## 5. 檔名規則
 
-- 全部 ASCII、小寫、連字號；中文只出現在內容（顯示名稱、手冊文字），不出現在檔名。手冊叫 `docs/guide.zh-TW.md`。
+- 全部 ASCII、小寫、連字號；中文只出現在內容（顯示名稱、手冊文字），不出現在檔名。手冊是 `docs/manual.md`。
 - 不用數字前綴與 `lay-a…l` 字母後綴。用資料夾表達角色、用名稱表達內容；載入順序＝`core` 先、`carts` 依路徑排序，不靠編號。
 - 卡帶檔名＝id＝`carts/<種類>/<id>.cart.js`，例如 `carts/layout/ink-bleed.cart.js`。
 - 搬遷時產生 `docs/legacy-map.md`，記錄每個舊檔與新位置。
