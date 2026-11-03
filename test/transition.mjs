@@ -14,7 +14,7 @@ async function run(tag, config = {}, wait = 0) {
   await p.goto(pathToFileURL(resolve(PAGE)).href + '?render=1&fps=10'); await p.evaluate(() => window.__ready);
   await p.evaluate(([s, c]) => window.__loadProject({ srt: s, config: { particles: 0, grain: 0, ...c } }), [srt(tag), config]);
   const out = []; for (let f = 0; f <= 18; f++) { await p.evaluate(t => window.__renderFrame(t), f / 10); if (wait) await p.waitForTimeout(wait); if (f === 13 || f === 14) out.push(sha(await p.screenshot())); }
-  const info = await p.evaluate(() => ({ list: sceneList(subs[1]).map(x => x.n), problems: tagProblems(subs), bad: tagProblems(parseSRT('1\n00:00:00,000 --> 00:00:01,000\n#center&trans-boom 歌\n')), round: subs[1].scene }));
+  const info = await p.evaluate(() => ({ list: sceneList(subs[1]).map(x => x.n), problems: tagProblems(subs), bad: tagProblems(parseSRT('1\n00:00:00,000 --> 00:00:01,000\n#center&trans-boom 歌\n')), round: tag(subs[1]) }));
   await p.context().close(); return { h: out.join(), warns, ...info };
 }
 const plain = await run('#center+fade+fade'), cross = await run('#center+fade+fade', { trans: 'crossfade' });
@@ -27,6 +27,7 @@ assert.equal((await run('#center+fade+fade&trans-cut', { trans: 'crossfade' })).
 const under = await run('#center+fade+fade&trans-wipe', { sceneAll: 'halftone:60' });
 assert.deepEqual(under.list, ['halftone']); assert.deepEqual(under.warns, []); assert.deepEqual(under.problems, []);
 assert.deepEqual((await run('#center+fade+fade&halftone:60,trans-zoom')).list, ['halftone']);
+assert.match(under.round, /&trans-wipe/); // 匯出 SRT 時標記要保留
 assert.equal(under.bad.length, 1); assert.equal(under.bad[0].kind, '轉場');
 // 逐格確定：渲染快慢不影響畫面
 for (const t of ['flash', 'crossfade', 'wipe', 'zoom']) assert.equal((await run(`#center+fade+fade&trans-${t}`)).h, (await run(`#center+fade+fade&trans-${t}`, {}, 40)).h, t);

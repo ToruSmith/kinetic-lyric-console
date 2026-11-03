@@ -40,6 +40,20 @@ assert.equal(await p.locator('#gal.on').count(), 0);
 assert.ok(await p.evaluate(() => subs === __before.subs && JSON.stringify(subs.map(s => [s.s, s.e, s.raw, s.lay, s.en])) === __before.srt && selIdx === __before.sel && JSON.stringify(CONFIG) === __before.cfg));
 await p.context().close();
 
+// 開啟時擋住其他操作，真實字幕不會被範例句取代
+p = await open();
+await p.evaluate(() => { CONFIG.autoPerf = false; window.__s = subs; });
+await p.click('#ed'); await p.waitForTimeout(200); await p.click('#galb'); await p.waitForTimeout(200);
+for (const q of ['#play', '#exw', '#ed', '#tg', '#qkb']) assert.equal(await p.evaluate(q => { const e = document.querySelector(q), r = e.getBoundingClientRect(), t = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return t === e || e.contains(t); }, q), false, q);
+assert.equal(await p.locator('#edm').isVisible(), false);
+await p.evaluate(() => document.activeElement.blur());
+await p.keyboard.press('Space'); await p.keyboard.press('ArrowRight'); await p.keyboard.press('Control+k'); await p.waitForTimeout(150);
+assert.equal(await p.locator('#qk.on').count(), 0); assert.equal(await p.evaluate(() => playing), true); assert.ok(await p.evaluate(() => vt < 4));
+await p.fill('#galQ', 'a b'); assert.equal(await p.inputValue('#galQ'), 'a b');
+await p.mouse.click(900, 400); await p.waitForTimeout(200);
+assert.equal(await p.locator('#gal.on').count(), 0); assert.ok(await p.evaluate(() => subs === __s)); assert.equal(await p.locator('#edm').isVisible(), true);
+await p.context().close();
+
 p = await open('?pick=enter:rise,fx:breathe,enter:rise,evil:x,enter:%3Cimg%20src%3Dx%20onerror%3Dalert(1)%3E,https://x.test/a.js');
 assert.deepEqual(await p.evaluate(() => GAL.state.picks), ['enter:rise', 'fx:breathe']);
 assert.equal(await p.locator('#gal.on').count(), 1); assert.equal(await p.locator('#gal img').count(), 0);
