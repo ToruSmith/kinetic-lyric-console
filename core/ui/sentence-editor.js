@@ -141,6 +141,8 @@ function edDetail(i){const d=$("#edm"),sd=d&&d.querySelector(".edside");if(!sd)r
  G("scn","場景層（&）",b=>{
   const sc=inp("text",x.scene,"halftone:60,burst"),setSc=v=>{E(()=>{x.scene=v},"sc"+i);sc.value=v};sc.onchange=()=>setSc(sc.value.replace(/\s/g,""));
   sc.title="名稱[:強度]，逗號分隔，最多 "+(CONFIG.sceneMax||3)+" 層；也可寫 bfx-shake:3 這類節拍後製，或 trans-wipe 這類句間轉場";F("場景層",sc,b);
+  const ts=edMk("select");[["","（跟隨全域："+(CONFIG.trans||"cut")+"）"],...TRANS_NAMES.map(n=>[n,TRANS_ZH[n]])].forEach(([v,t])=>ts.add(new Option(t,v)));ts.value=sceneTrans(x);ts.setAttribute("aria-label","這一句的句間轉場");
+  ts.onchange=()=>setSc(withTrans(x.scene,ts.value));F("句間轉場（這句出現時）",ts,b);
   const bx=edMk("div","edbtns"),pb=btn("＋ 挑選場景",()=>openScenePop(pb,()=>x.scene||"",v=>setSc(v)),"開啟場景層挑選窗");bx.append(pb,btn("清除這句場景",()=>setSc(""),"改為跟隨全域底層"));b.append(bx);
   b.append(edMk("div","edhint","留空＝跟隨全域底層（目前："+(CONFIG.sceneAll||"無")+"）。Ctrl+K 搜尋「場景層」可一鍵套用。"))});
  /* 5. 位置 */
@@ -161,6 +163,9 @@ function edDetail(i){const d=$("#edm"),sd=d&&d.querySelector(".edside");if(!sd)r
   b.append(btn("這句回到自動（清除所有逐句設定）",()=>{pushHist();Object.assign(x,{auto:true,en:"",ex:"",fx:"",pos:"",st:"",font:"",scene:"",bigR:0,txtS:0});reparse(x);cur=-2;edRender();posRef&&posRef()},"清除版型、進退場、特效、位置、樣式、字體、文字大小、場景；文字與時間不動"))});
  sd.scrollTop=top}
 
+/* 逐句轉場：下拉選單只增減 trans-* 這一個記號，其他場景與節拍後製原樣保留 */
+const TRANS_ZH={cut:"cut 直接切換",flash:"flash 閃白（有光敏風險）",crossfade:"crossfade 淡入",wipe:"wipe 掃過",zoom:"zoom 穿越"};
+const withTrans=(s,n)=>[...String(s||"").split(",").filter(t=>t&&!t.startsWith("trans-")),...(n?["trans-"+n]:[])].join(",");
 /* ---------- 工具列與批次區 ---------- */
 function edToolbar(){const bar=edMk("div","edtb"),b=(t,f,c,tt)=>{const e=edMk("button",c||"",t);e.type="button";e.onclick=f;if(tt)e.title=tt;bar.append(e);return e},sep=()=>bar.append(edMk("span","sep"));
  const setCk=fn=>{EDSEL.clear();subs.forEach((x,i)=>{if(fn(x,i))EDSEL.add(i);if(EDR[i])EDR[i].ck.checked=EDSEL.has(i)});cntUpd()};

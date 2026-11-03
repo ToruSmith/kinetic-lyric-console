@@ -122,7 +122,7 @@ enter	blur-in	low	抒情,夢幻,通用	模糊,淡入	整句由模糊變清楚	�
 enter	open-h	mid	通用,科技	遮罩	由中央向左右展開	簡潔俐落地揭開一句話	動 clipPath、opacity	draft
 enter	unfold	mid	復古,安靜	3D	由上緣向下折開（3D）	像紙張展開的段落開頭	動 opacity、transform、transformOrigin	draft
 enter	roll-in	high	俏皮	旋轉	滾動進入（轉一圈）	搞笑或誇張的段落，少量使用	動 opacity、transform	draft
-enter	blink-in	mid	懸疑,科技	閃爍	點滅幾下後亮起	想讓文字延遲後突然亮起	動 opacity；緩動 steps(1,end)	draft
+enter	blink-in	mid	懸疑,科技	閃爍	點滅幾下後亮起	像燈管接觸不良般亮起，光敏風險請少量	動 opacity；緩動 linear	draft
 enter	overexpose	mid	夢幻,抒情	光效,模糊	過曝白光漸收成正常	回憶、光芒或情緒釋放	動 opacity、filter	draft
 enter	blinds-in	mid	科技,復古	遮罩	百葉窗（8 條橫帶）展開	段落開頭，想帶一點機械感	動 maskImage、WebkitMaskImage；緩動 linear	draft
 enter	wipe-diag	mid	通用	擦除	斜向擦出	段落切換或設計感標題	動 clipPath、opacity；緩動 linear	draft
@@ -190,7 +190,7 @@ exit	drift-up-out	low	抒情,夢幻	位移,模糊	上飄淡出	輕輕飄走的�
 fx	float	low	抒情,通用	位移	緩慢上下漂浮（4 秒一循環）	長句停留時保持微動		draft
 fx	shake	high	力量,熱血	位移,閃爍	快速小幅抖動（0.16 秒一循環，持續整句）	高潮短句，光敏風險請少量		draft
 fx	flicker	high	懸疑,復古	閃爍	亮度不規則閃爍（1.3 秒一循環）	高潮或恐怖感，光敏風險請少量		draft
-fx	rainbow	high	俏皮	閃爍	彩虹色循環	歡樂高潮句，光敏風險請少量		draft
+fx	rainbow	high	俏皮	閃爍	整句文字循環變色（6 秒一圈），白字也有效；強調字會和其他字同色	歡樂高潮句，光敏風險請少量		draft
 fx	wave	mid	俏皮,溫柔	位移,逐字	逐字波動	輕快的長句	由 play() 控制	draft
 fx	shimmer	low	夢幻,抒情	光效	流光掃過	想讓字有光澤	由 play() 控制	draft
 fx	gradient-flow	low	夢幻,通用	光效,漸層	漸層流動	副歌的柔和變化	由 play() 控制	draft

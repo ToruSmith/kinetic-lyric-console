@@ -6,7 +6,43 @@ function chars(txt,parent,css){return[...txt].map(c=>{const s=document.createEle
 function txtEl(css){const d=document.createElement("div");d.style.cssText=`position:absolute;font-family:${FONTS[curFont||CONFIG.font]||curFont||CONFIG.font};font-weight:${CONFIG.weight};letter-spacing:${CONFIG.spacing}em;color:var(--c);${css}`;d.dataset.t="1";return d}
 /* ENTER_X：擴充進場表（src/23-motion-k.js 填入）。函式 (el,list,d)；list 為逐字元素（可能為空），自行決定逐字或整句 */
 const ENTER_X={};
-function enter(el,kind,list){
+/* 遮罩式進退場常作用在全寬或全畫面的容器上，文字只佔其中一小塊，百分比會讓動畫一閃而過。
+   build() 結束後量出實際內容範圍，把百分比換算成貼合內容的像素值；起訖仍回到原本的完整範圍，避免切掉光暈。 */
+let clipQ=[];
+const clipTrack=(fn,mode)=>{const n=anims.length;fn();anims.slice(n).forEach(a=>{const k=a.effect.getKeyframes();if(k.some(f=>f.clipPath)&&!k.some(f=>f.backgroundImage)&&!a.effect.target.classList.contains("ch"))clipQ.push({a,mode})})};
+function clipBox(el){
+ const rs=[],add=r=>{if(r.width>0&&r.height>0)rs.push(r)},box=el.getBoundingClientRect(),all=[el,...el.querySelectorAll("*")];
+ const rg=document.createRange();
+ for(const e of all){
+  if(e.classList.contains("w")&&e!==el&&!e.textContent.trim())continue;
+  if([...e.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())){rg.selectNodeContents(e);add(rg.getBoundingClientRect())}
+  if(e===el)continue;
+  const r=e.getBoundingClientRect(),cs=getComputedStyle(e);
+  if(r.width*r.height>box.width*box.height*.8)continue;
+  if(e.tagName==="CANVAS"||e.tagName==="svg"||cs.backgroundImage!=="none"||cs.backgroundColor!=="rgba(0, 0, 0, 0)"||parseFloat(cs.borderTopWidth)||parseFloat(cs.borderLeftWidth)||parseFloat(cs.borderBottomWidth))add(r)}
+ if(!rs.length)return null;
+ const l=Math.min(...rs.map(r=>r.left)),t=Math.min(...rs.map(r=>r.top)),R=Math.max(...rs.map(r=>r.right)),B=Math.max(...rs.map(r=>r.bottom)),p=Math.max(4,(B-t)*.12);
+ return{l:l-box.left-p,t:t-box.top-p,w:R-l+p*2,h:B-t+p*2,W:box.width,H:box.height}}
+function clipMap(v,b){
+ const px=n=>n.toFixed(2)+"px",num=s=>parseFloat(s)||0,X=s=>b.l+num(s)/100*b.w,Y=s=>b.t+num(s)/100*b.h;
+ let m=v.match(/^inset\(([^)]*)\)$/);
+ if(m){const q=m[1].trim().split(/\s+/),T=q[0],Rr=q[1]??T,Bb=q[2]??T,Ll=q[3]??Rr;return`inset(${px(b.t+num(T)/100*b.h)} ${px(b.W-b.l-b.w+num(Rr)/100*b.w)} ${px(b.H-b.t-b.h+num(Bb)/100*b.h)} ${px(b.l+num(Ll)/100*b.w)})`}
+ m=v.match(/^circle\(([\d.]+)% at ([\d.]+)% ([\d.]+)%\)$/);
+ if(m)return`circle(${px(+m[1]/75*Math.hypot(b.w,b.h)/2)} at ${px(X(m[2]))} ${px(Y(m[3]))})`;
+ m=v.match(/^polygon\((.*)\)$/);
+ if(m)return`polygon(${m[1].split(",").map(p=>{const q=p.trim().split(/\s+/);return px(X(q[0]))+" "+px(Y(q[1]))}).join(",")})`;
+ return v}
+function clipFit(ms){
+ const Q=clipQ;clipQ=[];if(!Q.length)return;
+ const at=anims.map(a=>a.currentTime);anims.forEach(a=>{a.currentTime=ms});
+ for(const{a,mode}of Q){const b=clipBox(a.effect.target);if(!b||b.w*b.h>b.W*b.H*.8)continue;
+  const F=a.effect.getKeyframes().map(({computedOffset,composite,...k})=>({...k,offset:computedOffset}));
+  const N=F.map(k=>k.clipPath?{...k,clipPath:clipMap(k.clipPath,b)}:{...k});
+  if(mode==="enter"){N[N.length-1].offset=.995;N.push(F[F.length-1])}else{N[0].offset=.005;N.unshift(F[0])}
+  a.effect.setKeyframes(N)}
+ anims.forEach((a,i)=>{a.currentTime=at[i]})}
+function enter(el,kind,list){clipTrack(()=>enterRun(el,kind,list),"enter")}
+function enterRun(el,kind,list){
  const d=D();
  if(ENTER_X[kind]){ENTER_X[kind](el,list,d);return}
  /* 階段 2（JIZURA 移植）新增進場：blur-stagger／skew-in／clock-wipe 需要 list／el／CLOCK_OK，所以在表之前單獨處理；wipe／track-in／neon-on 在下面的表 k 內 */

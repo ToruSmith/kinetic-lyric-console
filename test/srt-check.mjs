@@ -22,7 +22,9 @@ t('未知名稱會報錯並給建議', () => {
 t('語法錯誤', () => {
   assert.match(msgs(checkSrt(srt('#center + rise 歌')), 'error'), /空白/);
   assert.match(msgs(checkSrt(srt('@neon#center 歌')), 'error'), /開頭/);
-  assert.match(msgs(checkSrt(srt('#center+fade+fade~float,shake 歌')), 'error'), /最多 1/);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade~float,shake,flicker,rainbow 歌')), 'error'), /最多 3/);
+  assert.equal(checkSrt(srt('#center+fade+fade~float,breathe 歌')).stats.errors, 0);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade~float,breathe 歌')), 'warning'), /建議/);
   assert.match(msgs(checkSrt(srt('#center+fade+fade@neon,outline,trail,stamp 歌')), 'error'), /最多 3/);
   assert.match(msgs(checkSrt(srt('#center+fade+fade^alt:bl 歌')), 'error'), /alt/);
   assert.match(msgs(checkSrt(srt('#center+fade+fade^zz 歌')), 'error'), /格式/);

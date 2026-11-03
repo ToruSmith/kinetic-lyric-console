@@ -4,7 +4,7 @@
 name: ci
 on:
   pull_request:
-    paths: ['core/**', 'carts/**', 'tools/**', 'test/**', 'render/**', 'package*.json', '.github/workflows/ci.yml']
+    paths: ['core/**', 'carts/**', 'tools/**', 'test/**', 'render/**', 'docs/manual.md', 'README*.md', 'package*.json', '.github/workflows/ci.yml']
   workflow_dispatch:
     inputs:
       full:
@@ -44,6 +44,8 @@ jobs:
         run: node test/gallery.mjs
       - name: 逐句轉場
         run: node test/transition.mjs
+      - name: 效果可見性
+        run: node test/effects-visible.mjs
       - name: 完整測試與新舊像素對照（僅手動）
         if: github.event_name == 'workflow_dispatch' && inputs.full
         run: |

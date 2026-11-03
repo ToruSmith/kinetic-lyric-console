@@ -5,7 +5,7 @@ const TICKS=[];
 function syncPlain(){subs.forEach(x=>{const l=LAYOUTS.includes(CONFIG.lock||x.lay)?(CONFIG.lock||x.lay):"lowerleft";x.plain=BRACE_LAYOUTS.has(l)?x.raw.replace(/\{[^}]*\}/g,"").trim():x.raw.replace(/[{}]/g,"").trim()})}
 function build(sb){
  syncPlain();TICKS.length=0;anims=[];L.innerHTML="";
- scr=[];lastCt=-1;curFont=sb.font||"";const w=document.createElement("div");w.className="w";L.appendChild(w);
+ scr=[];clipQ=[];lastCt=-1;curFont=sb.font||"";const w=document.createElement("div");w.className="w";L.appendChild(w);
  const lay=LAYOUTS.includes(CONFIG.lock||sb.lay)?(CONFIG.lock||sb.lay):"lowerleft",en=sb.en||({slam:"",bounce:""}[lay]===""?"":"rise"),dur=sb.e-sb.s,vw=SWd(),vh=SHd();
  tK=Math.max(.05,Math.min(1,dur*900/((((+CONFIG.enter||0)/(+CONFIG.speed||1))+(+CONFIG.exit||0))*1000||1)));
  const ks=sbKs(sb),big=Math.min(sbBigR(sb)*vh,vw*.3)*ks,small=Math.min(vh*.045,vw*.03)*ks;
@@ -51,7 +51,7 @@ function build(sb){
  const xd=CONFIG.exit*1000*tK,ds=dur*1000-xd;
  const EX={...EXTRA_EX,sink:[{opacity:1,transform:"none"},{opacity:0,transform:"translateY(4cqh)"}],"zoomout-fade":[{opacity:1,transform:"none"},{opacity:0,transform:"scale(1.3)"}],"blur-out":[{opacity:1,filter:"blur(0)"},{opacity:0,filter:"blur(16px)"}],"slide-out":[{opacity:1,transform:"none"},{opacity:0,transform:"translateX(-20cqw)"}]};
  const EC=EXIT_C[sb.ex],hasCh=!!(EC&&w.querySelector(".ch"));   /* 逐字退場（EXIT_C，src/23-motion-k.js）：有 .ch 才逐字，整句容器先撐住再淡掉；沒有就用 EX 裡的整句版 */
- A(w,hasCh?HOLD:(EX[sb.ex]||[{opacity:1},{opacity:0}]),{duration:xd,delay:ds,easing:"ease-in"});
+ clipTrack(()=>A(w,hasCh?HOLD:(EX[sb.ex]||[{opacity:1},{opacity:0}]),{duration:xd,delay:ds,easing:"ease-in"}),"exit");
  if(hasCh){const RR=sr(sb.s),L=[...w.querySelectorAll(".ch")];L.forEach((c,i)=>{const o=EC(c,i,L.length,RR);A(c,o.kf,{duration:xd*(o.dur||.6),delay:ds+(o.at||0)*xd,easing:o.ease||"ease-in"})})}
  if(sb.ex==="track-out")tel(w).forEach(e=>A(e,[{opacity:1},{opacity:0,letterSpacing:".8em"}],{duration:xd,delay:ds,easing:"ease-in"}));
  if(sb.ex==="dissolve"||sb.ex==="shatter"){const RR=sr(sb.s);[...w.querySelectorAll(".ch")].forEach(c=>{const r=()=>RR()-.5,sh=sb.ex==="shatter";
@@ -61,9 +61,10 @@ function build(sb){
  const FK={...EXTRA_FK,float:[[{transform:"translateY(0)"},{transform:"translateY(-1.5cqh)"},{transform:"translateY(0)"}],4000,"ease-in-out"],
   shake:[[{transform:"translate(0,0)"},{transform:"translate(2px,-2px)"},{transform:"translate(-2px,1px)"},{transform:"translate(1px,2px)"}],160,"steps(3)"],
   flicker:[[{opacity:1},{opacity:.4},{opacity:1},{opacity:.85},{opacity:.2},{opacity:1}],1300,"steps(5)"],
-  rainbow:[[{filter:"hue-rotate(0)"},{filter:"hue-rotate(360deg)"}],6000,"linear"]};
+  rainbow:[[{filter:"sepia(1) saturate(6) hue-rotate(0deg)"},{filter:"sepia(1) saturate(6) hue-rotate(360deg)"}],6000,"linear"]};   /* 先用 sepia 上色：純 hue-rotate 對預設白字沒有效果 */
  fl.forEach(f=>{if(FXH[f])return FXH[f](fw,dur);const k=FK[f];if(k)A(fw,k[0],{duration:k[1],iterations:Infinity,easing:k[2],...(f==="float"||f==="shake"?{composite:"add"}:{})})});
  applyHL(content,sb,lay);applyKwFont(content,sb,lay);
  applyStyles(content,sb,dur);
  if(!(PS&&placePos(PS,sb,host,fw,content,small)))addSub(sb,content,small,lay==="lowerleft");
+ clipFit(dur*500);
 }

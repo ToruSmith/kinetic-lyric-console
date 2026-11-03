@@ -14,7 +14,7 @@ import { collectNames } from './lib-names.mjs';
 const TRANS = ['cut', 'flash', 'crossfade', 'wipe', 'zoom'];
 const KIND_ZH = { layout: '版型', enter: '進場', exit: '退場', fx: '持續特效', style: '樣式', scene: '場景' };
 const SLOW_LAYOUTS = new Set(['particle-form', 'constellation']), SLOW_ENTERS = new Set(['scramble']);
-const FLASHING = new Set(['flicker', 'glitch', 'shake', 'rainbow', 'flash-words']);
+const FLASHING = new Set(['flicker', 'glitch', 'shake', 'rainbow', 'flash-words', 'blink-in', 'flicker-out']);
 const SAFE_LAYOUTS = new Set(['center', 'lowerleft', 'subtitle-box']);
 const SCENE_MAX = 3, SHORT_SEC = 1.5;
 const POS = /^(?:auto|(?:tl|tc|tr|ml|mc|mr|bl|bc|br)?(?::-?\d+(?:\.\d+)?){0,2})$/;
@@ -97,7 +97,8 @@ export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
     if (hasLayout && (!x.en || !x.ex)) warn(it, '每句要寫齊 `#版型+進場+退場`');
     const fx = (x.fx || '').split(',').filter(Boolean), st = (x.st || '').split(',').filter(Boolean);
     const scene = (x.scene || '').split(',').filter(Boolean);
-    if (fx.length > 1) err(it, '`~` 每句最多 1 個');
+    if (fx.length > 3) err(it, '`~` 每句最多 3 個，多的會被忽略');
+    else if (fx.length > 1) warn(it, '`~` 建議每句 1 個；隨機可能給 2 個，手寫時請確認不會打架');
     if (st.length > 3) err(it, '`@` 每句最多 3 個');
     fx.forEach(n => name(it, 'fx', n)); st.forEach(n => name(it, 'style', n));
     let layers = 0;
@@ -125,7 +126,7 @@ export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
       if (i && ok[i - 1].x.lay === it.x.lay) warn(it, `\`${it.x.lay}\` 不要連續使用`);
     }
   });
-  const flashes = ok.filter(it => FLASHING.has(it.x.lay) || (it.x.fx || '').split(',').some(f => FLASHING.has(f)) || (it.x.st || '').split(',').some(f => FLASHING.has(f)));
+  const flashes = ok.filter(it => FLASHING.has(it.x.lay) || FLASHING.has(it.x.en) || FLASHING.has(it.x.ex) || (it.x.fx || '').split(',').some(f => FLASHING.has(f)) || (it.x.st || '').split(',').some(f => FLASHING.has(f)));
   if (ok.length >= 5 && flashes.length / ok.length > .3) warn(null, `閃爍類效果佔 ${flashes.length}/${ok.length} 句，有光敏風險，建議只留給少數高潮句`);
   if (against !== null) {
     const base = parseBlocks(against);

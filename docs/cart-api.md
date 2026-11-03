@@ -41,6 +41,8 @@
 - **style（element）**：`el`、`vertical`、`shadow(css)`、`perChar()`；**（sentence）**：`host`、`sentence`、`duration`、`textEls()`、`splitChars()`、`enterMs()`
 - **scene.draw(g, f, u)**：`g` canvas 2D；`f = {t, W, H, a, lite, R, C, bp, env, r, seed, G1, G2}`；`u = {fade(g,f,v), TAU, random(種子), hash(字串), bpm()}`
 
+遮罩式進退場會由主機換算成貼合內容的範圍：`clip-path` 的 `inset()`、`circle()`、`polygon()` 百分比，在進退場裡代表「內容範圍」的百分比，不是容器的百分比。逐字元素不換算。`text-decoration` 不會傳進逐字的 inline-block 元素，樣式卡帶要用 `ctx.perChar()` 畫在每個字上。
+
 ## `rand` 適配
 
 | kind | 可用鍵 |

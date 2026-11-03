@@ -91,3 +91,24 @@ for (const [kind] of KINDS) {
 
   return { U, C, manual };
 }
+
+const clean = s => String(s || '').replace(/\*\*吃 `\{\}`\*\*[：:]?\s*/, '').replace(/[`*◆]/g, '').replace(/\s+/g, ' ').trim();
+export const cleanDesc = clean;
+
+/** 內建項目在執行期沒有說明文字：建置時由手冊表格產生，給圖鑑使用。 */
+export function effectDescSource() {
+  const { U, C } = collectNames(), desc = {};
+  for (const [kind] of KINDS) {
+    if (kind === 'pack') continue;
+    const carts = new Set(C[kind].map(c => c.name));
+    for (const e of U[kind]) if (!carts.has(e.name)) (desc[kind] ||= {})[e.name] = clean(e.desc);
+  }
+  return `const EFFECT_DESC=${JSON.stringify(desc)};\n`;
+}
+
+/** README 的總數：README.md 與 README.en.md 由 gen-catalog 依這裡更新。 */
+export function readmeCounts() {
+  const { U, C } = collectNames(), n = k => U[k].length, c = k => C[k].length;
+  const total = KINDS.reduce((s, [k]) => s + c(k), 0);
+  return { n, c, total };
+}
