@@ -35,7 +35,7 @@ function clipMap(v,b){
 function clipFit(ms){
  const Q=clipQ;clipQ=[];if(!Q.length)return;
  const at=anims.map(a=>a.currentTime);anims.forEach(a=>{a.currentTime=ms});
- for(const{a,mode}of Q){const b=clipBox(a.effect.target);if(!b||b.w*b.h>b.W*b.H*.8)continue;
+ for(const{a,mode}of Q){const b=clipBox(a.effect.target);if(!b||Math.min(b.w,b.W)*Math.min(b.h,b.H)>b.W*b.H*.8)continue;
   const F=a.effect.getKeyframes().map(({computedOffset,composite,...k})=>({...k,offset:computedOffset}));
   const N=F.map(k=>k.clipPath?{...k,clipPath:clipMap(k.clipPath,b)}:{...k});
   if(mode==="enter"){N[N.length-1].offset=.995;N.push(F[F.length-1])}else{N[0].offset=.005;N.unshift(F[0])}
