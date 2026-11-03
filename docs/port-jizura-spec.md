@@ -1,5 +1,7 @@
 # Maker2 移植 JIZURA 簡單部品：實作規格
 
+> **歷史文件**：這是搬遷前給舊專案的移植規格，路徑與步驟已不適用。現行流程見 [`CONTRIBUTING.md`](../CONTRIBUTING.md) 與 [`cart-api.md`](cart-api.md)。
+
 Oct 12, 2026 · @Toru Smith
 
 ## 目標與範圍

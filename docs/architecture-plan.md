@@ -1,6 +1,6 @@
 # 架構規劃：動態歌詞字幕「遊戲機」
 
-> 狀態：規劃草案 v1（2026-10-17）。依據對舊專案 `537062668244faf3f0b6ad7b662c9511d7a87429` 的原始碼閱讀（`src/` 45 檔、約 386KB；`lint` 與 `build:check` 通過）。瀏覽器回歸測試尚未重跑。
+> 狀態：M0–M6 已完成，本文同時保留當初的規劃與決策；第 6 節是草案，現行合約以 `docs/cart-api.md` 為準。初版規劃寫於 2026-10-17，依據對舊專案 `537062668244faf3f0b6ad7b662c9511d7a87429` 的原始碼閱讀（`src/` 45 檔、約 386KB；`lint` 與 `build:check` 通過）。瀏覽器回歸測試尚未重跑。
 
 ## 1. 目標
 
@@ -96,7 +96,7 @@ Console.cart({
 ## 8. GitHub Actions 額度守則
 
 - 不使用 `schedule`（cron）。
-- 所有 workflow 加 `paths` 過濾（只在 `core/`、`carts/`、`tools/`、`test/`、`docs/`、workflow 本身變動時跑；`legacy/` 與純文件不跑）。
+- 所有 workflow 加 `paths` 過濾（只在 `core/`、`carts/`、`tools/`、`test/`、`render/`、會影響產生內容的 `docs/manual.md`、`README*.md`、workflow 本身變動時跑；其他純文件不跑）。
 - 加 `concurrency` 並 `cancel-in-progress: true`；加 `timeout-minutes`；`npm ci` 用快取。
 - 重的瀏覽器回歸**不在每次 push 跑**：只在 PR（且有路徑變動）或手動 `workflow_dispatch` 觸發。日常驗證在本機／沙箱跑。
 - Pages 部署只在 `main` 且相關路徑變動時跑一次。
@@ -111,6 +111,7 @@ Console.cart({
 | M2 | `ctx` 外觀層、卡帶驗證工具、與 `legacy/` 的逐像素對照 ✅（`test/carts.mjs`、`test/regress.mjs`；範本與 11 個示範卡帶） |
 | M3 | 每種各一個代表性卡帶，舊內容分批搬遷（每批跑回歸，有差異就退回那批） |
 | M4 | `CONTRIBUTING`、卡帶範本與 `new-cart` 工具、manifest 產生手冊／縮圖／隨機適配表、刪除 `legacy/` ✅（new-cart、自動卡帶清單、順序過渡層移除、隨機適配表改由卡帶 `rand` 宣告，皆已完成） |
+| M5 | 補回舊專案測試缺口（位置、綠幕、後製、分層）與純資料風格包匯入匯出 ✅ |
 | M6 | 語意層：選填 `meta`、`docs/effect-index.tsv`、SRT 檢查器、效果圖鑑。`meta` 不影響畫面；內建項目放 `core/api/effect-meta.js`，不是卡帶必填欄位，維持「新增一個效果只需一個檔案」。`?pick=` 只帶已登記的名稱，不載入程式碼。圖鑑試看會暫時替換全域 `subs`，所以開啟時是模態，關閉時完整還原；改動主迴圈或 `subs` 生命週期時要跑 `test/gallery.mjs`。逐句轉場用 `&trans-*`，沿用 `&bfx-*` 的保留字模式，不新增符號 |
 
 ## 10. 待確認

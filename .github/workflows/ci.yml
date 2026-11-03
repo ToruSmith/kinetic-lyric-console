@@ -4,7 +4,7 @@
 name: ci
 on:
   pull_request:
-    paths: ['core/**', 'carts/**', 'tools/**', 'test/**', 'render/**', 'package*.json', '.github/workflows/ci.yml']
+    paths: ['core/**', 'carts/**', 'tools/**', 'test/**', 'render/**', 'docs/manual.md', 'README*.md', 'package*.json', '.github/workflows/ci.yml']
   workflow_dispatch:
     inputs:
       full:

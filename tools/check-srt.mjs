@@ -97,7 +97,8 @@ export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
     if (hasLayout && (!x.en || !x.ex)) warn(it, '每句要寫齊 `#版型+進場+退場`');
     const fx = (x.fx || '').split(',').filter(Boolean), st = (x.st || '').split(',').filter(Boolean);
     const scene = (x.scene || '').split(',').filter(Boolean);
-    if (fx.length > 1) err(it, '`~` 每句最多 1 個');
+    if (fx.length > 3) err(it, '`~` 每句最多 3 個，多的會被忽略');
+    else if (fx.length > 1) warn(it, '`~` 建議每句 1 個；隨機可能給 2 個，手寫時請確認不會打架');
     if (st.length > 3) err(it, '`@` 每句最多 3 個');
     fx.forEach(n => name(it, 'fx', n)); st.forEach(n => name(it, 'style', n));
     let layers = 0;

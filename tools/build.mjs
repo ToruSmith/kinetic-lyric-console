@@ -8,10 +8,12 @@
 //   1. core/order.json 依序列出主機檔案；
 //   2. 特殊項目 "@carts" 代表「卡帶插入點」：此處依路徑排序放入所有 carts/**/*.cart.js，各自包成 IIFE。
 //      卡帶彼此不得有順序依賴（合約規定只能透過 Console.cart() 登記），所以只需穩定排序。
-//   3. 內容原樣串接，不改寫程式碼。
+//   3. 特殊項目 "@effect-desc" 由 docs/manual.md 的表格產生內建效果說明，給圖鑑使用；不進 repo。
+//   4. 其餘內容原樣串接，不改寫程式碼。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { effectDescSource } from './lib-names.mjs';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = rel => fs.readFileSync(path.join(ROOT, rel), 'utf8');
@@ -41,6 +43,9 @@ export function sources() {
   for (const entry of order) {
     if (entry === '@carts') {
       for (const rel of cartFiles()) { const raw = read(rel); out.push({ path: rel, text: wrapCart(rel, raw), raw, kind: 'cart' }); }
+    } else if (entry === '@effect-desc') {
+      const text = effectDescSource();
+      out.push({ path: 'generated/effect-desc.js', text, raw: text, kind: 'core' });
     } else {
       const text = read(entry);
       out.push({ path: entry, text, raw: text, kind: 'core' });
