@@ -69,7 +69,7 @@ layout	hero-text	high	力量,熱血	陰影,縮放	粗體巨字＋六層強調色
 layout	shatter-text	high	力量,熱血	變形	4 片碎片拼合	碎裂拼合的高潮		draft
 layout	crayon-shatter	high	俏皮,力量	手作感	碎片拼合，字心強調色、粗糙描邊與微傾斜	塗鴉感標題		draft
 layout	margin	low	安靜,通用	排版,細線	文字靠角落（左下／右上／右下／左中依句子編號輪替），旁邊拉出一條髮絲線，線尾收在小方點；線先拉出，文字再淡入並向內收	貼邊的高級字幕		draft
-layout	baseline	low	安靜,通用	排版,細線	2～3 行字，每行下一條橫跨畫面的髮絲基線；{} 關鍵字下再加一條強調色粗線（沒有 {} 就不畫）。基線依行由左拉出，文字跟著淡入，粗線最後拉出	不遮影片的高級字幕		draft
+layout	baseline	low	安靜,通用	排版,細線,關鍵字	2～3 行字，每行下一條橫跨畫面的髮絲基線；{} 關鍵字下再加一條強調色粗線（沒有 {} 就不畫）。基線依行由左拉出，文字跟著淡入，粗線最後拉出	不遮影片的高級字幕		draft
 layout	full-track	low	安靜,通用	排版,字距	每個字平均撐開到整個畫面寬（直式畫面改為高度），左右（上下）留 6～8；超過 12 字改兩行（直式兩欄）各自撐開；字從中心向兩側散開，線再拉出	寬銀幕感		draft
 layout	line-focus	low	安靜,通用	排版,細線,關鍵字	顯示整句，{} 內是「這一鏡的片段」，其餘降到 .45 透明度；片段以底線／圓點／框線標出（依句子編號輪替）；整句先淡入，再把標記拉出。沒有 {} 就整句正常顯示、不畫標記	強調句中片段		draft
 layout	scale-steps	mid	力量,通用	排版,縮放	一句拆成 2～7 段（依逗號／空白切，切不出來就平均切），字級依比例逐段放大（或縮小），基線對齊；由小到大依序淡入，底下一條髮絲線	語氣逐段加強		draft
@@ -307,8 +307,8 @@ scene	hud-status	mid	科技	裝飾	HUD 狀態文字（左下）	HUD 狀態列		d
 scene	data-monitors	mid	科技	裝飾	資料監視器（右下）	數據監視器		draft
 scene	pixel-window	mid	復古,科技	裝飾	像素視窗（左上）	像素視窗		draft
 scene	desktop-icon	mid	科技,復古	裝飾	桌面圖示（左側一排）	復古桌面		draft
-scene	smear-brush	mid	力量,懸疑	裝飾,質感	塗抹筆刷	塗抹筆刷		draft
+scene	smear-brush	mid	力量,懸疑	背景,質感	塗抹筆刷	塗抹筆刷		draft
 scene	paper-tear	mid	復古,力量	裝飾,質感	撕紙邊	撕紙		draft
-scene	blood-splatter	high	力量,懸疑	裝飾,質感	噴濺	血腥主題，謹慎使用		draft
+scene	blood-splatter	high	力量,懸疑	背景,質感	噴濺	血腥主題，謹慎使用		draft
 scene	crime-tape	mid	懸疑,力量	裝飾	警戒膠帶	警戒膠帶		draft
 scene	planet	low	夢幻,科技	背景	行星	宇宙主題		draft

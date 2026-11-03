@@ -3,7 +3,7 @@ Console.cart({
   kind: 'scene', id: 'blood-splatter', apiVersion: 1,
   label: { zh: '噴濺' },
   author: 'kinetic-lyric-console', license: 'MIT',
-  meta: { energy: 'high', mood: ['力量', '懸疑'], tags: ['裝飾', '質感'], use: '血腥主題，謹慎使用', draft: true },
+  meta: { energy: 'high', mood: ['力量', '懸疑'], tags: ['背景', '質感'], use: '血腥主題，謹慎使用', draft: true },
   rand: { theme: 'grunge' },
   layer: 'under', group: 'splat', amount: 40, cost: '中',
   lab: true,

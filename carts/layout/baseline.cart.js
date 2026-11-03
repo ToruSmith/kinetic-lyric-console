@@ -4,7 +4,7 @@ Console.cart({
   label: { zh: '2～3 行字，每行下一條橫跨畫面的髮絲基線；{} 關鍵字下再加一條強調色粗線（沒有 {} 就不畫）。基線依行由左拉出，文字跟著淡入，粗線最後拉出' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
-  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['排版', '細線'], use: '不遮影片的高級字幕', draft: true },
+  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['排版', '細線', '關鍵字'], use: '不遮影片的高級字幕', draft: true },
   flags: { brace: true, lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
