@@ -13,11 +13,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT } from './build.mjs';
 import { read, fail, KINDS, README_ORDER, backticks, collectNames } from './lib-names.mjs';
-import { loadCarts, loadBuiltinMeta } from './lib-meta.mjs';
 
 const { U, C, manual } = collectNames();
-const cartMeta = new Map(loadCarts().filter(c => c.meta).map(c => [`${c.kind}:${c.id}`, c.meta])), builtinMeta = loadBuiltinMeta();
-const metaTag = (e, kind) => { const m = cartMeta.get(`${kind}:${e.name}`) || builtinMeta[kind]?.[e.name]; return m ? ` ［${({ low: '低', mid: '中', high: '高' })[m.energy]}｜${m.mood.join('、')}］` : ''; };
 
 // ───────── 4. 自我檢查：總數要等於 README（README 的數字由 spec-sync 對照執行期）─────────
 {
@@ -45,7 +42,7 @@ function gist(desc, name) {
 }
 const tags = (e, kind) => [e.brace && kind === 'layout' && '吃{}', e.full && '滿版', e.ctx && '看前後句', e.perChar && '逐字'].filter(Boolean).map(t => `〔${t}〕`).join('');
 const usable = kind => U[kind].filter(e => !e.lab);
-const line = (e, kind) => `- \`${e.name}\`${gist(e.desc, e.name) ? ' ' + gist(e.desc, e.name) : ''}${tags(e, kind) ? ' ' + tags(e, kind) : ''}${metaTag(e, kind)}`;
+const line = (e, kind) => `- \`${e.name}\`${gist(e.desc, e.name) ? ' ' + gist(e.desc, e.name) : ''}${tags(e, kind) ? ' ' + tags(e, kind) : ''}`;
 
 let md = read('tools/cheatsheet-rules.md').replace(/\s*$/, '\n');
 md += '\n## 可用名稱\n\n';

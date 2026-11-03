@@ -23,8 +23,8 @@ console.log(`語意資料｜通過，已標注 ${carts.filter(c => c.meta).lengt
 const { loadBuiltinMeta } = await import('../tools/lib-meta.mjs');
 const { collectNames } = await import('../tools/lib-names.mjs');
 const { findEffects, readIndex } = await import('../tools/find-effect.mjs');
-const builtin = loadBuiltinMeta(), { U } = collectNames(), cartMeta = new Set(carts.filter(c => c.meta).map(c => `${c.kind}:${c.id}`));
-for (const kind of ['layout', 'enter', 'exit', 'fx', 'style', 'scene']) for (const e of U[kind]) assert.ok(cartMeta.has(`${kind}:${e.name}`) || builtin[kind]?.[e.name], `缺語意資料 ${kind}:${e.name}`);
+const builtin = loadBuiltinMeta(), { U } = collectNames();
+// meta 是選填：卡帶可以沒有，這裡只確認已有的資料正確，且內建內容都對得到實際項目
 for (const [kind, o] of Object.entries(builtin)) for (const [id, m] of Object.entries(o)) { assert.ok(U[kind].some(e => e.name === id), `內建 meta 指向不存在的項目 ${kind}:${id}`); assert.deepEqual(metaProblems(m), [], `${kind}:${id}`); }
 const idx = readIndex();
 assert.equal(findEffects(idx, ['抒情', '模糊'], { kind: 'enter', energy: 'low', limit: 1 })[0].kind, 'enter');
