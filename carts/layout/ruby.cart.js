@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '每個字上方一行小注音。注音取自副文（' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['排版'], use: '注音或譯注', draft: true },
   flags: { lab: true, ownSub: true },
   rand: { needSub: true },
   render(ctx) {

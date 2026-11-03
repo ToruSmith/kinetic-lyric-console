@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'screen-border', apiVersion: 1,
   label: { zh: '螢幕邊框' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['安靜', '通用'], tags: ['裝飾', '細線'], use: '畫面邊框', draft: true },
   rand: { theme: 'neutral' },
   layer: 'over', group: 'border', amount: 45, cost: '輕',
   lab: true,

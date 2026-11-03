@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'flash-words', apiVersion: 1,
   label: { zh: '以空白／標點分詞，一個詞一個詞快速閃現，例如 `快 跑 不 要 停下來`；沒有空白時每 2 字一組' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['力量', '熱血'], tags: ['閃爍'], use: '快節奏分詞，光敏風險請少量', draft: true },
   rand: { strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'split-screen', apiVersion: 1,
   label: { zh: '句子切成上下兩半，各自從左右滑入，中間一條線' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用', '力量'], tags: ['遮罩', '位移'], use: '上下分割的對比句', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const fit = ctx.fit;

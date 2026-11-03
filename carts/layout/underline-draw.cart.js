@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'underline-draw', apiVersion: 1,
   label: { zh: '底線畫出', en: 'Underline Draw' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用', '溫柔'], tags: ['細線', '逐字'], use: '底線畫出的安靜句', draft: true },
   demo: '#underline-draw 墨水在紙上畫出底線',
   render(ctx) {
     const { host, sentence, width, bigSize } = ctx;

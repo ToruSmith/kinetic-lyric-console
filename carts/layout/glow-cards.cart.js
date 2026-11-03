@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'glow-cards', apiVersion: 1,
   label: { zh: '發光字卡：暗底＋強調色發光邊框' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '夢幻'], tags: ['排版', '光效'], use: '發光字卡', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const { _chs } = ctx.lib;

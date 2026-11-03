@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'diamond-shapes', apiVersion: 1,
   label: { zh: '菱形群' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用', '夢幻'], tags: ['背景'], use: '菱形', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'diamond', amount: 45, cost: '輕',
   lab: true,

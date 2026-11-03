@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '突風：約每 2.2 秒一陣風，字由左而右被吹歪再彈回' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['抒情', '俏皮'], tags: ['變形', '逐字'], use: '風、季節或情緒起伏', draft: true },
   rand: { group: 'rot', domOnly: true },
   play(ctx) {
     const cl = () => ctx.charEls();

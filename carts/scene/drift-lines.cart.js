@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'drift-lines', apiVersion: 1,
   label: { zh: '飄移細線', en: 'Drift Lines' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['安靜', '抒情'], tags: ['背景', '細線'], use: '飄移細線', draft: true },
   layer: 'under', group: 'lines', amount: 50, cost: '輕',
   rand: { theme: 'neutral' },
   draw(g, f, u) {

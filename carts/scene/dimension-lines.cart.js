@@ -5,6 +5,7 @@ Console.cart({
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   rand: { theme: 'tech' },
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['安靜', '科技'], tags: ['裝飾', '細線'], use: '製圖標註', draft: true },
   layer: 'over', group: 'dim', amount: 50, cost: '輕',
   // 逐句隨機的主題表（RND_SCN_TH）暫時仍在 core/ui/randomizer.js，維持舊的挑選順序；M4 改由這裡的 rand 宣告
   draw(c, p, u) {

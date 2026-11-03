@@ -1,8 +1,9 @@
-/* 訊號閃爍 */
+/* 主文疊兩層紅藍殘影，像訊號干擾般閃動 */
 Console.cart({
   kind: 'layout', id: 'glitch', apiVersion: 1,
-  label: { zh: '訊號閃爍' },
+  label: { zh: '主文疊兩層紅藍殘影，像訊號干擾般閃動' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'high', mood: ['科技', '懸疑'], tags: ['故障', '閃爍'], use: '故障感，光敏風險請少量', draft: true },
   rand: { sceneThemes: ['tech'], strong: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;

@@ -5,6 +5,7 @@ Console.cart({
   label: { zh: '畫線消去：每字先被畫一條強調色線，再壓扁消失' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['力量', '懸疑'], tags: ['擦除', '變形', '逐字'], use: '否定、劃掉一句話', draft: true },
   keyframes: [{opacity:1,transform:"none"},{opacity:1,transform:"none",offset:.5},{opacity:0,transform:"scaleY(.05)"}],
   perChar(ctx) {
     const c = ctx.el;

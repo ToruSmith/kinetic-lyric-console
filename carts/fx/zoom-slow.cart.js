@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'zoom-slow', apiVersion: 1,
   label: { zh: '整句在句子時間內慢慢推近' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '通用'], tags: ['鏡頭', '縮放'], use: '情緒慢慢累積的長句', draft: true },
   rand: { group: 'cam' },
   play(ctx) {
     const A = ctx.anim;

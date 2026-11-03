@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '太鼓：重拍時突然放大再收' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'high', mood: ['力量', '熱血'], tags: ['縮放', '節拍'], use: '重拍明顯的段落', draft: true },
   rand: { group: 'cam', strong: true },
   play(ctx) {
     const A = ctx.anim;

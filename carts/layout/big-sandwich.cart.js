@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '關鍵字放大置中，前後文字縮小夾在兩側（直式畫面改為上下夾）；關鍵字＝{} 內第一段，沒有就取最長字詞或正中間的字；大字上限約畫面高度 26%' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['力量', '通用'], tags: ['排版', '關鍵字'], use: '單一關鍵字放大', draft: true },
   flags: { brace: true, lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '下搖（鏡頭）：字從下方升入定位，只動一次' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['通用'], tags: ['鏡頭', '位移'], use: '句子開始時的一次運鏡', draft: true },
   rand: { group: 'cam' },
   play(ctx) {
     const A = ctx.anim;

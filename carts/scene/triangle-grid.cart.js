@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'triangle-grid', apiVersion: 1,
   label: { zh: '三角網格' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用', '科技'], tags: ['背景'], use: '三角格', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'tri', amount: 45, cost: '輕',
   lab: true,

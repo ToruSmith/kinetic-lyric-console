@@ -1,8 +1,9 @@
-/* 滿版：邊框跑動 */
+/* 滿版：畫面邊框有光線跑動 */
 Console.cart({
   kind: 'layout', id: 'border-run', apiVersion: 1,
-  label: { zh: '滿版：邊框跑動' },
+  label: { zh: '滿版：畫面邊框有光線跑動' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '熱血'], tags: ['滿版', '光效'], use: '段落高潮，少量使用', draft: true },
   flags: { full: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;

@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '畫框：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['安靜', '復古'], tags: ['排版', '細線'], use: '裱框語句', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

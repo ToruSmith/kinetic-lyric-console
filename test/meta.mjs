@@ -18,3 +18,16 @@ const carts = loadCarts();
 assert.ok(carts.length >= 232);
 for (const c of carts) if (c.meta) assert.deepEqual(metaProblems(c.meta), [], `${c.kind}:${c.id}`);
 console.log(`語意資料｜通過，已標注 ${carts.filter(c => c.meta).length}/${carts.length} 個卡帶`);
+
+// 內建項目與查詢工具
+const { loadBuiltinMeta } = await import('../tools/lib-meta.mjs');
+const { collectNames } = await import('../tools/lib-names.mjs');
+const { findEffects, readIndex } = await import('../tools/find-effect.mjs');
+const builtin = loadBuiltinMeta(), { U } = collectNames(), cartMeta = new Set(carts.filter(c => c.meta).map(c => `${c.kind}:${c.id}`));
+for (const kind of ['layout', 'enter', 'exit', 'fx', 'style', 'scene']) for (const e of U[kind]) assert.ok(cartMeta.has(`${kind}:${e.name}`) || builtin[kind]?.[e.name], `缺語意資料 ${kind}:${e.name}`);
+for (const [kind, o] of Object.entries(builtin)) for (const [id, m] of Object.entries(o)) { assert.ok(U[kind].some(e => e.name === id), `內建 meta 指向不存在的項目 ${kind}:${id}`); assert.deepEqual(metaProblems(m), [], `${kind}:${id}`); }
+const idx = readIndex();
+assert.equal(findEffects(idx, ['抒情', '模糊'], { kind: 'enter', energy: 'low', limit: 1 })[0].kind, 'enter');
+assert.ok(findEffects(idx, ['抒情'], { kind: 'fx', energy: 'high' }).every(r => r.kind === 'fx' && r.energy === 'high'));
+assert.deepEqual(findEffects(idx, ['不存在的詞']), []);
+console.log(`內建語意資料｜通過，索引 ${idx.length} 項`);

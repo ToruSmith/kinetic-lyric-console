@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'pink-grid', apiVersion: 1,
   label: { zh: '粉紅方格' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮'], tags: ['背景'], use: '粉紅格線', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'gridp', amount: 45, cost: '輕',
   lab: true,

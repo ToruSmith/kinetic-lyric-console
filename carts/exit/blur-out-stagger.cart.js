@@ -5,6 +5,7 @@ Console.cart({
   label: { zh: '逐字依序模糊消失' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['模糊', '逐字'], use: '慢歌逐字消失', draft: true },
   perChar(ctx) {
     const c = ctx.el;
     const i = ctx.index;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'edge-clouds', apiVersion: 1,
   label: { zh: '邊緣雲' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '溫柔'], tags: ['背景'], use: '邊緣雲朵', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'cloud', amount: 40, cost: '輕',
   lab: true,

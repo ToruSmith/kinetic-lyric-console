@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'jigsaw-grid', apiVersion: 1,
   label: { zh: '拼圖格' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['俏皮', '通用'], tags: ['背景'], use: '拼圖格', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'jig', amount: 40, cost: '中',
   lab: true,

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'cylinder', apiVersion: 1,
   label: { zh: '滾筒翻轉（會顯示前後句）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '通用'], tags: ['3D'], use: '前後句滾動，勿連用', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const subs = ctx.sentences;

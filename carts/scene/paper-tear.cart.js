@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'paper-tear', apiVersion: 1,
   label: { zh: '撕紙邊' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['復古', '力量'], tags: ['裝飾', '質感'], use: '撕紙', draft: true },
   rand: { theme: 'grunge' },
   layer: 'over', group: 'tear', amount: 40, cost: '中',
   lab: true,

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'exit', id: 'cascade-out', apiVersion: 1,
   label: { zh: '逐字下落', en: 'Cascade Out' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '通用'], tags: ['位移', '淡入', '逐字'], use: '主歌的細膩收尾', draft: true },
   perChar({ index, count, random }) {
     const jitter = (random() - 0.5) * 1.2; // 種子亂數：同一句每次渲染結果相同
     return {

@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '逐字沿固定的雜訊軌跡漂移（非亂數）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['懸疑', '夢幻'], tags: ['位移', '逐字'], use: '不安定或漂浮感', draft: true },
   rand: { group: 'char' },
   play(ctx) {
     const cl = () => ctx.charEls();

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'circle-badge', apiVersion: 1,
   label: { zh: '**吃 `{}`**：整句沿圓環排列並旋轉，中央放一個大字（第一個 `{}`，沒有取首字）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '復古'], tags: ['旋轉', '關鍵字'], use: '徽章感短句', draft: true },
   flags: { brace: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration;

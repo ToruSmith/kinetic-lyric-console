@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'chromatic', apiVersion: 1,
   label: { zh: '色差抖動（隨 BPM）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技', '懸疑'], tags: ['故障', '節拍'], use: '電子、賽博風格', draft: true },
   rand: { group: 'color', strong: true, domOnly: true },
   play(ctx) {
     const tel = () => ctx.textEls();

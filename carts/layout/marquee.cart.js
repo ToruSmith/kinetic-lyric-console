@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'marquee', apiVersion: 1,
   label: { zh: '滿版：跑馬燈，兩排橫向捲動，一排實心一排空心' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['熱血', '復古'], tags: ['滿版'], use: '跑馬燈，少量使用', draft: true },
   flags: { full: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host;

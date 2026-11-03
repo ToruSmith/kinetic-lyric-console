@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'light-spot', apiVersion: 1,
   label: { zh: '光斑' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['背景', '光效'], use: '柔光斑', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'light', amount: 40, cost: '輕',
   lab: true,

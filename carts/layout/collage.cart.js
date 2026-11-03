@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'collage', apiVersion: 1,
   label: { zh: '拼貼風：每個字像剪貼的貼紙，隨機底色與字體（同一句固定）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '復古'], tags: ['手作感', '逐字'], use: '街頭拼貼', draft: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;

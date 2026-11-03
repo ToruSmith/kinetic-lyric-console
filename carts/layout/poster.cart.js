@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'poster', apiVersion: 1,
   label: { zh: '**吃 `{}`**：海報式大字（取第一個 `{}`，沒有就用整句）＋細線＋小字' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['力量', '通用'], tags: ['排版', '關鍵字'], use: '高潮海報句', draft: true },
   flags: { brace: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize;

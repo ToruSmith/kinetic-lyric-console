@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'hud-status', apiVersion: 1,
   label: { zh: 'HUD 狀態文字（左下）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['裝飾'], use: 'HUD 狀態列', draft: true },
   rand: { theme: 'tech' },
   layer: 'over', group: 'huds', amount: 50, cost: '輕',
   lab: true,

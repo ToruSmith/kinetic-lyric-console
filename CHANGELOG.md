@@ -6,6 +6,8 @@
 
 ### 新增
 - 卡帶選填的 `meta` 語意資料與 `docs/effect-index.tsv` 索引；規格由程式碼推得，`draft: true` 代表情緒與能量仍待人工審核。
+- `tools/find-effect.mjs`：依情緒、能量、特徵查效果；`docs/agent-skill/kinetic-lyric/` 提供 AI 上標記流程。
+- 全部 313 個效果都有語意資料草稿，速查表的名單會標示能量與情緒，並新增一次一個主角、動作語氣一致的編排規則。
 - `tools/check-srt.mjs`：不需瀏覽器的帶標記 SRT 檢查器。檢查名稱（附建議）、語法與手冊的常見錯誤；`--against` 另外確認時間碼與歌詞沒有被改動。
 
 ### 變更

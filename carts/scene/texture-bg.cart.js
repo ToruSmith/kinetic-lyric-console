@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'texture-bg', apiVersion: 1,
   label: { zh: '紙質紋理' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['安靜', '復古'], tags: ['背景', '質感'], use: '紙質紋理', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'tex', amount: 40, cost: '中',
   lab: true,

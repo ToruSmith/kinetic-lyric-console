@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'shimmer', apiVersion: 1,
   label: { zh: '流光掃過' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '抒情'], tags: ['光效'], use: '想讓字有光澤', draft: true },
   rand: { group: 'color' },
   play(ctx) {
     const A = ctx.anim;

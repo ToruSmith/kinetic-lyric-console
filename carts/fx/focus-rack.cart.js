@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'focus-rack', apiVersion: 1,
   label: { zh: '逐字依序輕微失焦再對焦' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['夢幻', '抒情'], tags: ['模糊', '逐字'], use: '恍惚、回憶感', draft: true },
   rand: { group: 'char', domOnly: true },
   play(ctx) {
     const cl = () => ctx.charEls();

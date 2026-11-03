@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'iris-frame', apiVersion: 1,
   label: { zh: '光圈框（偶數句圓、奇數句矩形）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['復古', '懸疑'], tags: ['滿版', '遮罩'], use: '光圈聚焦的轉折句', draft: true },
   flags: { full: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

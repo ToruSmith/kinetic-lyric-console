@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '斷裂錯位：每行字從中線切成上下兩半左右錯開，中間一條強調色細線' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['力量', '科技'], tags: ['遮罩'], use: '斷裂感標題', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

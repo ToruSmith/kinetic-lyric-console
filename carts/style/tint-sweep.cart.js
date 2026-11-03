@@ -3,6 +3,7 @@ Console.cart({
   kind: 'style', id: 'tint-sweep', apiVersion: 1,
   label: { zh: '染色掃過', en: 'Tint Sweep' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用', '抒情'], tags: ['漸層', '逐字'], use: '句內情緒轉色', draft: true },
   scope: 'sentence',
   apply(ctx) {
     ctx.splitChars().forEach((c, i) => {

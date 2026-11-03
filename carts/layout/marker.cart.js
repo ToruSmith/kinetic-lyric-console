@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'marker', apiVersion: 1,
   label: { zh: '螢光筆：字下半加半透明色帶，不蓋字' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['俏皮', '通用'], tags: ['關鍵字'], use: '螢光筆強調', draft: true },
   flags: { brace: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {

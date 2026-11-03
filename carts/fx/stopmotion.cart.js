@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'stopmotion', apiVersion: 1,
   label: { zh: '定格動畫感（每 0.4 秒循環的小幅抖動與傾斜）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['俏皮', '復古'], tags: ['手作感'], use: '手作或定格動畫氣質', draft: true },
   rand: { group: 'jitter', strong: true },
   play(ctx) {
     const A = ctx.anim;

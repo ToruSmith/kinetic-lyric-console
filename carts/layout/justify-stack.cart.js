@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '等寬對齊：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['力量', '通用'], tags: ['排版'], use: '海報式等寬排字', draft: true },
   flags: { lab: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

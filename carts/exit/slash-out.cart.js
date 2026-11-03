@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '一刀兩斷（近似）：字分成左右兩半掉開' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'high', mood: ['力量', '熱血'], tags: ['位移', '逐字'], use: '斬斷語氣的高潮句', draft: true },
   keyframes: [{opacity:1,transform:"none"},{opacity:1,transform:"scaleX(1.02)",offset:.25},{opacity:0,transform:"translateY(14cqh) rotate(6deg)"}],
   perChar(ctx) {
     const c = ctx.el;

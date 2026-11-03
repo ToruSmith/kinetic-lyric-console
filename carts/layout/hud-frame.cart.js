@@ -1,8 +1,9 @@
-/* 滿版：遊戲介面風 */
+/* 滿版：遊戲介面風，文字搭配細線框與資訊標記 */
 Console.cart({
   kind: 'layout', id: 'hud-frame', apiVersion: 1,
-  label: { zh: '滿版：遊戲介面風' },
+  label: { zh: '滿版：遊戲介面風，文字搭配細線框與資訊標記' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['滿版', '細線'], use: '遊戲或系統介面', draft: true },
   flags: { full: true },
   rand: { sceneThemes: ['tech'] },
   render(ctx) {

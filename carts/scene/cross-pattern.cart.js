@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'cross-pattern', apiVersion: 1,
   label: { zh: '十字圖案' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用'], tags: ['背景'], use: '十字圖案', draft: true },
   rand: { theme: 'neutral' },
   layer: 'under', group: 'cross', amount: 45, cost: '輕',
   lab: true,

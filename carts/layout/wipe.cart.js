@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'wipe', apiVersion: 1,
   label: { zh: '由左向右擦出' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用'], tags: ['擦除'], use: '由左揭開', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const CE = ctx.centerIn;

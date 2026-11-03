@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '立體：短而實的 3D 厚度（比 `longshadow` 短）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['力量', '復古'], tags: ['陰影', '3D'], use: '厚實標題句', draft: true },
   scope: 'element',
   apply(ctx) {
     const addSh = (el, s) => ctx.shadow(s);

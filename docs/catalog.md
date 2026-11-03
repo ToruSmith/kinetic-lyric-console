@@ -13,7 +13,7 @@
 | `big-sandwich` | 關鍵字放大置中，前後文字縮小夾在兩側（直式畫面改為上下夾）；關鍵字＝{} 內第一段，沒有就取最長字詞或正中間的字；大字上限約畫面高度 26% | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/big-sandwich.cart.js` |
 | `blinds` | 文字被切成 24 條細條，上下交錯滑入（百葉窗） | kinetic-lyric-console | `carts/layout/blinds.cart.js` |
 | `blurfocus` | 由模糊且字距很寬的狀態慢慢對焦 | kinetic-lyric-console | `carts/layout/blurfocus.cart.js` |
-| `border-run` | 滿版：邊框跑動 | kinetic-lyric-console | `carts/layout/border-run.cart.js` |
+| `border-run` | 滿版：畫面邊框有光線跑動 | kinetic-lyric-console | `carts/layout/border-run.cart.js` |
 | `bubble` | 白底對話泡泡，彈性出現 | kinetic-lyric-console | `carts/layout/bubble.cart.js` |
 | `cards` | 字卡：每字（>8 字時每 2 字）一張白卡，落下排成列 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/cards.cart.js` |
 | `center` | 置中，最適合搭配樣式與進場動畫，**最安全、通用的選擇** | kinetic-lyric-console | `carts/layout/center.cart.js` |
@@ -34,12 +34,12 @@
 | `formula` | 公式覆蓋：主文後方漂浮的等寬公式碎片（種子產生） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/formula.cart.js` |
 | `frame-box` | 畫框：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/frame-box.cart.js` |
 | `full-track` | 每個字平均撐開到整個畫面寬（直式畫面改為高度），左右（上下）留 6～8；超過 12 字改兩行（直式兩欄）各自撐開；字從中心向兩側散開，線再拉出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/full-track.cart.js` |
-| `glitch` | 訊號閃爍 | kinetic-lyric-console | `carts/layout/glitch.cart.js` |
+| `glitch` | 主文疊兩層紅藍殘影，像訊號干擾般閃動 | kinetic-lyric-console | `carts/layout/glitch.cart.js` |
 | `glow-cards` | 發光字卡：暗底＋強調色發光邊框 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/glow-cards.cart.js` |
 | `handwrite` | 手寫：逐字出現並描繪底線；預設用手寫字體，若你指定了字體則尊重你的選擇 | kinetic-lyric-console | `carts/layout/handwrite.cart.js` |
 | `headline-lead` | 左下一組「大標題＋短強調線＋小導語」。標題＝{} 內的字；沒有 {} 就取前半句；導語＝其餘 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/headline-lead.cart.js` |
 | `hero-text` | 粗體巨字＋六層強調色擠出立體陰影，重重砸入 | kinetic-lyric-console | `carts/layout/hero-text.cart.js` |
-| `hud-frame` | 滿版：遊戲介面風 | kinetic-lyric-console | `carts/layout/hud-frame.cart.js` |
+| `hud-frame` | 滿版：遊戲介面風，文字搭配細線框與資訊標記 | kinetic-lyric-console | `carts/layout/hud-frame.cart.js` |
 | `iris-frame` | 光圈框（偶數句圓、奇數句矩形） | kinetic-lyric-console | `carts/layout/iris-frame.cart.js` |
 | `justify-stack` | 等寬對齊：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/justify-stack.cart.js` |
 | `keyword` | **吃 `{}`**：`{}` 關鍵字放大成強調色，其餘小字排在旁邊；沒寫 `{}` 時取前 2 字 | kinetic-lyric-console | `carts/layout/keyword.cart.js` |
@@ -47,7 +47,7 @@
 | `layered` | 疊層字：主文後方三層強調色描邊殘影，向右下展開 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/layered.cart.js` |
 | `line-focus` | 顯示整句，{} 內是「這一鏡的片段」，其餘降到 .45 透明度；片段以底線／圓點／框線標出（依句子編號輪替）；整句先淡入，再把標記拉出。沒有 {} 就整句正常顯示、不畫標記 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/line-focus.cart.js` |
 | `list-table` | 像目錄或表格，每行一條細分隔線；用換行分行，行內用 ｜ 分成「項目｜內容」兩欄；單行長句自動拆成 2～4 行 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/list-table.cart.js` |
-| `longshadow` | 長影 | kinetic-lyric-console | `carts/layout/longshadow.cart.js` |
+| `longshadow` | 粗體大字帶 45 度的強調色長影 | kinetic-lyric-console | `carts/layout/longshadow.cart.js` |
 | `margin` | 文字靠角落（左下／右上／右下／左中依句子編號輪替），旁邊拉出一條髮絲線，線尾收在小方點；線先拉出，文字再淡入並向內收 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/margin.cart.js` |
 | `marker` | 螢光筆：字下半加半透明色帶，不蓋字 | kinetic-lyric-console | `carts/layout/marker.cart.js` |
 | `marquee` | 滿版：跑馬燈，兩排橫向捲動，一排實心一排空心 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/marquee.cart.js` |
@@ -75,7 +75,7 @@
 | `strip` | 字條：強調色長條上的反白字，左右交錯滑入 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/strip.cart.js` |
 | `subtitle-box` | 底部半透明黑底框字幕，逐字變亮 | kinetic-lyric-console | `carts/layout/subtitle-box.cart.js` |
 | `tilt-vertical` | 文字轉 90 度橫躺，沿畫面右緣由上往下讀，旁邊一條細線；字小、佔寬很窄 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/tilt-vertical.cart.js` |
-| `trail` | 拖影 | kinetic-lyric-console | `carts/layout/trail.cart.js` |
+| `trail` | 主文後方多層半透明殘影，左右橫移 | kinetic-lyric-console | `carts/layout/trail.cart.js` |
 | `typewriter` | 打字機：逐字出現，後面跟著閃爍游標，字比較小 | kinetic-lyric-console | `carts/layout/typewriter.cart.js` |
 | `underline-draw` | 底線畫出 | kinetic-lyric-console | `carts/layout/underline-draw.cart.js` |
 | `v-ruler` | 左緣一條垂直刻度尺（每 5 格一長刻度），一個強調色小標記停在文字的高度；文字在尺右側，左對齊 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/v-ruler.cart.js` |

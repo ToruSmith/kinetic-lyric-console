@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'wave-path', apiVersion: 1,
   label: { zh: '文字沿波浪流動' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['夢幻', '俏皮'], tags: ['位移'], use: '沿波浪流動', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const SWd = ctx.sw;

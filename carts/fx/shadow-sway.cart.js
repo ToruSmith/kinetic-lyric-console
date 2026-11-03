@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '影子搖曳：字的影子方向與長度慢慢擺動' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['懸疑', '抒情'], tags: ['陰影'], use: '孤獨或光影主題', draft: true },
   rand: { group: 'color' },
   play(ctx) {
     const A = ctx.anim;

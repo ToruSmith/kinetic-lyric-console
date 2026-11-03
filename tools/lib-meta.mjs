@@ -7,7 +7,7 @@ import { ROOT, cartFiles } from './build.mjs';
 
 export const ENERGY = ['low', 'mid', 'high'];
 export const MOODS = ['通用', '抒情', '溫柔', '安靜', '夢幻', '熱血', '力量', '俏皮', '科技', '復古', '懸疑'];
-export const TAGS = ['淡入', '位移', '縮放', '旋轉', '3D', '模糊', '遮罩', '擦除', '彈性', '過衝', '變形', '字距', '逐字', '閃爍', '光效', '故障', '手作感', '節拍', '鏡頭'];
+export const TAGS = ['淡入', '位移', '縮放', '旋轉', '3D', '模糊', '遮罩', '擦除', '彈性', '過衝', '變形', '字距', '逐字', '閃爍', '光效', '故障', '手作感', '節拍', '鏡頭', '排版', '關鍵字', '直排', '細線', '滿版', '背景', '裝飾', '質感', '陰影', '描邊', '漸層'];
 const KEYS = ['energy', 'mood', 'tags', 'use', 'minSec', 'draft'];
 
 export function metaProblems(m) {
@@ -22,6 +22,12 @@ export function metaProblems(m) {
   if (m.minSec !== undefined && !(m.minSec > 0)) p.push('minSec 必須大於 0');
   if (m.draft !== undefined && m.draft !== true) p.push('draft 只能是 true；審核後請刪除這個欄位');
   return p;
+}
+
+export function loadBuiltinMeta() {
+  const box = vm.createContext({});
+  vm.runInContext(`${fs.readFileSync(path.join(ROOT, 'core/api/effect-meta.js'), 'utf8')};\nthis.BUILTIN_META=BUILTIN_META;`, box);
+  return box.BUILTIN_META;
 }
 
 export function loadCarts() {

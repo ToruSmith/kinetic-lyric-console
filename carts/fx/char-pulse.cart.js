@@ -3,6 +3,7 @@ Console.cart({
   kind: 'fx', id: 'char-pulse', apiVersion: 1,
   label: { zh: '逐字脈動', en: 'Char Pulse' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['通用', '俏皮'], tags: ['縮放', '逐字', '節拍'], use: '逐字跟拍', draft: true },
   rand: { group: 'char', domOnly: true }, // 只作用在 DOM 文字、與其他逐字特效互斥
   play(ctx) {
     const chars = ctx.charEls();

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'data-monitors', apiVersion: 1,
   label: { zh: '資料監視器（右下）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['裝飾'], use: '數據監視器', draft: true },
   rand: { theme: 'tech' },
   layer: 'over', group: 'mon', amount: 45, cost: '輕',
   lab: true,

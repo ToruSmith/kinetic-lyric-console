@@ -1,8 +1,9 @@
-/* 長影 */
+/* 粗體大字帶 45 度的強調色長影 */
 Console.cart({
   kind: 'layout', id: 'longshadow', apiVersion: 1,
-  label: { zh: '長影' },
+  label: { zh: '粗體大字帶 45 度的強調色長影' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['復古', '力量'], tags: ['陰影'], use: '海報感標題', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize;
     const CE = ctx.centerIn;

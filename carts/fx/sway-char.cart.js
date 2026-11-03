@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '逐字左右搖擺（相位錯開）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['俏皮', '溫柔'], tags: ['旋轉', '逐字'], use: '輕鬆搖擺', draft: true },
   rand: { group: 'rot' },
   play(ctx) {
     const cl = () => ctx.charEls();

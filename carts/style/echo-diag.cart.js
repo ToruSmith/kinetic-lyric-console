@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '輪廓殘響（近似）：右上方向的淡出殘影' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['夢幻', '復古'], tags: ['陰影'], use: '輪廓餘韻', draft: true },
   scope: 'element',
   apply(ctx) {
     const addSh = (el, s) => ctx.shadow(s);

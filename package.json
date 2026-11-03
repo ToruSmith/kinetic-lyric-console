@@ -14,6 +14,7 @@
   "cheatsheet": "node tools/gen-cheatsheet.mjs",
   "check-srt": "node tools/check-srt.mjs",
   "effect-index": "node tools/gen-effect-index.mjs",
+  "find-effect": "node tools/find-effect.mjs",
   "test:carts": "node test/carts.mjs",
   "check": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node tools/gen-effect-index.mjs --check && node test/srt-check.mjs && node test/meta.mjs && node test/carts.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/scene.mjs && node test/beatfx-layouts.mjs && node test/styles.mjs && node test/data-pack.mjs && node test/post.mjs && node test/chroma.mjs && node test/layers.mjs && node test/position.mjs && node test/sentence-opts.mjs",
   "check:fast": "npm run build && npm run lint && node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node tools/gen-effect-index.mjs --check && node test/srt-check.mjs && node test/meta.mjs && node test/boot.mjs && node test/behavior.mjs && node test/ui-parity.mjs && node test/spec-sync.mjs && node test/data-pack.mjs && node test/post.mjs",

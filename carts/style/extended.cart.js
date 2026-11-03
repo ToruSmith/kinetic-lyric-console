@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '平體：字形橫向拉寬（上限 1.08）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['通用', '科技'], tags: ['變形'], use: '寬字的科技感', draft: true },
   scope: 'element',
   apply(ctx) {
     const e = ctx.el;

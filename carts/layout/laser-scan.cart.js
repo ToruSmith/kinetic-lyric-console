@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'laser-scan', apiVersion: 1,
   label: { zh: '亮線掃過露出文字（偶數句橫向、奇數句直向）' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['科技'], tags: ['滿版', '光效'], use: '掃描揭露', draft: true },
   flags: { full: true },
   rand: { sceneThemes: ['tech'] },
   render(ctx) {

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'vertical', apiVersion: 1,
   label: { zh: '直排，靠右，旁邊一條細直線；長句會自動縮小' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['安靜', '抒情'], tags: ['直排'], use: '直排短句', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize;
     const SHd = ctx.sh;

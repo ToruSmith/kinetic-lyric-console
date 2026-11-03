@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '階梯推近（鏡頭）：2～3 次快速小推（每次 +4%），只動一次' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'mid', mood: ['力量', '熱血'], tags: ['鏡頭', '縮放'], use: '分段加強語氣', draft: true },
   rand: { group: 'cam' },
   play(ctx) {
     const A = ctx.anim;

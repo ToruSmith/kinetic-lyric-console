@@ -4,6 +4,7 @@ Console.cart({
   label: { zh: '直向漸層：上本色、下強調色' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
+  meta: { energy: 'low', mood: ['通用', '夢幻'], tags: ['漸層'], use: '上下雙色', draft: true },
   scope: 'element',
   apply(ctx) {
     const _lv = () => ctx.perChar();

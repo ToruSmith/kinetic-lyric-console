@@ -3,6 +3,7 @@ Console.cart({
   kind: 'scene', id: 'crime-tape', apiVersion: 1,
   label: { zh: '警戒膠帶' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'mid', mood: ['懸疑', '力量'], tags: ['裝飾'], use: '警戒膠帶', draft: true },
   rand: { theme: 'grunge' },
   layer: 'over', group: 'tape', amount: 45, cost: '中',
   lab: true,

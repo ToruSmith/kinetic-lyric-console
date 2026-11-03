@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'mirror-reflect', apiVersion: 1,
   label: { zh: '水面倒影' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['抒情', '夢幻'], tags: ['質感'], use: '水面倒影', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;
     const fit = ctx.fit;

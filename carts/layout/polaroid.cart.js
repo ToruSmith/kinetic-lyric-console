@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'polaroid', apiVersion: 1,
   label: { zh: '相紙卡依序滑入疊放' },
   author: 'kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['溫柔', '復古'], tags: ['排版'], use: '回憶相片', draft: true },
   rand: { sceneThemes: ['grunge'] },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host, w = ctx.root, big = ctx.bigSize, sm = ctx.smallSize, dur = ctx.duration, list = ctx.charEls;

@@ -3,6 +3,7 @@ Console.cart({
   kind: 'layout', id: 'scroll', apiVersion: 1,
   label: { zh: '捲動歌詞：同時顯示前後各兩句，目前句最大，其他句模糊淡出（需要上下文，第一句與最後一句會少一邊）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
+  meta: { energy: 'low', mood: ['通用', '抒情'], tags: ['排版'], use: '同時看前後句', draft: true },
   render(ctx) {
     let sb = ctx.sentence, c = ctx.host;
     const subs = ctx.sentences;
