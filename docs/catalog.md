@@ -19,20 +19,20 @@
 | `center` | 置中，最適合搭配樣式與進場動畫，**最安全、通用的選擇** | kinetic-lyric-console | `carts/layout/center.cart.js` |
 | `circle-badge` | **吃 `{}`**：整句沿圓環排列並旋轉，中央放一個大字（第一個 `{}`，沒有取首字） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/circle-badge.cart.js` |
 | `collage` | 拼貼風：每個字像剪貼的貼紙，隨機底色與字體（同一句固定） | kinetic-lyric-console | `carts/layout/collage.cart.js` |
-| `corners` | 対角配置：句子切成兩段放在對角，一條細線拐彎連過去 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/corners.cart.js` |
-| `crayon-shatter` | 同上，字心強調色、粗糙描邊與微傾斜 | kinetic-lyric-console | `carts/layout/crayon-shatter.cart.js` |
+| `corners` | 對角配置：句子切成兩段放在對角，一條細線拐彎連過去 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/corners.cart.js` |
+| `crayon-shatter` | 碎片拼合，字心強調色、粗糙描邊與微傾斜 | kinetic-lyric-console | `carts/layout/crayon-shatter.cart.js` |
 | `cross` | 關鍵字在中央，前文在它左邊橫排＋上方直排、後文在右邊橫排＋下方直排（直排是淡淡的回聲，只取最近 6 字）；字都小，不遮影片 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/cross.cart.js` |
 | `cute-outline` | 圓潤白色厚描邊貼紙字＋彩色字心，逐字彈跳、交替傾斜 | kinetic-lyric-console | `carts/layout/cute-outline.cart.js` |
 | `cylinder` | 滾筒翻轉（會顯示前後句） | kinetic-lyric-console | `carts/layout/cylinder.cart.js` |
 | `danmaku` | 滿版：彈幕，三行由右向左飄過 | kinetic-lyric-console | `carts/layout/danmaku.cart.js` |
 | `diagonal` | **吃 `{}`**：斜 8 度，上方大字（第一個 `{}`，沒有取前 2 字）加下方整句 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/diagonal.cart.js` |
-| `drop-cap` | 大きな頭文字：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/drop-cap.cart.js` |
-| `erode-repeat` | 削り反復：同一句重複 2～5 行，每行多（或少）一段，主行高亮 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/erode-repeat.cart.js` |
+| `drop-cap` | 首字放大：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/drop-cap.cart.js` |
+| `erode-repeat` | 削減反覆：同一句重複 2～5 行，每行多（或少）一段，主行高亮 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/erode-repeat.cart.js` |
 | `falling` | 字雨：背景持續落下的淡字＋主文逐字落下彈跳 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/falling.cart.js` |
 | `flash-words` | 以空白／標點分詞，一個詞一個詞快速閃現，例如 `快 跑 不 要 停下來`；沒有空白時每 2 字一組 | kinetic-lyric-console | `carts/layout/flash-words.cart.js` |
 | `footnote` | 正文在下三分之一，句尾加 ※；最下方細線＋小字註腳（註腳＝副文 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/footnote.cart.js` |
 | `formula` | 公式覆蓋：主文後方漂浮的等寬公式碎片（種子產生） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/formula.cart.js` |
-| `frame-box` | 額縁：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/frame-box.cart.js` |
+| `frame-box` | 畫框：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/frame-box.cart.js` |
 | `full-track` | 每個字平均撐開到整個畫面寬（直式畫面改為高度），左右（上下）留 6～8；超過 12 字改兩行（直式兩欄）各自撐開；字從中心向兩側散開，線再拉出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/full-track.cart.js` |
 | `glitch` | 訊號閃爍 | kinetic-lyric-console | `carts/layout/glitch.cart.js` |
 | `glow-cards` | 發光字卡：暗底＋強調色發光邊框 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/glow-cards.cart.js` |
@@ -41,7 +41,7 @@
 | `hero-text` | 粗體巨字＋六層強調色擠出立體陰影，重重砸入 | kinetic-lyric-console | `carts/layout/hero-text.cart.js` |
 | `hud-frame` | 滿版：遊戲介面風 | kinetic-lyric-console | `carts/layout/hud-frame.cart.js` |
 | `iris-frame` | 光圈框（偶數句圓、奇數句矩形） | kinetic-lyric-console | `carts/layout/iris-frame.cart.js` |
-| `justify-stack` | 幅揃え：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/justify-stack.cart.js` |
+| `justify-stack` | 等寬對齊：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/justify-stack.cart.js` |
 | `keyword` | **吃 `{}`**：`{}` 關鍵字放大成強調色，其餘小字排在旁邊；沒寫 `{}` 時取前 2 字 | kinetic-lyric-console | `carts/layout/keyword.cart.js` |
 | `laser-scan` | 亮線掃過露出文字（偶數句橫向、奇數句直向） | kinetic-lyric-console | `carts/layout/laser-scan.cart.js` |
 | `layered` | 疊層字：主文後方三層強調色描邊殘影，向右下展開 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/layered.cart.js` |
@@ -60,14 +60,14 @@
 | `polaroid` | 相紙卡依序滑入疊放 | kinetic-lyric-console | `carts/layout/polaroid.cart.js` |
 | `poster` | **吃 `{}`**：海報式大字（取第一個 `{}`，沒有就用整句）＋細線＋小字 | kinetic-lyric-console | `carts/layout/poster.cart.js` |
 | `pv-lyric` | **吃 `{}`**：橫排、靠左（預設落在畫面左側、約 54% 高度）。一般字是細黑體小字，`{}` 內的字變成**毛筆大字**（約 1.9 倍大，發光、色差收斂、帶淡墨暈影）。`(註解)` 會出現在關鍵字右下角，前面帶 `‹‹‹`。**沒寫 `{}` 時，自動把句尾 2 個字當關鍵字。** | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/pv-lyric.cart.js` |
-| `pv-vertical` | **吃 `{}`**：同上，但直排、靠右，由上往下展開。 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/pv-vertical.cart.js` |
+| `pv-vertical` | **吃 `{}`**：`pv-lyric` 的直排版，靠右，由上往下展開。 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/pv-vertical.cart.js` |
 | `quote` | 文字置中，左上與右下各一個大引號（強調色、半透明；字級最大約文字的 2.2 倍，不遮影片） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/quote.cart.js` |
 | `ruby` | 每個字上方一行小注音。注音取自副文（ | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/ruby.cart.js` |
 | `scale-steps` | 一句拆成 2～7 段（依逗號／空白切，切不出來就平均切），字級依比例逐段放大（或縮小），基線對齊；由小到大依序淡入，底下一條髮絲線 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/scale-steps.cart.js` |
 | `scatter` | 散落字：每字在格內隨機偏移、旋轉、縮放，由四方飛入 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/scatter.cart.js` |
 | `scroll` | 捲動歌詞：同時顯示前後各兩句，目前句最大，其他句模糊淡出（需要上下文，第一句與最後一句會少一邊） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/scroll.cart.js` |
 | `shatter-text` | 4 片碎片拼合 | kinetic-lyric-console | `carts/layout/shatter-text.cart.js` |
-| `split-cut` | 断ち割り：每行字從中線切成上下兩半左右錯開，中間一條強調色細線 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/split-cut.cart.js` |
+| `split-cut` | 斷裂錯位：每行字從中線切成上下兩半左右錯開，中間一條強調色細線 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/split-cut.cart.js` |
 | `split-flap` | 機場翻板 | kinetic-lyric-console | `carts/layout/split-flap.cart.js` |
 | `split-screen` | 句子切成上下兩半，各自從左右滑入，中間一條線 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/layout/split-screen.cart.js` |
 | `stack` | 長句拆成最多 3 行堆疊，行與行交替靠左、靠右 | kinetic-lyric-console | `carts/layout/stack.cart.js` |
@@ -90,15 +90,15 @@
 
 | id | 說明 | 作者 | 檔案 |
 |---|---|---|---|
-| `alt-zoom` | 交互ズーム：偶數字從鏡頭前撲來、奇數字從遠處長出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/alt-zoom.cart.js` |
+| `alt-zoom` | 交替縮放：偶數字從鏡頭前撲來、奇數字從遠處長出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/alt-zoom.cart.js` |
 | `big-jump` | 由下大跳躍落定 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/big-jump.cart.js` |
-| `bleed-in` | にじみ：逐字由糊變清並微微彈大 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/bleed-in.cart.js` |
+| `bleed-in` | 暈染：逐字由糊變清並微微彈大 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/bleed-in.cart.js` |
 | `blinds-in` | 百葉窗（8 條橫帶）展開 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/blinds-in.cart.js` |
 | `blink-in` | 點滅幾下後亮起 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/blink-in.cart.js` |
 | `blur-in` | 整句由模糊變清楚 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/blur-in.cart.js` |
 | `bubble-in` | 逐字像氣泡浮出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/bubble-in.cart.js` |
 | `checker-in` | 市松（近似）：棋盤格分兩階段浮現 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/checker-in.cart.js` |
-| `cursor-sweep` | カーソル掃引：強調色細棒由左掃到右，字被掃到就出現 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/cursor-sweep.cart.js` |
+| `cursor-sweep` | 游標掃過：強調色細棒由左掃到右，字被掃到就出現 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/cursor-sweep.cart.js` |
 | `domino-in` | 逐字像骨牌依序立起 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/domino-in.cart.js` |
 | `dot-grow` | 逐字由一個小點長成字 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/dot-grow.cart.js` |
 | `drop-stagger` | 逐字依序落下並微彈 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/drop-stagger.cart.js` |
@@ -116,9 +116,9 @@
 | `spiral-in` | 逐字沿螺旋軌跡聚攏 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/spiral-in.cart.js` |
 | `squash-land` | 落下壓扁再回彈 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/squash-land.cart.js` |
 | `stamp-in` | 像蓋章一樣由大壓下 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/stamp-in.cart.js` |
-| `stop-motion` | コマ撮り：逐字停格跳向定位，每格姿勢不同 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/stop-motion.cart.js` |
+| `stop-motion` | 逐格動畫：逐字停格跳向定位，每格姿勢不同 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/stop-motion.cart.js` |
 | `stretch-in` | 橫向伸展開來 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/stretch-in.cart.js` |
-| `track-expand` | 字間拡張：字距由緊縮撐開到正常並淡入 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/track-expand.cart.js` |
+| `track-expand` | 字距擴張：字距由緊縮撐開到正常並淡入 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/track-expand.cart.js` |
 | `type` | 打字機：逐字瞬間出現 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/type.cart.js` |
 | `unfold` | 由上緣向下折開（3D） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/unfold.cart.js` |
 | `whip` | 快速甩入（帶模糊，微過衝） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/enter/whip.cart.js` |
@@ -129,17 +129,17 @@
 
 | id | 說明 | 作者 | 檔案 |
 |---|---|---|---|
-| `backspace-out` | バックスペース：由句尾一字一字刪掉 （整句版由右往左削去） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/backspace-out.cart.js` |
+| `backspace-out` | 退格刪除：由句尾一字一字刪掉 （整句版由右往左削去） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/backspace-out.cart.js` |
 | `blinds-out` | 百葉窗閉合 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/blinds-out.cart.js` |
 | `blur-out-stagger` | 逐字依序模糊消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/blur-out-stagger.cart.js` |
 | `cascade-out` | 逐字下落 | kinetic-lyric-console | `carts/exit/cascade-out.cart.js` |
 | `close-h` | 由左右向中央閉合 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/close-h.cart.js` |
 | `close-v` | 由上下向中線閉合 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/close-v.cart.js` |
-| `diag-wipe-out` | 斜めワイプ退場：一條斜線掃過把字擦掉 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/diag-wipe-out.cart.js` |
+| `diag-wipe-out` | 斜向擦除退場：一條斜線掃過把字擦掉 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/diag-wipe-out.cart.js` |
 | `dissolve` | 逐字溶解（帶模糊） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/dissolve.cart.js` |
 | `domino-out` | 逐字像骨牌依序倒下 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/domino-out.cart.js` |
 | `drift-up-out` | 上飄淡出 | kinetic-lyric-console | `carts/exit/drift-up-out.cart.js` |
-| `echo-out` | 残響（近似）：放大擴散並帶光暈漸隱 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/echo-out.cart.js` |
+| `echo-out` | 殘響（近似）：放大擴散並帶光暈漸隱 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/echo-out.cart.js` |
 | `flicker-out` | 閃爍幾下後熄滅 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/flicker-out.cart.js` |
 | `flip-out` | 3D 轉開消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/flip-out.cart.js` |
 | `fly-through` | 衝向鏡頭放大並模糊 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/fly-through.cart.js` |
@@ -148,14 +148,14 @@
 | `leaf-fall` | 逐字像落葉飄落 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/leaf-fall.cart.js` |
 | `pop-out` | 先脹大再彈沒 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/pop-out.cart.js` |
 | `roll-out` | 滾動離場（轉一圈） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/roll-out.cart.js` |
-| `slash-out` | 一刀両断（近似）：字分成左右兩半掉開 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/slash-out.cart.js` |
+| `slash-out` | 一刀兩斷（近似）：字分成左右兩半掉開 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/slash-out.cart.js` |
 | `slide-down-out` | 向下移出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/slide-down-out.cart.js` |
 | `slide-r-out` | 向右滑出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/slide-r-out.cart.js` |
 | `slide-up-out` | 向上移出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/slide-up-out.cart.js` |
-| `spin-out` | 回って消える：逐字旋轉縮小消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/spin-out.cart.js` |
+| `spin-out` | 旋轉消失：逐字旋轉縮小消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/spin-out.cart.js` |
 | `squash-out` | 縱向壓扁消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/squash-out.cart.js` |
 | `stretch-out` | 橫向收窄成一條線 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/stretch-out.cart.js` |
-| `strike-out` | 線で消す：每字先被畫一條強調色線，再壓扁消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/strike-out.cart.js` |
+| `strike-out` | 畫線消去：每字先被畫一條強調色線，再壓扁消失 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/strike-out.cart.js` |
 | `sweep-cover` | 一條強調色細線由左掃過、把字蓋掉 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/sweep-cover.cart.js` |
 | `tip-over` | 像牌子一樣向後倒下（3D） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/tip-over.cart.js` |
 | `track-out` | 字距向外撐開並淡出 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/exit/track-out.cart.js` |
@@ -179,8 +179,8 @@
 | `cam-tilt-up` | 鏡頭上仰 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/cam-tilt-up.cart.js` |
 | `char-pulse` | 逐字脈動 | kinetic-lyric-console | `carts/fx/char-pulse.cart.js` |
 | `chromatic` | 色差抖動（隨 BPM） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/chromatic.cart.js` |
-| `dangle` | ぶら下がり：每字像吊著，從上緣左右擺動 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/dangle.cart.js` |
-| `dolly-in` | ドリー（鏡頭）：整句期間慢慢推近，只動一次 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/dolly-in.cart.js` |
+| `dangle` | 懸吊：每字像吊著，從上緣左右擺動 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/dangle.cart.js` |
+| `dolly-in` | 推軌（鏡頭）：整句期間慢慢推近，只動一次 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/dolly-in.cart.js` |
 | `drum` | 太鼓：重拍時突然放大再收 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/drum.cart.js` |
 | `focus-rack` | 逐字依序輕微失焦再對焦 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/focus-rack.cart.js` |
 | `gentle-bob` | 輕晃 | kinetic-lyric-console | `carts/fx/gentle-bob.cart.js` |
@@ -191,15 +191,15 @@
 | `noise-drift` | 逐字沿固定的雜訊軌跡漂移（非亂數） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/noise-drift.cart.js` |
 | `outline-pulse` | 輪廓光隨拍脈動 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/outline-pulse.cart.js` |
 | `pulse` | 隨拍脈動（縮放） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/pulse.cart.js` |
-| `shadow-sway` | 影が揺れる：字的影子方向與長度慢慢擺動 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/shadow-sway.cart.js` |
+| `shadow-sway` | 影子搖曳：字的影子方向與長度慢慢擺動 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/shadow-sway.cart.js` |
 | `shimmer` | 流光掃過 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/shimmer.cart.js` |
 | `slow-rotate` | 極緩慢左右傾斜（±1.2°） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/slow-rotate.cart.js` |
 | `small-circle` | 整句沿小圓軌跡移動（半徑<1% 畫面高） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/small-circle.cart.js` |
-| `step-zoom` | 段階ズーム（鏡頭）：2～3 次快速小推（每次 +4%），只動一次 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/step-zoom.cart.js` |
+| `step-zoom` | 階梯推近（鏡頭）：2～3 次快速小推（每次 +4%），只動一次 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/step-zoom.cart.js` |
 | `stopmotion` | 定格動畫感（每 0.4 秒循環的小幅抖動與傾斜） | kinetic-lyric-console | `carts/fx/stopmotion.cart.js` |
-| `stretch-beat` | 横伸び拍：每拍橫向撐開再彈回 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/stretch-beat.cart.js` |
+| `stretch-beat` | 橫伸節拍：每拍橫向撐開再彈回 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/stretch-beat.cart.js` |
 | `sway-char` | 逐字左右搖擺（相位錯開） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/sway-char.cart.js` |
-| `tilt-down` | ティルトダウン（鏡頭）：字從下方升入定位，只動一次 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/tilt-down.cart.js` |
+| `tilt-down` | 下搖（鏡頭）：字從下方升入定位，只動一次 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/tilt-down.cart.js` |
 | `track-breathe` | 字距輕微呼吸 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/track-breathe.cart.js` |
 | `wave` | 逐字波動 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/wave.cart.js` |
 | `wind-gust` | 突風：約每 2.2 秒一陣風，字由左而右被吹歪再彈回 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/fx/wind-gust.cart.js` |
@@ -209,16 +209,16 @@
 
 | id | 說明 | 作者 | 檔案 |
 |---|---|---|---|
-| `condensed` | 長体：字形橫向壓窄 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/condensed.cart.js` |
-| `echo-diag` | 輪郭の残響（近似）：右上方向的淡出殘影 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/echo-diag.cart.js` |
+| `condensed` | 長體：字形橫向壓窄 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/condensed.cart.js` |
+| `echo-diag` | 輪廓殘響（近似）：右上方向的淡出殘影 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/echo-diag.cart.js` |
 | `emboss` | 浮雕 | kinetic-lyric-console | `carts/style/emboss.cart.js` |
-| `extended` | 平体：字形橫向拉寬（上限 1.08） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/extended.cart.js` |
-| `extrude-3d` | 立体：短而實的 3D 厚度（比 `longshadow` 短） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/extrude-3d.cart.js` |
-| `grad-v` | 縦グラデ：上本色、下強調色 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/grad-v.cart.js` |
+| `extended` | 平體：字形橫向拉寬（上限 1.08） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/extended.cart.js` |
+| `extrude-3d` | 立體：短而實的 3D 厚度（比 `longshadow` 短） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/extrude-3d.cart.js` |
+| `grad-v` | 直向漸層：上本色、下強調色 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/grad-v.cart.js` |
 | `marker` | 螢光筆：字下半加半透明色帶，不蓋字 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/marker.cart.js` |
 | `shadow-offset` | 偏移硬影 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/shadow-offset.cart.js` |
 | `shadow-soft` | 柔和黑影（提高可讀性） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/shadow-soft.cart.js` |
-| `step-baseline` | 段違い：奇偶字上下交錯 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/step-baseline.cart.js` |
+| `step-baseline` | 高低錯位：奇偶字上下交錯 | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/step-baseline.cart.js` |
 | `strike` | 刪除線（強調色） | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/strike.cart.js` |
 | `tint-sweep` | 染色掃過 | kinetic-lyric-console | `carts/style/tint-sweep.cart.js` |
 | `tracking-wide` | 字距加寬 0.14em | hakoniwa (JIZURA) / kinetic-lyric-console | `carts/style/tracking-wide.cart.js` |

@@ -1,7 +1,7 @@
-/* 段階ズーム（鏡頭）：2～3 次快速小推（每次 +4%），只動一次 */
+/* 階梯推近（鏡頭）：2～3 次快速小推（每次 +4%），只動一次 */
 Console.cart({
   kind: 'fx', id: 'step-zoom', apiVersion: 1,
-  label: { zh: '段階ズーム（鏡頭）：2～3 次快速小推（每次 +4%），只動一次' },
+  label: { zh: '階梯推近（鏡頭）：2～3 次快速小推（每次 +4%），只動一次' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   rand: { group: 'cam' },

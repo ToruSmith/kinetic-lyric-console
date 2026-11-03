@@ -1,7 +1,7 @@
-/* 輪郭の残響（近似）：右上方向的淡出殘影 */
+/* 輪廓殘響（近似）：右上方向的淡出殘影 */
 Console.cart({
   kind: 'style', id: 'echo-diag', apiVersion: 1,
-  label: { zh: '輪郭の残響（近似）：右上方向的淡出殘影' },
+  label: { zh: '輪廓殘響（近似）：右上方向的淡出殘影' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   scope: 'element',

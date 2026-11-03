@@ -1,7 +1,7 @@
-/* 横伸び拍：每拍橫向撐開再彈回 */
+/* 橫伸節拍：每拍橫向撐開再彈回 */
 Console.cart({
   kind: 'fx', id: 'stretch-beat', apiVersion: 1,
-  label: { zh: '横伸び拍：每拍橫向撐開再彈回' },
+  label: { zh: '橫伸節拍：每拍橫向撐開再彈回' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   rand: { group: 'cam' },

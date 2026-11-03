@@ -1,7 +1,7 @@
-/* 対角配置：句子切成兩段放在對角，一條細線拐彎連過去 */
+/* 對角配置：句子切成兩段放在對角，一條細線拐彎連過去 */
 Console.cart({
   kind: 'layout', id: 'corners', apiVersion: 1,
-  label: { zh: '対角配置：句子切成兩段放在對角，一條細線拐彎連過去' },
+  label: { zh: '對角配置：句子切成兩段放在對角，一條細線拐彎連過去' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   flags: { lab: true },

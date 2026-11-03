@@ -1,8 +1,8 @@
-/* コマ撮り：逐字停格跳向定位，每格姿勢不同 */
+/* 逐格動畫：逐字停格跳向定位，每格姿勢不同 */
 const hh = (a,b)=>{const x=Math.sin(a*12.9898+b*78.233)*43758.5453;return x-Math.floor(x)};
 Console.cart({
   kind: 'enter', id: 'stop-motion', apiVersion: 1,
-  label: { zh: 'コマ撮り：逐字停格跳向定位，每格姿勢不同' },
+  label: { zh: '逐格動畫：逐字停格跳向定位，每格姿勢不同' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   play(ctx) {
@@ -11,7 +11,7 @@ Console.cart({
     const el = ctx.el;
     const l = ctx.charEls;
     const d = ctx.duration;
-       /* コマ撮り：逐字停格跳向定位，每格姿勢略不同（索引雜湊，不是亂數） */
+       /* 逐格動畫：逐字停格跳向定位，每格姿勢略不同（索引雜湊，不是亂數） */
     const K=5;
     if(l&&l.length)l.forEach((c,i)=>{const kf=[];
      for(let k=0;k<K-1;k++){const f=1-Math.pow(k/(K-1),3),ang=hh(i,81)*6.2832,Dd=.7+.5*hh(i,83),r=(a)=>(hh(i*7+k,a)-.5)*2;

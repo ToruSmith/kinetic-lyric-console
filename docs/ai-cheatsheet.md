@@ -67,6 +67,7 @@
 2. 程式碼區塊後，**不超過 5 行**說明：整首歌的基調與主力版型。
 3. 需要調整全域設定時，附一小段 `config` JSON，只放 3–6 個最關鍵的欄位（欄位名稱以 `manual.md` 第 8 節為準）。
 4. 句數很多（約 60 句以上）可分段輸出，結尾標明「接續第 N 句」，整首的基調前後一致。
+5. 可以執行指令時，交付前先跑 `node tools/check-srt.mjs 帶標記.srt --against 原始.srt`，修掉所有錯誤。
 
 ## 可用名稱
 
@@ -142,15 +143,15 @@
 - `zoomin` 由小放大
 - `zoomout` 由大縮小
 - `spin` 3D 轉向正面
-- `flip` 逐字 3D 翻起
-- `stagger` 逐字依序淡入
+- `flip` 逐字 3D 翻起 〔逐字〕
+- `stagger` 逐字依序淡入 〔逐字〕
 - `mask-up` 由下向上遮罩揭露
 - `elastic` 彈性放大再回彈
 - `swing` 左右搖擺定位
-- `ripple` 逐字依序波浪浮起
-- `scramble` 亂碼逐字還原
+- `ripple` 逐字依序波浪浮起 〔逐字〕
+- `scramble` 亂碼逐字還原 〔逐字〕
 - `split-reveal` 中線向上下展開
-- `blur-stagger` 逐字由模糊變清楚
+- `blur-stagger` 逐字由模糊變清楚 〔逐字〕
 - `track-in` 字距由寬收攏
 - `skew-in` 斜切滑入
 - `wipe` 由左向右擦出
@@ -174,20 +175,20 @@
 - `overexpose` 過曝白光漸收成正常
 - `blinds-in` 百葉窗展開
 - `wipe-diag` 斜向擦出
-- `fan-open` 逐字像摺扇依序打開
-- `domino-in` 逐字像骨牌依序立起
-- `bubble-in` 逐字像氣泡浮出
-- `dot-grow` 逐字由一個小點長成字
-- `magnet` 逐字由左右兩側被吸到定位
-- `spiral-in` 逐字沿螺旋軌跡聚攏
-- `drop-stagger` 逐字依序落下並微彈
-- `type` 打字機：逐字瞬間出現
-- `random-order` 逐字以固定的打亂順序淡入
-- `bleed-in` にじみ：逐字由糊變清並微微彈大
-- `cursor-sweep` カーソル掃引：強調色細棒由左掃到右
-- `track-expand` 字間拡張：字距由緊縮撐開到正常並淡入
-- `alt-zoom` 交互ズーム：偶數字從鏡頭前撲來、奇數字從遠處長出
-- `stop-motion` コマ撮り：逐字停格跳向定位，每格姿勢不同
+- `fan-open` 逐字像摺扇依序打開 〔逐字〕
+- `domino-in` 逐字像骨牌依序立起 〔逐字〕
+- `bubble-in` 逐字像氣泡浮出 〔逐字〕
+- `dot-grow` 逐字由一個小點長成字 〔逐字〕
+- `magnet` 逐字由左右兩側被吸到定位 〔逐字〕
+- `spiral-in` 逐字沿螺旋軌跡聚攏 〔逐字〕
+- `drop-stagger` 逐字依序落下並微彈 〔逐字〕
+- `type` 打字機：逐字瞬間出現 〔逐字〕
+- `random-order` 逐字以固定的打亂順序淡入 〔逐字〕
+- `bleed-in` 暈染：逐字由糊變清並微微彈大
+- `cursor-sweep` 游標掃過：強調色細棒由左掃到右，字被掃到就出現
+- `track-expand` 字距擴張：字距由緊縮撐開到正常並淡入
+- `alt-zoom` 交替縮放：偶數字從鏡頭前撲來、奇數字從遠處長出
+- `stop-motion` 逐格動畫：逐字停格跳向定位，每格姿勢不同
 - `checker-in` 市松：棋盤格分兩階段浮現
 - `focus-pull` 對焦
 - `rise-stagger` 逐字上浮
@@ -230,12 +231,12 @@
 - `leaf-fall` 逐字像落葉飄落
 - `domino-out` 逐字像骨牌依序倒下
 - `wave-out` 逐字依序起伏後崩落
-- `backspace-out` バックスペース：由句尾一字一字刪掉
-- `echo-out` 残響：放大擴散並帶光暈漸隱
-- `diag-wipe-out` 斜めワイプ退場：一條斜線掃過把字擦掉
-- `spin-out` 回って消える：逐字旋轉縮小消失
-- `slash-out` 一刀両断：字分成左右兩半掉開
-- `strike-out` 線で消す：每字先被畫一條強調色線，再壓扁消失
+- `backspace-out` 退格刪除：由句尾一字一字刪掉
+- `echo-out` 殘響：放大擴散並帶光暈漸隱
+- `diag-wipe-out` 斜向擦除退場：一條斜線掃過把字擦掉
+- `spin-out` 旋轉消失：逐字旋轉縮小消失
+- `slash-out` 一刀兩斷：字分成左右兩半掉開
+- `strike-out` 畫線消去：每字先被畫一條強調色線，再壓扁消失
 - `cascade-out` 逐字下落
 - `drift-up-out` 上飄淡出
 
@@ -269,13 +270,13 @@
 - `small-circle` 整句沿小圓軌跡移動
 - `jelly` 果凍式橫縮縱伸交替
 - `noise-drift` 逐字沿固定的雜訊軌跡漂移
-- `shadow-sway` 影が揺れる：字的影子方向與長度慢慢擺動
-- `stretch-beat` 横伸び拍：每拍橫向撐開再彈回
-- `dangle` ぶら下がり：每字像吊著，從上緣左右擺動
+- `shadow-sway` 影子搖曳：字的影子方向與長度慢慢擺動
+- `stretch-beat` 橫伸節拍：每拍橫向撐開再彈回
+- `dangle` 懸吊：每字像吊著，從上緣左右擺動
 - `wind-gust` 突風：約每 2.2 秒一陣風
-- `tilt-down` ティルトダウン：字從下方升入定位，只動一次
-- `dolly-in` ドリー：整句期間慢慢推近，只動一次
-- `step-zoom` 段階ズーム：2～3 次快速小推，只動一次
+- `tilt-down` 下搖：字從下方升入定位，只動一次
+- `dolly-in` 推軌：整句期間慢慢推近，只動一次
+- `step-zoom` 階梯推近：2～3 次快速小推，只動一次
 - `char-pulse` 逐字脈動
 - `gentle-bob` 輕晃
 
@@ -288,7 +289,7 @@
 - `trail` 拖影
 - `outline` 空心
 - `stamp` 蓋章
-- `double-line` 二重縁：粗外框＋細內線
+- `double-line` 雙重邊：粗外框＋細內線
 - `emphasis-dot` 傍點：字上加圓點
 - `shadow-stack` 多重影：三層水平漸淡
 - `split-tone` 上下二色
@@ -298,12 +299,12 @@
 - `shadow-soft` 柔和黑影
 - `shadow-offset` 偏移硬影
 - `tracking-wide` 字距加寬 0.14em
-- `grad-v` 縦グラデ：上本色、下強調色
-- `extrude-3d` 立体：短而實的 3D 厚度
-- `echo-diag` 輪郭の残響：右上方向的淡出殘影
-- `condensed` 長体：字形橫向壓窄
-- `extended` 平体：字形橫向拉寬
-- `step-baseline` 段違い：奇偶字上下交錯
+- `grad-v` 直向漸層：上本色、下強調色
+- `extrude-3d` 立體：短而實的 3D 厚度
+- `echo-diag` 輪廓殘響：右上方向的淡出殘影
+- `condensed` 長體：字形橫向壓窄
+- `extended` 平體：字形橫向拉寬
+- `step-baseline` 高低錯位：奇偶字上下交錯
 - `gradient` 漸層
 - `karaoke` 逐字變亮
 - `gloss-sweep` 光澤掃過：逐字亮帶掃一次

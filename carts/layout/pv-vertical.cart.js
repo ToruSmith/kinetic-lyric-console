@@ -1,7 +1,7 @@
-/* **吃 `{}`**：同上，但直排、靠右，由上往下展開。 */
+/* **吃 `{}`**：`pv-lyric` 的直排版，靠右，由上往下展開。 */
 Console.cart({
   kind: 'layout', id: 'pv-vertical', apiVersion: 1,
-  label: { zh: '**吃 `{}`**：同上，但直排、靠右，由上往下展開。' },
+  label: { zh: '**吃 `{}`**：`pv-lyric` 的直排版，靠右，由上往下展開。' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   flags: { brace: true },
   render(ctx) {

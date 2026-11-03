@@ -106,6 +106,8 @@
 
 拿到 AI 回覆後：存成 `.srt` → 網頁頂欄 **載入 ▾ → 載入字幕** 就能預覽；喜歡的話再用 **匯出** 精靈輸出。名稱寫錯時工具不會壞（未知版型會退回 `lowerleft`），載入字幕時提示列會列出不認得的名稱；可以直接請 AI「只用速查表裡的名稱重寫」。
 
+有裝 Node.js 的話，匯入前可以先檢查：`node tools/check-srt.mjs 帶標記.srt --against 原始.srt`。它會指出寫錯的名稱並建議正確名稱，也會確認 AI 沒有改動時間碼或歌詞。
+
 > 手冊的名稱表涵蓋舊版既有的項目；速查表（`docs/ai-cheatsheet.md`）與 [`docs/catalog.md`](docs/catalog.md) 則由卡帶自動產生，包含之後新增的項目。每個 Release 也附有 `ai-cheatsheet.md`，可直接下載。
 
 ## 使用前請注意
@@ -120,7 +122,7 @@
 core/    主機：解析、時間軸、編輯器、匯出；卡帶登記層（api/console.js）
 carts/   卡帶，一個效果一個檔案：layout enter exit fx style scene pack（_template 是範本）
 render/  離線渲染（Node＋Playwright＋ffmpeg）
-tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、縮圖（make-thumbs）
+tools/   建置（build）、新增卡帶（new-cart）、清單與速查表產生（gen-catalog、gen-cheatsheet）、SRT 檢查（check-srt）、縮圖（make-thumbs）
 test/    合約、位置、綠幕、分層、後製、行為等測試；golden/ 是畫面指紋基準
 docs/    手冊、卡帶合約、架構規劃、使用說明
 ```
@@ -138,6 +140,7 @@ npm run check        # 完整驗證（約 40–60 分鐘；日常只跑相關測
 npm run regress      # 與 test/golden 指紋比對畫面
 npm run catalog      # 重新產生 docs/catalog.md
 npm run cheatsheet   # 重新產生 docs/ai-cheatsheet.md
+npm run check-srt -- 帶標記.srt --against 原始.srt   # 檢查標記，並確認時間碼與歌詞沒被改動
 ```
 
 GitHub Actions 額度有限，驗證優先在本機跑；規則見 [`docs/architecture-plan.md`](docs/architecture-plan.md) 第 8 節。

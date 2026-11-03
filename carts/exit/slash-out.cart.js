@@ -1,7 +1,7 @@
-/* 一刀両断（近似）：字分成左右兩半掉開 */
+/* 一刀兩斷（近似）：字分成左右兩半掉開 */
 Console.cart({
   kind: 'exit', id: 'slash-out', apiVersion: 1,
-  label: { zh: '一刀両断（近似）：字分成左右兩半掉開' },
+  label: { zh: '一刀兩斷（近似）：字分成左右兩半掉開' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   keyframes: [{opacity:1,transform:"none"},{opacity:1,transform:"scaleX(1.02)",offset:.25},{opacity:0,transform:"translateY(14cqh) rotate(6deg)"}],

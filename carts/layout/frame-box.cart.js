@@ -1,7 +1,7 @@
-/* 額縁：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角） */
+/* 畫框：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角） */
 Console.cart({
   kind: 'layout', id: 'frame-box', apiVersion: 1,
-  label: { zh: '額縁：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角）' },
+  label: { zh: '畫框：字被細線框圈住；框式依句子編號輪替（整框／雙線／四角）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   flags: { lab: true },

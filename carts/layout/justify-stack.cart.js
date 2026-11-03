@@ -1,7 +1,7 @@
-/* 幅揃え：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字） */
+/* 等寬對齊：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字） */
 Console.cart({
   kind: 'layout', id: 'justify-stack', apiVersion: 1,
-  label: { zh: '幅揃え：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字）' },
+  label: { zh: '等寬對齊：2～4 行，每行字級調到同寬（字級仍受高度上限限制，至少 3 字）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   flags: { lab: true },

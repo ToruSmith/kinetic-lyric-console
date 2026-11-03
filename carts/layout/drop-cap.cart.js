@@ -1,7 +1,7 @@
-/* 大きな頭文字：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字） */
+/* 首字放大：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字） */
 Console.cart({
   kind: 'layout', id: 'drop-cap', apiVersion: 1,
-  label: { zh: '大きな頭文字：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字）' },
+  label: { zh: '首字放大：第一個字放大成 2～3 行高，其餘繞在右邊（至少 3 字）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   flags: { lab: true },

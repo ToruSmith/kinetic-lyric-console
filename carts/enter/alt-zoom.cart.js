@@ -1,7 +1,7 @@
-/* 交互ズーム：偶數字從鏡頭前撲來、奇數字從遠處長出 */
+/* 交替縮放：偶數字從鏡頭前撲來、奇數字從遠處長出 */
 Console.cart({
   kind: 'enter', id: 'alt-zoom', apiVersion: 1,
-  label: { zh: '交互ズーム：偶數字從鏡頭前撲來、奇數字從遠處長出' },
+  label: { zh: '交替縮放：偶數字從鏡頭前撲來、奇數字從遠處長出' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   perChar: {

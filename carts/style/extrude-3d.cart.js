@@ -1,7 +1,7 @@
-/* 立体：短而實的 3D 厚度（比 `longshadow` 短） */
+/* 立體：短而實的 3D 厚度（比 `longshadow` 短） */
 Console.cart({
   kind: 'style', id: 'extrude-3d', apiVersion: 1,
-  label: { zh: '立体：短而實的 3D 厚度（比 `longshadow` 短）' },
+  label: { zh: '立體：短而實的 3D 厚度（比 `longshadow` 短）' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   scope: 'element',

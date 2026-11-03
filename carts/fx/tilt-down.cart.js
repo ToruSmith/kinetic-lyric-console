@@ -1,7 +1,7 @@
-/* ティルトダウン（鏡頭）：字從下方升入定位，只動一次 */
+/* 下搖（鏡頭）：字從下方升入定位，只動一次 */
 Console.cart({
   kind: 'fx', id: 'tilt-down', apiVersion: 1,
-  label: { zh: 'ティルトダウン（鏡頭）：字從下方升入定位，只動一次' },
+  label: { zh: '下搖（鏡頭）：字從下方升入定位，只動一次' },
   author: 'hakoniwa (JIZURA) / kinetic-lyric-console', license: 'MIT',
   source: 'https://github.com/852wa/JIZURA',
   rand: { group: 'cam' },
