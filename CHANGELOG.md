@@ -2,6 +2,25 @@
 
 格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.1.0/)。版本內容以各 [Release](https://github.com/ToruSmith/kinetic-lyric-console/releases) 為準；本檔把使用者看得到的變更集中在一處。
 
+## [未發布]
+
+### 新增
+- 限定區域 `^box:X:Y:寬:高` 或 `^box:名稱`（設定 `regions`）：整句只在框裡排，裝飾一起縮進框內。面板「位置微調」可設定具名區域，編輯器可直接填區域。
+- 每句顏色：`@` 裡可寫 `c=` `a=` `sh=`（`none` 關陰影）`plate=` `dim=`，或用設定 `palettes` 的色組 `pal=名稱`。不佔 3 個樣式名額。
+- 底板色：拍立得相片、翻板方塊、字幕條的底色可用 `@plate=` 或全域 `plate` 設定；與字色對比不足 3:1 時自動換明暗（`plateAuto`）。光圈框壓暗可用 `@dim=` 或全域 `irisDim` 調整。
+- 絕對字高 `$h數字`：主文字的字級約為畫面高的「數字」%，各版型看起來一樣大。換算表由 `tools/gen-size-calib.mjs` 量測，存在 `core/kernel/size-calib.js`。
+- 離線渲染：`--start`／`--end`、`--line 12-14` 只出一段；`--stills 12.5,0:30.2` 輸出單張；`--sheet 2` 輸出附時間與句號的抽格總覽圖。起點之前只快轉不截圖，畫面與從頭渲染逐格相同。
+- 離線渲染：找不到 repo 內的 playwright 時自動改用全域安裝；`--chrome 路徑`（或 `CHROME_PATH`）可直接使用已安裝的 Chrome／Edge，沒下載 Chromium 時也會自動找。
+- `tools/check-srt.mjs`：檢查 `^box`、顏色鍵與 `$h`；`--config` 可一併確認區域與色組名稱有定義。
+
+### 變更
+- 長句超出畫面（或區域）時整句自動縮小（`autoFit`，預設開；`split`、`outline-big` 與滿版版型除外）。沒超出的句子不受影響。
+- `stack` 每行不再自動折行，長句改為縮小字級。
+- 內建 `karaoke` 版型與 `subtitle-box` 的逐字變亮改用文字色（原本固定白色；文字色為白色時畫面與舊版逐像素相同）。
+
+### 修正
+- 檢查器把 `^auto:X:Y` 判為錯誤，實際渲染正常。
+
 ## [0.3.0] - 2026-11-03
 
 ### 新增

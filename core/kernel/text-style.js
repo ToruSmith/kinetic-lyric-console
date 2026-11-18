@@ -39,3 +39,31 @@ function addSub(sb,c,small,left){
  if(!sb.sub||SUB_OWN.has(sb.lay))return;
  const e=txtEl(`${left?"left:6cqw;bottom:6.5cqh;":"left:0;right:0;bottom:6cqh;text-align:center;padding-left:.55em;"}font-size:${small*.62}px;letter-spacing:.55em;font-weight:300;white-space:pre-wrap`);
  delete e.dataset.t;e.textContent=sb.sub;c.appendChild(e);A(e,[{opacity:0},{opacity:.6}],{duration:D()*1.4,delay:D()*.6})}
+
+/* ===== [COLOR] 每句顏色：寫在 @ 樣式欄裡的 鍵=值（與樣式名稱用逗號隔開，不佔「最多 3 個樣式」的名額）=====
+   @c=字色 a=強調色 sh=陰影色（none＝關閉）plate=底板色 dim=光圈壓暗 0–100 pal=色組名稱（CONFIG.palettes）。色碼可寫 #1a1208、1a1208 或 3 碼。
+   沒寫時完全不介入。粒子、場景等畫在畫布上的氛圍特效仍用全域強調色。 */
+const COLOR_KEYS=["c","a","sh","plate","dim","pal"];
+const hexN=v=>{const m=/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(String(v==null?"":v).trim());if(!m)return"";let h=m[1];if(h.length===3)h=[...h].map(x=>x+x).join("");return"#"+h.toLowerCase()};
+function stKV(st){const o={};(st||"").split(",").forEach(t=>{const i=t.indexOf("=");if(i>0)o[t.slice(0,i).trim()]=t.slice(i+1).trim()});return o}
+function sbColors(sb){
+ const kv=stKV(sb&&sb.st),P=(kv.pal&&CONFIG.palettes&&CONFIG.palettes[kv.pal])||{},g=k=>kv[k]!==undefined?kv[k]:P[k]!==undefined?String(P[k]):undefined;
+ const o={c:hexN(g("c")),a:hexN(g("a")),plate:hexN(g("plate"))},sh=g("sh"),dm=parseFloat(g("dim"));
+ if(sh!==undefined)o.sh=/^(none|0|off)$/i.test(sh)?"none":hexN(sh);
+ if(isFinite(dm))o.dim=Math.max(0,Math.min(100,dm));return o}
+const _lum=h=>{const n=[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:((v+.055)/1.055)**2.4);return .2126*n[0]+.7152*n[1]+.0722*n[2]};
+const colorContrast=(x,y)=>{const a=_lum(x),b=_lum(y);return(Math.max(a,b)+.05)/(Math.min(a,b)+.05)};
+/* 底板色（拍立得相片、翻板方塊、字幕條等）：這句 plate= ＞ 色組 ＞ 全域 CONFIG.plate ＞ 版型預設 def（代表色）。
+   與這句的字色對比不足 3:1 且 CONFIG.plateAuto 不是 false 時，自動改用相反明暗的底板。
+   回傳 null＝沒有指定、對比也足夠 → 版型維持原本的畫法（舊專案畫面不變）。 */
+function plateFor(sb,def){
+ const C=sbColors(sb),txt=C.c||hexN(CONFIG.color)||"#ffffff",set=C.plate||hexN(CONFIG.plate);let p=set||hexN(def)||"#000000";
+ if(CONFIG.plateAuto!==false&&colorContrast(txt,p)<3)return _lum(txt)>.3?"#141a28":"#f3eee2";
+ return set?p:null}
+/* 把這句的顏色寫進句子根節點：--c／--a 由所有子元素繼承；陰影沿用面板的陰影形狀（沒開陰影時用預設形狀），只換顏色 */
+function applySbColors(w,sb){
+ const C=sbColors(sb);if(C.c)w.style.setProperty("--c",C.c);if(C.a)w.style.setProperty("--a",C.a);
+ if(C.sh==="none"){w.style.textShadow="none";w.style.setProperty("--dsh","none")}
+ else if(C.sh){const c=CONFIG,on=!!c.textShadow,geo=on?`${+c.shX||0}cqh ${+c.shY||0}cqh ${Math.max(0,+c.shBlur||0)}cqh`:"0 .185cqh 1.11cqh",al=on?Math.max(0,Math.min(1,(+c.shAlpha)/100))||.35:.35,
+  col=`rgba(${[1,3,5].map(i=>parseInt(C.sh.slice(i,i+2),16)).join(",")},${al})`;w.style.textShadow=`${geo} ${col}`;w.style.setProperty("--dsh",`drop-shadow(${geo} ${col})`)}
+ return C}

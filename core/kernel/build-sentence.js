@@ -3,13 +3,20 @@ const TICKS=[];
 /* 主文(plain)是否含 {} 內的字，取決於「實際使用的版型」：關鍵字版型要把它拆出來另外畫，其他版型要留在句子裡。
    parseTag 只依 SRT 標記決定一次；但「鎖定單一版型」或自動換版型會改掉實際版型，因此建構畫面前依實際版型重算，否則 {} 內的字會消失或重複。 */
 function syncPlain(){subs.forEach(x=>{const l=LAYOUTS.includes(CONFIG.lock||x.lay)?(CONFIG.lock||x.lay):"lowerleft";x.plain=BRACE_LAYOUTS.has(l)?x.raw.replace(/\{[^}]*\}/g,"").trim():x.raw.replace(/[{}]/g,"").trim()})}
-function build(sb){
+/* BOX（限定區域）只在排版期間生效，任何情況都要還原，否則粒子畫布等其他讀 SWd() 的地方會拿到區域大小 */
+function build(sb){try{buildSentence(sb)}finally{BOX=null}}
+function buildSentence(sb){
  syncPlain();TICKS.length=0;anims=[];L.innerHTML="";
- scr=[];clipQ=[];lastCt=-1;curFont=sb.font||"";const w=document.createElement("div");w.className="w";L.appendChild(w);
+ scr=[];clipQ=[];lastCt=-1;curFont=sb.font||"";const w=document.createElement("div");w.className="w";L.appendChild(w);applySbColors(w,sb);
  const lay=LAYOUTS.includes(CONFIG.lock||sb.lay)?(CONFIG.lock||sb.lay):"lowerleft",en=sb.en||({slam:"",bounce:""}[lay]===""?"":"rise"),dur=sb.e-sb.s,vw=SWd(),vh=SHd();
  tK=Math.max(.05,Math.min(1,dur*900/((((+CONFIG.enter||0)/(+CONFIG.speed||1))+(+CONFIG.exit||0))*1000||1)));
- const ks=sbKs(sb),big=Math.min(sbBigR(sb)*vh,vw*.3)*ks,small=Math.min(vh*.045,vw*.03)*ks;
- const acc="var(--a)",fw=document.createElement("div");fw.className="w";w.appendChild(fw);const PS=FULLBLEED.has(lay)?null:resolvePos(sb);let host=fw;if(PS){host=document.createElement("div");host.className="w";fw.appendChild(host)}
+ const BX=FULLBLEED.has(lay)?null:resolveBox(sb);
+ /* 大字：框夠大（高度≥畫面一半）時與全畫面相同；框較小時跟著框縮小，否則版型的裝飾大字會撐破框。小字（副文等）一律以畫面計算 */
+ const ks=sbKs(sb),big=Math.min(sbBigR(sb)*vh,vw*.3,...(BX?[sbBigR(sb)*vh*BX.h/50,vw*BX.w/100*.3]:[]))*ks,small=Math.min(vh*.045,vw*.03)*ks;
+ /* ^box 限定區域：整句放進區域框；排版期間 SWd()/SHd() 回傳框的大小 */
+ let par=w;
+ if(BX){par=document.createElement("div");par.className="bx";par.style.cssText=`position:absolute;left:${BX.x}%;top:${BX.y}%;width:${BX.w}%;height:${BX.h}%;container-type:size`;w.appendChild(par);BOX={w:vw*BX.w/100,h:vh*BX.h/100}}
+ const acc="var(--a)",fw=document.createElement("div");fw.className="w";par.appendChild(fw);const PS=FULLBLEED.has(lay)?null:resolvePos(sb);let host=fw;if(PS){host=document.createElement("div");host.className="w";fw.appendChild(host)}
  const content=document.createElement("div");content.className="w";host.appendChild(content);
  let list=null;
  if(lay==="split"){
@@ -41,8 +48,10 @@ function build(sb){
    A(w,[{transform:"translate(0,0)"},{transform:"translate(-14px,8px)"},{transform:"translate(12px,-9px)"},{transform:"translate(-6px,4px)"},{transform:"none"}],{duration:300,delay:260/CONFIG.speed});
    const f=document.createElement("div");f.style.cssText="position:fixed;inset:0;background:#fff;pointer-events:none";w.appendChild(f);A(f,[{opacity:0},{opacity:.7,offset:.1},{opacity:0}],{duration:250,delay:260/CONFIG.speed})}
   else if(lay==="neon"){e.textContent=sb.plain;e.style.textShadow=`0 0 6px #fff,0 0 18px ${acc},0 0 40px ${acc},0 0 80px ${acc}`;enter(e,sb.en||"fade")}
-  else if(lay==="karaoke"){list=chars(sb.plain,e,"color:rgba(255,255,255,.3)");const n=list.length,t=dur*1000/n;
-   list.forEach((c,i)=>A(c,[{color:"rgba(255,255,255,.3)"},{color:"#fff",textShadow:`0 0 14px ${acc}`}],{duration:t,delay:i*t,easing:"linear"}));enter(e,sb.en||"fade")}
+  else if(lay==="karaoke"){/* 字色是白色（預設）時維持原本的 rgba 寫法（動畫中間色的插值與 color-mix 不同，舊畫面才會逐像素相同）；其他字色跟著 --c */
+  const wc=(sbColors(sb).c||hex6(CONFIG.color,"#ffffff"))==="#ffffff",dimC=wc?"rgba(255,255,255,.3)":"color-mix(in srgb,var(--c) 30%,transparent)",onC=wc?"#fff":"var(--c)";
+  list=chars(sb.plain,e,"color:"+dimC);const n=list.length,t=dur*1000/n;
+   list.forEach((c,i)=>A(c,[{color:dimC},{color:onC,textShadow:`0 0 14px ${acc}`}],{duration:t,delay:i*t,easing:"linear"}));enter(e,sb.en||"fade")}
  }
  if(["slam","bounce","karaoke"].indexOf(lay)<0&&lay!=="lowerleft"&&lay!=="split"&&!sb.en)enter(content,"fade");
  else if(lay==="split"||lay==="neon"){}
@@ -65,6 +74,11 @@ function build(sb){
  fl.forEach(f=>{if(FXH[f])return FXH[f](fw,dur);const k=FK[f];if(k)A(fw,k[0],{duration:k[1],iterations:Infinity,easing:k[2],...(f==="float"||f==="shake"?{composite:"add"}:{})})});
  applyHL(content,sb,lay);applyKwFont(content,sb,lay);
  applyStyles(content,sb,dur);
+ /* 版型排完：之後的量測（自動縮放、定位）都以整個舞台座標為準，BOX 先還原 */
+ BOX=null;
+ /* 超出畫面（或 ^box 區域）時整句等比縮小；先縮再定位，placePos 量到的就是縮小後的範圍。^box 一律收進框（FIT_SKIP 只在全畫面時略過） */
+ if(!FULLBLEED.has(lay)&&(BX||!FIT_SKIP.has(lay))&&CONFIG.autoFit!==false){const V=SWd(),H=SHd(),mx=V*.015,my=H*.015;
+  fitContent(sb,content,BX?{l:V*BX.x/100,t:H*BX.y/100,r:V*(BX.x+BX.w)/100,b:H*(BX.y+BX.h)/100}:{l:mx,t:my,r:V-mx,b:H-my})}
  if(!(PS&&placePos(PS,sb,host,fw,content,small)))addSub(sb,content,small,lay==="lowerleft");
  clipFit(dur*500);
 }

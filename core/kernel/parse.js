@@ -44,11 +44,17 @@ function registerLayout(name,fn,o={}){NL[name]=fn;if(!LAYOUTS.includes(name))LAY
 const BRACE_LAYOUTS=new Set(["split","poster","diagonal","circle-badge","keyword","hanko","marker","annotate"]);
 /* 每句文字大小（標記 $大字高度比例,整體縮放%）：單位與面板 bigRatio（.03–.8）／textScale（20–300）相同；空白或 0＝跟隨全域。
    sb.bigR／sb.txtS 是「取代」全域值（不是相乘）；build() 與讀全域縮放的版型一律經 sbBigR／sbKs 取值（未設定時結果與原本完全相同）。 */
-function parseSz(s){const q=String(s||"").split(","),n=(i,lo,hi)=>{const v=parseFloat(q[i]);return v>0&&isFinite(v)?Math.max(lo,Math.min(hi,v)):0};return[n(0,.03,.8),n(1,20,300)]}
-const sbBigR=sb=>sb&&sb.bigR>0?sb.bigR:CONFIG.bigRatio,sbKs=sb=>((sb&&sb.txtS>0?sb.txtS:+CONFIG.textScale)||100)/100;
+/* $h數字＝絕對字高：主文字的字級約為畫面高的「數字」%，各版型看起來一樣大（換算係數見 size-calib.js）；與 $比例,縮放% 擇一，回傳第 3 項 */
+function parseSz(s){s=String(s||"");const hm=/^h(\d+(?:\.\d+)?)$/.exec(s);if(hm){const v=+hm[1];return[0,0,v>0?Math.max(.5,Math.min(60,v)):0]}
+ const q=s.split(","),n=(i,lo,hi)=>{const v=parseFloat(q[i]);return v>0&&isFinite(v)?Math.max(lo,Math.min(hi,v)):0};return[n(0,.03,.8),n(1,20,300),0]}
+/* $h（絕對字高）：大字比例固定為量測基準 SIZE_REF，整體縮放＝目標字高÷這個版型在基準下的字高（SIZE_CAL，tools/gen-size-calib.mjs 量測）。
+   這樣「用 big 排版」與「用 sizeScale 排版」的版型都會等比放大縮小；不受全域大字比例與整體縮放影響。 */
+const sbLay=sb=>LAYOUTS.includes(CONFIG.lock||sb.lay)?(CONFIG.lock||sb.lay):"lowerleft";
+const capKs=sb=>{const c=(typeof SIZE_CAL!=="undefined"&&SIZE_CAL[sbLay(sb)])||(typeof SIZE_CAL!=="undefined"&&SIZE_CAL["@median"])||.15;return Math.max(.15,Math.min(5,sb.capH/100/c))};
+const sbBigR=sb=>sb&&sb.capH>0?(typeof SIZE_REF!=="undefined"?SIZE_REF:.25):sb&&sb.bigR>0?sb.bigR:CONFIG.bigRatio,sbKs=sb=>sb&&sb.capH>0?capKs(sb):((sb&&sb.txtS>0?sb.txtS:+CONFIG.textScale)||100)/100;
 function parseTag(txt,s,e){
  let lay,en,ex,fx,pos="",st="",scene="",sz="";
- const r=txt.match(/^#([\w-]+)?(?:\+([\w-]+))?(?:\+([\w-]+))?(?:~([^\s@^*&$]+))?(?:\^([^\s@*&$]+))?(?:\$([\d.,]*))?(?:\*([^\s@&]+))?(?:@([^\s&]+))?(?:&(\S+))?\s*/);
+ const r=txt.match(/^#([\w-]+)?(?:\+([\w-]+))?(?:\+([\w-]+))?(?:~([^\s@^*&$]+))?(?:\^([^\s@*&$]+))?(?:\$(h?[\d.,]*))?(?:\*([^\s@&]+))?(?:@([^\s&]+))?(?:&(\S+))?\s*/);
  let font="";   /* 每句字體：*字體名（encodeURIComponent，* 另編成 %2A）；放在 ^位置 之後、@樣式 之前 */
  if(r){let fr;[,lay,en,ex,fx,pos,sz,fr,st,scene]=r;st=st||"";scene=scene||"";pos=pos||"";if(fr){try{font=decodeURIComponent(fr)}catch(e){font=fr}}txt=txt.slice(r[0].length)}
  const szP=parseSz(sz);
@@ -62,7 +68,7 @@ function parseTag(txt,s,e){
  /* hl：主文每個字是否在 {} 內，供「非關鍵字版型」做通用強調 */
  let hl=[],ib=false;for(const c of txt){if(c==="{")ib=true;else if(c==="}")ib=false;else hl.push(ib)}
  const s0=txt.replace(/[{}]/g,""),lead=[...s0].length-[...s0.trimStart()].length;hl=hl.slice(lead,lead+[...txt.replace(/[{}]/g,"").trim()].length);
- return{s,e,lay,en,ex,fx,pos,st,font,sub,br,plain,hl,raw:txt,bigR:szP[0],txtS:szP[1],auto:!r||(!!(font||scene||sz)&&!lay0&&!en&&!ex&&!fx&&!pos&&!st),scene};
+ return{s,e,lay,en,ex,fx,pos,st,font,sub,br,plain,hl,raw:txt,bigR:szP[0],txtS:szP[1],capH:szP[2],auto:!r||(!!(font||scene||sz)&&!lay0&&!en&&!ex&&!fx&&!pos&&!st),scene};
 }
 /* 找出標記裡「名稱不在登記表」的地方（載入字幕時提示用，唯讀、不改任何輸出）。
    工具遇到未知名稱一律安靜地退回預設（版型→lowerleft、其餘忽略），AI 產生的標記寫錯字時使用者只會覺得「沒效果」，所以載入時列出來。
@@ -74,7 +80,8 @@ function tagProblems(list){
   if(x.en&&!ENTERS.includes(x.en))add(i,"進場",x.en);
   if(x.ex&&!EXITS.includes(x.ex))add(i,"退場",x.ex);
   (x.fx||"").split(",").filter(Boolean).forEach(f=>{if(!FXS.includes(f))add(i,"特效",f)});
-  (x.st||"").split(",").filter(Boolean).forEach(f=>{if(!ST[f]&&!STC[f])add(i,"樣式",f)});
+  (x.st||"").split(",").filter(Boolean).forEach(f=>{const q=f.indexOf("=");if(q>0){const k=f.slice(0,q);if(!COLOR_KEYS.includes(k))add(i,"顏色鍵",k);return}if(!ST[f]&&!STC[f])add(i,"樣式",f)});
+  if(isBoxPos(x.pos)&&!resolveBox(x))add(i,"區域",x.pos.slice(4));
   (x.scene||"").split(",").filter(Boolean).forEach(t=>{const n=t.split(":")[0];if(n==="none"||/^bfx-/.test(n))return;if(n.startsWith("trans-")){if(!TRANS_NAMES.includes(n.slice(6)))add(i,"轉場",n);return}if(!SCENES[n])add(i,"場景",n)});
  });
  return out}

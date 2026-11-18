@@ -57,7 +57,8 @@ function pushHist(key){const t=performance.now();if(histOf!==subs){histA=[];hist
 function restoreSubs(sn){subs.splice(0,subs.length,...sn.map(cloneSub));cur=-2;if(selIdx>=subs.length)selIdx=subs.length-1;posRef&&posRef();refreshEditor();histBtn()}
 function undo(){if(histOf!==subs||!histA.length)return note("沒有可復原的動作");histB.push(snapSubs());restoreSubs(histA.pop());histKey="";note("已復原")}
 function redo(){if(histOf!==subs||!histB.length)return note("沒有可重做的動作");histA.push(snapSubs());restoreSubs(histB.pop());histKey="";note("已重做")}
-function nudge(dx,dy){const x=subs[selIdx];if(!x||FULLBLEED.has(layOf(x)))return;pushHist("nudge"+selIdx);const e=effPos(x);x.pos=fmtPos(e.a,e.x+dx,e.y+dy);x.auto=false;cur=-2;edSync(selIdx);posRef&&posRef()}
+const BOX_NOTE="這句使用限定區域（^box），位置由區域決定；要改請在編輯器的位置欄改區域，或按「這句回到跟隨全域」";
+function nudge(dx,dy){const x=subs[selIdx];if(!x||FULLBLEED.has(layOf(x)))return;if(isBoxPos(x.pos))return note(BOX_NOTE);pushHist("nudge"+selIdx);const e=effPos(x);x.pos=fmtPos(e.a,e.x+dx,e.y+dy);x.auto=false;cur=-2;edSync(selIdx);posRef&&posRef()}
 function guidesCss(){const g=document.getElementById("guides");if(!g)return;const sf=+CONFIG.posSafe||0;
  document.getElementById("vl").style.left=sf+"%";document.getElementById("vr").style.left=(100-sf)+"%";document.getElementById("ht").style.top=sf+"%";document.getElementById("hb").style.top=(100-sf)+"%";g.classList.toggle("on",!!CONFIG.guides)}
 const EDSEL=new Set();let lastCk=-1;
@@ -76,6 +77,7 @@ if(!RENDER){
   st.addEventListener("pointerdown",e=>{if(recording||e.button!==0)return;
    const t=now(),i=subs.findIndex(s=>t>=s.s&&t<s.e);if(i<0)return;const x=subs[i];
    if(FULLBLEED.has(layOf(x))){note("此版型為滿版，位置不生效");return}
+   if(isBoxPos(x.pos)){note(BOX_NOTE);return}
    const G=groupRect(L);if(!G)return;const o=st.getBoundingClientRect(),px=e.clientX-o.left,py=e.clientY-o.top,mx=SWd()*.04,my=SHd()*.04;
    if(px<G.l-mx||px>G.r+mx||py<G.t-my||py>G.b+my)return;   /* 只有按在文字附近才開始拖 */
    e.preventDefault();try{st.setPointerCapture(e.pointerId)}catch(_){}
@@ -101,9 +103,9 @@ function posPanel(p){secAnchor(p,"pos");
  const sync=light=>{
   if(!subs[selIdx]&&subs.length)selIdx=0;const x=subs[selIdx];
   if(!x){info.textContent="（尚無句子）";warn.textContent="";all.forEach(e=>e.disabled=true);return}
-  const fb=FULLBLEED.has(layOf(x));all.forEach(e=>e.disabled=fb);
+  const fb=FULLBLEED.has(layOf(x)),bx=isBoxPos(x.pos);all.forEach(e=>e.disabled=fb||bx);
   const q=(x.pos||"").split(":"),gd=(CONFIG.posAnchor?ANCH[CONFIG.posAnchor]:"版型原位")+"，X "+(+CONFIG.posX||0)+"，Y "+(+CONFIG.posY||0);
-  info.textContent="第 "+(selIdx+1)+"／"+subs.length+" 句　"+x.s.toFixed(1)+"s　"+x.raw.replace(/\s+/g," ").trim().slice(0,14)+(fb?"　（此版型為滿版，位置不生效）":x.pos?"　〔本句自訂〕":"　〔跟隨全域："+gd+"〕");
+  info.textContent="第 "+(selIdx+1)+"／"+subs.length+" 句　"+x.s.toFixed(1)+"s　"+x.raw.replace(/\s+/g," ").trim().slice(0,14)+(fb?"　（此版型為滿版，位置不生效）":bx?"　〔限定區域 "+x.pos.slice(4)+"：錨點與微調不生效〕":x.pos?"　〔本句自訂〕":"　〔跟隨全域："+gd+"〕");
   warn.textContent=(CONFIG.posAnchor||+CONFIG.posX||+CONFIG.posY)?"⚠ 全域位置不是預設：所有「跟隨全域」的句子都會偏離版型原位（見下方「全域預設」）":"";
   if(!light){as.value=(q[0]==="auto"||ANCH[q[0]])?q[0]:"";X.r.value=X.nn.value=+q[1]||0;Y.r.value=Y.nn.value=+q[2]||0}};
  const commit=()=>{const x=subs[selIdx];if(!x)return;pushHist("pos"+selIdx);const a=+X.r.value||0,b=+Y.r.value||0;x.pos=[as.value,...(a||b?[r2p(a),r2p(b)]:[])].join(":");if(x.pos)x.auto=false;cur=-2;edSync(selIdx);sync(true)};
@@ -128,7 +130,28 @@ function posPanel(p){secAnchor(p,"pos");
  [["guides","顯示參考線（中心十字＋安全邊界）"],["snap","拖曳時吸附到中心線／安全邊界（Alt 暫時關閉）"]].forEach(([k,t])=>{const l=document.createElement("label"),c=document.createElement("input");c.type="checkbox";c.checked=k==="snap"?CONFIG.snap!==false:!!CONFIG.guides;c.onchange=()=>{CONFIG[k]=c.checked;save();guidesCss()};l.append(c," "+t);p.append(l)});
  bt("全域位置回到版型原位",()=>{Object.assign(CONFIG,{posAnchor:"",posX:0,posY:0});cur=-2;save();panel()});
  bt("把目前全域位置寫入「沒有自訂位置」的句子",bakePos,"把「全域錨點＋微調」寫成這些句子各自的 ^位置:X:Y，並把全域微調歸零（畫面不變）。已有自訂位置的句子不動。之後用編輯器的「匯出帶標記的 SRT」存檔");
- bt("清除所有句子的位置",clearPos,"移除每句的 ^位置 標記（含 ^auto），全部改為跟隨全域")}
+ bt("清除所有句子的位置",clearPos,"移除每句的 ^位置 標記（含 ^auto），全部改為跟隨全域")
+ regionPanel(p,hd,bt)}
+/* 限定區域（^box）、色組、底板、長句自動縮放：都是選填，沒設定時畫面與舊版相同 */
+function regionPanel(p,hd,bt){
+ hd("── 限定區域・色組・底板 ──");
+ const tip=t=>{const d=document.createElement("div");d.style.cssText="margin:4px 0;opacity:.7;line-height:1.5";d.textContent=t;p.append(d)};
+ const json=(k,label,ph,check)=>{const l=document.createElement("label");l.textContent=label;const t=document.createElement("textarea");t.rows=3;t.style.cssText="width:100%;font:12px monospace";t.placeholder=ph;
+  t.value=CONFIG[k]&&Object.keys(CONFIG[k]).length?JSON.stringify(CONFIG[k]):"";const er=document.createElement("div");er.style.cssText="color:#ffb347;font-size:12px";
+  t.onchange=()=>{let v={};try{v=t.value.trim()?JSON.parse(t.value):{};if(!v||typeof v!=="object"||Array.isArray(v))throw new Error("要是 { 名稱: … } 的物件");const m=check(v);if(m)throw new Error(m);er.textContent="";CONFIG[k]=v;save();cur=-2;rs&&rs()}catch(e){er.textContent="格式錯誤："+e.message}};p.append(l,t,er)};
+ json("regions","具名區域（JSON；X,Y,寬,高 皆為畫面 %）",'{"右下":[55,55,40,35],"左上":[5,8,45,30]}',v=>{for(const[n,a]of Object.entries(v)){if(!/^[\w\u0080-￿-]+$/.test(n))return"名稱不能有空白或符號："+n;if(!Array.isArray(a)||a.length!==4||a.some(x=>!isFinite(+x)))return n+" 要是 4 個數字"}});
+ let rs=null;{const s=document.createElement("select");s.style.cssText="width:100%;margin:4px 0";p.append(s);
+  rs=()=>{s.innerHTML="";s.add(new Option("把這一句放進區域…",""));Object.keys(CONFIG.regions||{}).forEach(n=>s.add(new Option("^box:"+n,n)))};rs();
+  s.onchange=()=>{const x=subs[selIdx];if(!x||!s.value)return;pushHist();x.pos="box:"+s.value;x.auto=false;cur=-2;edSync(selIdx);posRef&&posRef();s.value=""}}
+ tip("標記寫 ^box:名稱，或直接寫 ^box:X:Y:寬:高（例 ^box:55:55:40:35）。整句（含裝飾）會排在框內，放不下時自動縮小。");
+ json("palettes","色組（JSON；c 字色、a 強調色、sh 陰影色、plate 底板色）",'{"紙":{"c":"2a1d14","a":"c0392b","sh":"none","plate":"f3eee2"},"夜":{"c":"ffffff","a":"7aa8ff"}}',v=>{for(const[n,o]of Object.entries(v)){if(!o||typeof o!=="object")return n+" 要是 {c:…, a:…}";for(const k of Object.keys(o))if(!COLOR_KEYS.includes(k)||k==="pal")return n+" 有不認得的鍵："+k}});
+ tip("每句在 @ 裡寫 pal=名稱 套用色組，也可以直接寫 c=、a=、sh=、plate=（例 @neon,c=2a1d14,sh=none）。");
+ {const l=document.createElement("label");l.textContent="底板色（拍立得相片、翻板、字幕條；留空＝版型原本的顏色）";const r=document.createElement("div");r.style.cssText="display:flex;gap:6px";
+  const c=document.createElement("input");c.type="color";c.value=hexN(CONFIG.plate)||"#141a28";const x=document.createElement("button");x.textContent=CONFIG.plate?"清除":"（未設定）";
+  c.oninput=()=>{CONFIG.plate=c.value;x.textContent="清除";save();cur=-2};x.onclick=()=>{CONFIG.plate="";x.textContent="（未設定）";save();cur=-2};r.append(c,x);p.append(l,r)}
+ [["plateAuto","底板和字色對比不足時，自動換成相反明暗的底板",true],["autoFit","長句超出畫面（或區域）時整句自動縮小",true]].forEach(([k,t,d])=>{const l=document.createElement("label"),c=document.createElement("input");c.type="checkbox";c.checked=CONFIG[k]!==false;c.onchange=()=>{CONFIG[k]=c.checked;save();cur=-2};l.append(c," "+t);p.append(l)});
+ {const l=document.createElement("label"),i=document.createElement("input"),v=document.createElement("b");l.textContent="光圈框四周壓暗 %：";v.textContent=CONFIG.irisDim==null?86:CONFIG.irisDim;l.append(v);
+  Object.assign(i,{type:"range",min:0,max:100,step:1,value:CONFIG.irisDim==null?86:CONFIG.irisDim});i.oninput=()=>{CONFIG.irisDim=+i.value;v.textContent=i.value;save();cur=-2};p.append(l,i)}}
 /* 位置寫入／清除：只改記憶體中的字幕；要存檔請用編輯器的「匯出帶標記的 SRT」 */
 function refreshEditor(){$("#edm")&&edRender()}   /* 字幕被外部改動（載入／復原／批次）後，重畫編輯器列表與詳細欄，保留捲動與選取 */
 function bakePos(){

@@ -69,7 +69,8 @@ const Console=(()=>{
  const layoutCtx=(sb,c,w,big,sm,dur,list)=>Object.freeze({...baseCtx(),sentence:sb,host:c,root:w,duration:dur,charEls:list,width:SWd(),height:SHd(),bigSize:big,smallSize:sm,
   text:txtEl,splitChars:chars,centered:css=>CE(c,css),fitSize:()=>fit(sb,big),random:sr,enterMs:D,enter:(el,kind,l)=>enter(el,kind,l),
   sw:()=>SWd(),sh:()=>SHd(),centerIn:(host,css)=>CE(host,css),fit:(s,b)=>fit(s,b),sentences:subs,shortK:tK,animCount:()=>anims.length,
-  config:Object.freeze({...CONFIG}),fonts:FONTS,fontCss:emFontCss,sizeScale:sbKs,hex6:(c,d)=>hex6(c,d),lib:LIB});
+  config:Object.freeze({...CONFIG}),fonts:FONTS,fontCss:emFontCss,sizeScale:sbKs,hex6:(c,d)=>hex6(c,d),lib:LIB,
+  plate:def=>plateFor(sb,def),colors2:()=>Object.freeze(sbColors(sb)),region:BOX?Object.freeze({...BOX}):null});   /* plate(代表色)：底板色（null＝維持版型原本畫法）；colors2()：這句的 @c=/a=/sh=/plate=/dim=；region：^box 限定區域時為 {w,h}（px），否則 null */
  const AD={
   layout(d){const f=d.flags||{};registerLayout(d.id,(sb,c,w,big,sm,dur,list)=>d.render(layoutCtx(sb,c,w,big,sm,dur,list)),{brace:f.brace,full:f.full});
    if(f.lab)LAB_LAYOUTS.add(d.id);if(f.ownSub)SUB_OWN.add(d.id)},

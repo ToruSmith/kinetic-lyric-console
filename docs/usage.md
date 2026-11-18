@@ -48,12 +48,15 @@
 | ffmpeg | 要能在終端機執行 `ffmpeg -version` |
 | 這個 repo | GitHub 頁面 **Code → Download ZIP** 解壓，或 `git clone https://github.com/ToruSmith/kinetic-lyric-console` |
 
-在 repo 資料夾裡執行一次（之後不用再做）。**順序不能顛倒，且渲染一定要先 `npm ci`**（它會裝 `playwright` 套件；沒裝會出現 `Cannot find package 'playwright'`）：
+在 repo 資料夾裡執行一次（之後不用再做）。**順序不能顛倒，且渲染一定要先 `npm ci`**（它會裝 `playwright` 套件）：
 
 ```
 npm ci
 npx playwright install chromium
 ```
+
+- 已經用 `npm install -g playwright` 全域安裝也可以：渲染程式找不到 repo 內的套件時，會自動改找 `npm root -g`（不用手動建捷徑）。
+- 不想下載 Playwright 的 Chromium：加 `--chrome "C:/Program Files/Google/Chrome/Application/chrome.exe"` 用已安裝的 Chrome／Edge（也可設環境變數 `CHROME_PATH`）；沒下載 Chromium 時，渲染程式會自動找系統上的 Chrome／Edge。
 
 ### 資料夾怎麼放
 
@@ -87,6 +90,12 @@ node render/run.mjs --project input/project.json --audio input/song.mp3 --width 
 | 畫質後製 | `--glow` `--aberration` `--grade warm\|cool\|film` | 只影響 `preview.mp4` |
 | 動態模糊 | `--blur 4` | 較慢、較順 |
 | 先試前幾秒 | `--seconds 10` | 快速確認 |
+| 只重出一段 | `--start 41 --end 0:52.5`（秒或 分:秒） | `preview_0m41.00s-0m52.50s.mp4`（不覆蓋整首的檔案） |
+| 只重出某幾句 | `--line 12` 或 `--line 12-14`（前後各留 `--pad` 秒，預設 0.5） | 同上 |
+| 指定時間點的單張 | `--stills 12.5,0:30.2` | `still_0m12.50s.png` …（PNG，標出第幾句） |
+| 抽格總覽 | `--sheet 2`（每 2 秒一張；`--cols 4` 每列張數；可配 `--start/--end/--line`） | `sheet_….jpg`（附時間與句號） |
+
+起點之前的格只快轉、不截圖，畫面與從頭渲染逐格相同（粒子、節拍都接得上），所以改一句只要 `--line` 重出那一句、抽格幾秒內就好；分段的 MP4 可以直接替換回整首的對應時間（開了 `--blur` 時起點會對齊到輸出格）。分段時 `--audio` 的音訊也會從同一時間點開始。
 
 不給 `--project` 時會渲染內建範例，可用來確認環境沒問題（建議加 `--seconds 5` 先試短的）；`--selftest` 會把同一專案渲染兩次並逐格比對，驗證結果可重現。
 
@@ -95,6 +104,7 @@ node render/run.mjs --project input/project.json --audio input/song.mp3 --width 
 - **找不到檔案**：路徑相對於你執行指令的資料夾（repo 根目錄）；錯誤訊息會列出該資料夾實際有哪些檔案，請對照檔名與副檔名（Windows 可能隱藏副檔名而變成 `.txt`）。
 - **自訂字體沒出現**：字體檔放 `input/fonts/`（或放在任一資料夾並加 `--fonts 資料夾`；不加參數時只會找 `input/fonts/`），檔名（去掉副檔名）要和網頁上選的字體名稱相同。
 - **自己匯入的風格包**：只存在瀏覽器裡；匯出渲染專案時，風格包套用後的設定已經寫進 `project.json`，渲染不需要它。
+- **找不到 playwright／Chromium**：見上方「需要準備」；錯誤訊息會說明缺哪一個。
 - **比例要一致**：離線渲染以 `--width/--height` 的比例排版，請與網頁預覽的畫面比例一致（匯出精靈給的指令已經配好）。
 
 ## 4. 匯入前檢查 AI 的標記
@@ -104,6 +114,8 @@ node render/run.mjs --project input/project.json --audio input/song.mp3 --width 
 ```
 node tools/check-srt.mjs 帶標記.srt --against 原始.srt
 ```
+
+用了 `^box:名稱` 或 `@pal=名稱` 時，加 `--config input/project.json`（或設定 JSON）一起檢查名稱有沒有定義。
 
 要依情緒或特徵找效果：
 

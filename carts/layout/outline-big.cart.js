@@ -9,7 +9,9 @@ Console.cart({
     const CE = ctx.centerIn;
     const enter = ctx.enter;
     const fit = ctx.fit;
-    const b=CE(c,`font-size:${big*2.4}px;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.7);letter-spacing:0;opacity:.8`);b.textContent=sb.plain.slice(0,3);enter(b,"zoomin");
+    /* ^box 限定區域時，背景大字限制在一行放得下（全畫面時維持原本大小） */
+    const bz=ctx.region?Math.min(big*2.4,ctx.sw()*.95/3):big*2.4;
+    const b=CE(c,`font-size:${bz}px;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.7);letter-spacing:0;opacity:.8`);b.textContent=sb.plain.slice(0,3);enter(b,"zoomin");
     const e=CE(c,`font-size:${fit(sb,big)*.5}px`);e.textContent=sb.plain;enter(e,sb.en||"rise")
   },
 });

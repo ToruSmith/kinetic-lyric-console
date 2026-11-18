@@ -16,9 +16,10 @@ Console.cart({
     const CE = ctx.centerIn;
     const chars = ctx.splitChars;
     const enter = ctx.enter;
+    const C2 = ctx.colors2(), DIM = (C2.dim != null ? C2.dim : CONFIG.irisDim != null && CONFIG.irisDim !== '' ? Math.max(0, Math.min(100, +CONFIG.irisDim)) : 86) / 100;   /* 四周壓暗：@dim=0–100 或全域 irisDim；預設 86 */
     const i=subs.indexOf(sb),rect=i%2===1,vw=SWd(),vh=SHd(),T=Math.max(800,dur*1000),X=CONFIG.exit*1000,n=Math.max(sb.plain.length,2);
     const d=Math.min(vh*.8,vw*.62),W0=rect?Math.min(vw*.78,d*1.7):d,H0=rect?d*.55:d,fs=Math.min(big*.42,W0*.82/n),a=Math.min(.35,D()*1.2/T),b=Math.max(a+.05,1-X/T);
-    const ap=document.createElement("div");ap.style.cssText=`position:absolute;left:50%;top:50%;translate:-50% -50%;border:2px solid var(--a);border-radius:${rect?"1.2cqh":"50%"};box-shadow:0 0 0 120vmax rgba(0,0,0,.86),0 0 3cqh var(--a),inset 0 0 3cqh rgba(122,168,255,.25);pointer-events:none`;c.appendChild(ap);
+    const ap=document.createElement("div");ap.style.cssText=`position:absolute;left:50%;top:50%;translate:-50% -50%;border:2px solid var(--a);border-radius:${rect?"1.2cqh":"50%"};box-shadow:0 0 0 120vmax rgba(0,0,0,${DIM.toFixed(3)}),0 0 3cqh var(--a),inset 0 0 3cqh rgba(122,168,255,.25);pointer-events:none`;c.appendChild(ap);
     A(ap,[{width:"0px",height:"0px",easing:"cubic-bezier(.3,.7,.3,1)"},{width:W0+"px",height:H0+"px",offset:a},{width:W0+"px",height:H0+"px",offset:b,easing:"cubic-bezier(.7,0,.7,.3)"},{width:"0px",height:"0px"}],{duration:T,easing:"linear"});
     const e=CE(c,`font-size:${fs}px;letter-spacing:.12em`);list.push(...chars(sb.plain,e));
     A(e,[{opacity:0},{opacity:0,offset:a*.6},{opacity:1,offset:a},{opacity:1,offset:b},{opacity:0}],{duration:T,easing:"linear"});if(sb.en)enter(e,sb.en,list)

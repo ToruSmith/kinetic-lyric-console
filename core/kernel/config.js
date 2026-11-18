@@ -7,7 +7,7 @@ const FONTS={明體:'"Noto Serif TC","Source Han Serif TC","Songti TC",PMingLiU,
  楷體:'BiauKai,DFKai-SB,"Kaiti TC",cursive',
  等寬:'Consolas,Menlo,"Courier New",monospace',
  英文展示:'Impact,Georgia,Futura,"Helvetica Neue",sans-serif'};
-Object.assign(CONFIG,{bokeh:0,leak:0,lightning:0,scratch:0,crt:0,vhs:0,invBar:0,guides:false,snap:true,lock:"",presetName:"",emFont:"（版型預設）",waterRefract:true,textScale:100,bgMode:"gradient",bgColor:"#050608",maskColor:"#000000",brightness:100,vidBright:100,vidContrast:100,vidSat:100,vidBlur:0,textShadow:false,shX:0,shY:.2,shBlur:1.1,shAlpha:35,shLayers:1,glowAcc:25,shColor:"#000000",ghostOn:false,ghostA:"#ff285a",ghostB:"#00dcff",alphaOnly:false,posAnchor:"",posX:0,posY:0,posSafe:6,recFps:60,recLite:false,aspect:"fill",particles:50,pMode:"dots",scan:0,grain:.05,vignette:.5,beatRot:0,tone:"",beatSrc:"bpm",trans:"cut",kb:false,autoPerf:true,sceneMax:3,beatShake:0,beatZoom:0,beatTilt:0,beatHue:0,sceneAll:"",layoutPool:"",sceneBudget:6,autoAccent:false});
+Object.assign(CONFIG,{bokeh:0,leak:0,lightning:0,scratch:0,crt:0,vhs:0,invBar:0,guides:false,snap:true,lock:"",presetName:"",emFont:"（版型預設）",waterRefract:true,textScale:100,bgMode:"gradient",bgColor:"#050608",maskColor:"#000000",brightness:100,vidBright:100,vidContrast:100,vidSat:100,vidBlur:0,textShadow:false,shX:0,shY:.2,shBlur:1.1,shAlpha:35,shLayers:1,glowAcc:25,shColor:"#000000",ghostOn:false,ghostA:"#ff285a",ghostB:"#00dcff",alphaOnly:false,posAnchor:"",posX:0,posY:0,posSafe:6,regions:{},palettes:{},plate:"",plateAuto:true,irisDim:86,autoFit:true,recFps:60,recLite:false,aspect:"fill",particles:50,pMode:"dots",scan:0,grain:.05,vignette:.5,beatRot:0,tone:"",beatSrc:"bpm",trans:"cut",kb:false,autoPerf:true,sceneMax:3,beatShake:0,beatZoom:0,beatTilt:0,beatHue:0,sceneAll:"",layoutPool:"",sceneBudget:6,autoAccent:false});
 const CFG_DEFAULTS=JSON.parse(JSON.stringify(CONFIG));   /* 出廠預設：匯入設定檔時以此為底，避免瀏覽器記住的舊值殘留 */
 const LS_CFG="klcfg",LS_QK="klqk",LS_PO="klpo";   /* localStorage 鍵名集中於此：設定、快捷選單「最近使用」、面板分組展開狀態 */
 /* 讀取／匯入設定時的基本把關：CFG_DEFAULTS 已有的鍵，型別明顯不對（NaN、null、字串塞給數字…）就丟掉、沿用預設；
@@ -25,7 +25,9 @@ function cfgClean(o){const r={},bad=[];if(!o||typeof o!=="object"||Array.isArray
  return{r,bad}}
 if(!RENDER)try{Object.assign(CONFIG,cfgClean(JSON.parse(localStorage.getItem(LS_CFG)||"{}")).r)}catch(e){}
 if(!RENDER)["posAnchor","posX","posY"].forEach(k=>CONFIG[k]=CFG_DEFAULTS[k]);   /* 全域位置只在本次使用有效，不跨次保存：每次開啟一律從「版型原位（正中）」開始；各句自己的位置存在 SRT 標記裡 */
-const $=s=>document.querySelector(s),SWd=()=>$("#stage").clientWidth,SHd=()=>$("#stage").clientHeight,m=$("#m"),L=$("#L");
+/* BOX：build() 排一句「^box 限定區域」時暫時設成區域大小（px），版型讀到的「畫面寬高」就是區域；排完立刻還原成 null（見 position.js [BOX]） */
+let BOX=null;
+const $=s=>document.querySelector(s),SWd=()=>BOX?BOX.w:$("#stage").clientWidth,SHd=()=>BOX?BOX.h:$("#stage").clientHeight,m=$("#m"),L=$("#L");
 const DEMO=`1
 00:00:01,000 --> 00:00:03,700
 #split+rise 你慢慢的。{靠}{近}

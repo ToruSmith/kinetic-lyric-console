@@ -51,6 +51,23 @@ t('逐句轉場', () => {
   assert.deepEqual(checkSrt(srt('#center+fade+fade&trans-wipe 歌', '#center+fade+fade&halftone:60,trans-zoom 歌')).issues, []);
   assert.match(msgs(checkSrt(srt('#center+fade+fade&trans-boom 歌')), 'error'), /trans-boom/);
 });
+t('位置 ^auto:X:Y 與限定區域 ^box', () => {
+  assert.deepEqual(checkSrt(srt('#center+fade+fade^auto:3:-2 歌', '#center+fade+fade^box:55:55:40:35 歌')).issues, []);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade^box:1:2:3 歌')), 'error'), /區域/);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade^box:0:0:3:50 歌')), 'error'), /至少 5/);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade^box:右下 歌')), 'warning'), /--config/);
+  const cfg = { regions: { 右下: [55, 55, 40, 35] }, palettes: { 紙: { c: '222' } } };
+  assert.deepEqual(checkSrt(srt('#center+fade+fade^box:右下@pal=紙 歌'), { config: cfg }).issues, []);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade^box:左上@pal=夜 歌'), { config: cfg }), 'error'), /左上[\s\S]*夜|夜[\s\S]*左上/);
+  assert.match(msgs(checkSrt(srt('#hud-frame+fade+fade^box:5:5:40:40 歌')), 'warning'), /滿版/);
+});
+t('每句顏色 @c= 等與絕對字高 $h', () => {
+  assert.deepEqual(checkSrt(srt('#center+fade+fade$h8@neon,outline,trail,c=2a1d14,a=#e85,sh=none,plate=f3eee2,dim=40 歌')).issues, []);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade@c=zz,q=1 歌')), 'error'), /色碼[\s\S]*q=|q=[\s\S]*色碼/);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade@dim=200 歌')), 'error'), /0–100/);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade$h 歌')), 'error'), /\$h/);
+  assert.match(msgs(checkSrt(srt('#center+fade+fade$h50 歌')), 'warning'), /很大/);
+});
 t('--against：時間與歌詞被改會被抓到，只加標記不會', () => {
   const base = srt('夜色漸漸深了', '看天台上流星');
   assert.equal(checkSrt(srt('#center+rise+fade 夜色{漸漸}深了||NIGHT', '#pv-lyric+fade+fade 看天台上{流星}(路過)'), { against: base }).stats.errors, 0);

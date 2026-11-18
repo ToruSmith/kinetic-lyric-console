@@ -25,14 +25,20 @@ if(RENDER){
   return{duration:endT(),fps:__fps,frames:Math.ceil(endT()*__fps),width:innerWidth,height:innerHeight,subs:subs.length}};
  window.__setAudio=a=>{lo=a.lo;hi=a.hi;fb=new Uint8Array(512);__aud={rows:Uint8Array.from(a.rows),nb:a.hi-a.lo+1,S:a.S,R:a.R,ptr:0};
   an={getByteFrequencyData(arr){const o=__aud.ptr++*__aud.nb;for(let i=0;i<__aud.nb;i++)arr[lo+i]=o+i<__aud.rows.length?__aud.rows[o+i]:0}}};
- window.__renderFrame=async(t,bg)=>{
+ /* 推進一格的狀態（不等畫面更新）。__renderFrame＝推進＋等兩次 rAF；__advance＝連續推進多格不畫，用於 --start／--stills 快轉。
+    快轉與逐格渲染走同一段程式，所以快轉後的畫面與從頭逐格渲染逐位元相同（test/region-color.mjs 驗證）。 */
+ const adv=t=>{
   const dt=__last<0?1/__fps:Math.max(0,t-__last);__last=t;vnow=t;vt=t;playing=true;
   if(__aud){__aud.ptr=Math.round(t*__fps)*__aud.S;for(let j=0;j<__aud.S-1;j++)audioStep(t*1000-(__aud.S-1-j)*1000/__aud.R)}
   step(t*1000,dt);
-  rt=rt.filter(o=>{const ct=(vnow-o.t0)*1000;if(ct>=o.a.effect.getComputedTiming().endTime){o.a.cancel();return false}o.a.currentTime=ct;return true});
+  rt=rt.filter(o=>{const ct=(vnow-o.t0)*1000;if(ct>=o.a.effect.getComputedTiming().endTime){o.a.cancel();return false}o.a.currentTime=ct;return true})};
+ window.__renderFrame=async(t,bg)=>{
+  adv(t);
   document.getAnimations().forEach(a=>{if(a instanceof CSSAnimation){a.pause();a.currentTime=t*1000}});
   if(bg&&__im.getAttribute("src")!==bg){__im.src=bg;try{await __im.decode()}catch(e){}}
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));return true};
+ window.__advance=(f0,f1)=>{for(let i=f0;i<f1;i++)adv(i/__fps);return true};   /* 依序推進第 f0 ~ f1-1 格（不畫）；之後再對第 f1 格呼叫 __renderFrame */
+ window.__subTimes=()=>subs.map(x=>[x.s,x.e]);
  window.__layer=m=>{const r=document.documentElement.classList;r.toggle("alpha",m==="text");r.toggle("nobg",m==="text");r.toggle("ambonly",m==="amb")};   // 'text'＝透明文字層；'amb'＝氛圍層（無文字）；其他＝一般完整畫面
 window.__ready=document.fonts.ready.then(()=>true);
 }else requestAnimationFrame(t=>{lastP=t;loop(t)});
