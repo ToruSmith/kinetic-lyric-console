@@ -1,6 +1,7 @@
 // 帶標記 SRT 檢查器（不需要瀏覽器）：在匯入工具或交付之前，找出名稱、語法與規則問題。
 //   node tools/check-srt.mjs 帶標記.srt                     檢查標記
 //   node tools/check-srt.mjs 帶標記.srt --against 原始.srt   另外確認時間碼與歌詞沒有被改動
+//   加 --config 設定檔（或網頁匯出的 project.json）時，一併檢查 ^box:名稱 與 @pal=名稱 是否有定義
 //   加 --strict 時，警告也算失敗；加 --json 輸出機器可讀結果
 // 退出碼：0＝通過、1＝有問題、2＝用法或檔案錯誤。
 // 解析直接執行 core/kernel/parse.js，名稱來自 tools/lib-names.mjs，不維護第二份語法或名單。
@@ -17,7 +18,9 @@ const SLOW_LAYOUTS = new Set(['particle-form', 'constellation']), SLOW_ENTERS = 
 const FLASHING = new Set(['flicker', 'glitch', 'shake', 'rainbow', 'flash-words', 'blink-in', 'flicker-out']);
 const SAFE_LAYOUTS = new Set(['center', 'lowerleft', 'subtitle-box']);
 const SCENE_MAX = 3, SHORT_SEC = 1.5;
-const POS = /^(?:auto|(?:tl|tc|tr|ml|mc|mr|bl|bc|br)?(?::-?\d+(?:\.\d+)?){0,2})$/;
+const POS = /^(?:auto|tl|tc|tr|ml|mc|mr|bl|bc|br)?(?::-?\d+(?:\.\d+)?){0,2}$/;   // 與 core/kernel/position.js 的 resolvePos 一致：auto 也可接 :X:Y
+const BOX_NUM = /^box:(\d+(?:\.\d+)?):(\d+(?:\.\d+)?):(\d+(?:\.\d+)?):(\d+(?:\.\d+)?)$/, BOX_NAME = /^box:([\w\u0080-\uffff-]+)$/;   // ^box:X:Y:寬:高（畫面 %）或 ^box:區域名稱
+const COLOR_KEYS = ['c', 'a', 'sh', 'plate', 'dim', 'pal'], HEX = /^#?(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;   // @ 裡的 鍵=值（每句顏色），見 core/kernel/text-style.js [COLOR]
 
 function loadParser() {
   const src = fs.readFileSync(path.join(ROOT, 'core/kernel/parse.js'), 'utf8');
@@ -66,7 +69,8 @@ function parseBlocks(text) {
 // 歌詞原文：去掉 {}；pv-* 的 (註解) 是新增物，比對時略過
 const lyricOf = x => { const t = x.raw.replace(/[{}]/g, ''); return (/^pv-/.test(x.lay) ? t.replace(/\([^)]*\)|（[^）]*）/g, '') : t).replace(/\s+/g, ' ').trim(); };
 
-export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
+export function checkSrt(text, { against = null, names = namesIndex(), config = null } = {}) {
+  const regions = config && config.regions && typeof config.regions === 'object' ? config.regions : null, palettes = config && config.palettes && typeof config.palettes === 'object' ? config.palettes : null;
   const issues = [], items = parseBlocks(text);
   const add = (level, it, msg) => issues.push({ level, sentence: it ? it.n : null, line: it ? it.line : null, message: msg });
   const err = (it, msg) => add('error', it, msg), warn = (it, msg) => add('warning', it, msg);
@@ -95,18 +99,36 @@ export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
     if (x.en) name(it, 'enter', x.en);
     if (x.ex) name(it, 'exit', x.ex);
     if (hasLayout && (!x.en || !x.ex)) warn(it, '每句要寫齊 `#版型+進場+退場`');
-    const fx = (x.fx || '').split(',').filter(Boolean), st = (x.st || '').split(',').filter(Boolean);
+    const fx = (x.fx || '').split(',').filter(Boolean), stAll = (x.st || '').split(',').filter(Boolean), st = stAll.filter(t => !t.includes('=')), kv = stAll.filter(t => t.includes('='));
     const scene = (x.scene || '').split(',').filter(Boolean);
     if (fx.length > 3) err(it, '`~` 每句最多 3 個，多的會被忽略');
     else if (fx.length > 1) warn(it, '`~` 建議每句 1 個；隨機可能給 2 個，手寫時請確認不會打架');
-    if (st.length > 3) err(it, '`@` 每句最多 3 個');
+    if (st.length > 3) err(it, '`@` 每句最多 3 個樣式（`c=` 等顏色鍵不算）');
+    kv.forEach(t => {
+      const [k, v = ''] = t.split('=');
+      if (!COLOR_KEYS.includes(k)) return err(it, `顏色鍵 \`${k}=\` 不存在，可用：${COLOR_KEYS.map(c => c + '=').join('、')}`);
+      if (k === 'dim') { if (!(v !== '' && +v >= 0 && +v <= 100)) err(it, '`dim=` 要是 0–100 的數字'); return; }
+      if (k === 'pal') { if (!v) err(it, '`pal=` 要接色組名稱'); else if (palettes && !palettes[v]) err(it, `色組 \`${v}\` 不在設定的 palettes 裡（有：${Object.keys(palettes).join('、') || '無'}）`); else if (!palettes) warn(it, `\`pal=${v}\` 要在設定檔的 palettes 定義；加 --config 可一起檢查`); return; }
+      if (k === 'sh' && /^(none|0|off)$/i.test(v)) return;
+      if (!HEX.test(v)) err(it, `\`${k}=${v}\` 不是色碼（例：\`${k}=1a1208\` 或 \`${k}=#fff\`）`);
+    });
+    if (/^#\S*\$h(?![\d.])/.test(line)) err(it, '`$h` 後面要接數字（主文字字級佔畫面高的 %，例：`$h8`）');
+    else if (/^#\S*\$h[\d.]+,/.test(line)) err(it, '`$h` 不能和 `$大字比例,縮放%` 混寫，擇一即可');
+    else if (x.capH > 0 && (x.capH < 2 || x.capH > 40)) warn(it, `\`$h${x.capH}\` 很${x.capH < 2 ? '小' : '大'}（字級佔畫面高 ${x.capH}%）；一般 4–12`);
     fx.forEach(n => name(it, 'fx', n)); st.forEach(n => name(it, 'style', n));
     let layers = 0;
     scene.forEach(t => { const n = t.split(':')[0]; if (n === 'none' || /^bfx-/.test(n)) return; if (n.startsWith('trans-')) { if (!TRANS.includes(n.slice(6))) err(it, `轉場 \`${n}\` 不存在，可用：${TRANS.map(x => 'trans-' + x).join('、')}`); return; } layers++; name(it, 'scene', n); });
     if (layers > SCENE_MAX) warn(it, `場景超過預設上限 ${SCENE_MAX} 層（\`sceneMax\`）`);
     if (x.pos) {
       if (/^alt:/.test(x.pos)) err(it, 'SRT 不支援 `^alt:`，請逐句輪流寫 `^bl`、`^br`');
-      else if (!POS.test(x.pos)) err(it, `位置 \`^${x.pos}\` 格式不對（例：\`^bc\`、\`^tl:5:-2\`）`);
+      else if (/^box:/.test(x.pos)) {
+        const m = BOX_NUM.exec(x.pos), nm = BOX_NAME.exec(x.pos);
+        if (m) { const [, bx, by, bw, bh] = m.map(Number); if (bw < 5 || bh < 5) err(it, '`^box` 寬、高至少 5（%）'); else if (bx + bw > 100.01 || by + bh > 100.01) warn(it, `\`^${x.pos}\` 超出畫面，會被推回畫面內`); }
+        else if (nm) { if (regions && !regions[nm[1]]) err(it, `區域 \`${nm[1]}\` 不在設定的 regions 裡（有：${Object.keys(regions).join('、') || '無'}）`); else if (!regions) warn(it, `\`^box:${nm[1]}\` 要在設定檔的 regions 定義；加 --config 可一起檢查`); }
+        else err(it, `區域 \`^${x.pos}\` 格式不對（例：\`^box:55:55:40:35\` 或 \`^box:右下\`）`);
+        if (lay?.full) warn(it, `滿版版型 \`${x.lay}\` 會忽略 \`^box\``);
+      }
+      else if (!POS.test(x.pos)) err(it, `位置 \`^${x.pos}\` 格式不對（例：\`^bc\`、\`^tl:5:-2\`、\`^box:55:55:40:35\`）`);
       else if (lay?.full) warn(it, `滿版版型 \`${x.lay}\` 會忽略 \`^位置\``);
     }
     const open = (x.raw.match(/\{/g) || []).length, close = (x.raw.match(/\}/g) || []).length;
@@ -150,12 +172,12 @@ export function checkSrt(text, { against = null, names = namesIndex() } = {}) {
 function main(argv) {
   const opt = n => { const i = argv.indexOf(n); if (i < 0) return null; const v = argv[i + 1]; argv.splice(i, 2); return v ?? ''; };
   const flag = n => { const i = argv.indexOf(n); if (i < 0) return false; argv.splice(i, 1); return true; };
-  const againstPath = opt('--against'), strict = flag('--strict'), json = flag('--json');
+  const againstPath = opt('--against'), configPath = opt('--config'), strict = flag('--strict'), json = flag('--json');
   const file = argv[0];
-  if (!file || argv.length !== 1 || againstPath === '') { console.error('用法：node tools/check-srt.mjs 帶標記.srt [--against 原始.srt] [--strict] [--json]'); return 2; }
-  let text, against = null;
-  try { text = fs.readFileSync(file, 'utf8'); if (againstPath) against = fs.readFileSync(againstPath, 'utf8'); } catch (e) { console.error(`讀不到檔案：${e.path || e.message}`); return 2; }
-  const r = checkSrt(text, { against });
+  if (!file || argv.length !== 1 || againstPath === '' || configPath === '') { console.error('用法：node tools/check-srt.mjs 帶標記.srt [--against 原始.srt] [--config 設定檔或project.json] [--strict] [--json]'); return 2; }
+  let text, against = null, config = null;
+  try { text = fs.readFileSync(file, 'utf8'); if (againstPath) against = fs.readFileSync(againstPath, 'utf8'); if (configPath) { const j = JSON.parse(fs.readFileSync(configPath, 'utf8').replace(/^\uFEFF/, '')); config = j && j.config && typeof j.config === 'object' ? j.config : j; } } catch (e) { console.error(`讀不到檔案或 JSON 格式錯誤：${e.path || e.message}`); return 2; }
+  const r = checkSrt(text, { against, config });
   if (json) console.log(JSON.stringify(r, null, 2));
   else {
     for (const i of r.issues) console.log(`${i.level === 'error' ? '✗ 錯誤' : '⚠ 警告'}｜${i.sentence ? `第 ${i.sentence} 句（第 ${i.line} 行）` : '全檔'}｜${i.message}`);

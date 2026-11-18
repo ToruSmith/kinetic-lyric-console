@@ -2,8 +2,12 @@
 //   分層：--layers＝同一輪渲染輸出 text_alpha.mov（透明文字層）＋ambient.mp4（背景＋氛圍特效，無文字）；兩層疊回去≈一般 preview.mp4，見 README
 //   綠幕：--chroma [#rrggbb，預設 #00ff00]＝純色背景＋只留文字，輸出一般 preview.mp4；會忽略 --video 背景與後製參數，見 README
 //   預覽 MP4 後製（只影響 preview.mp4）：[--glow [量]] [--glow-radius %] [--glow-threshold 0-254] [--aberration [px]] [--grade warm|cool|film] [--grade-contrast/-saturation/-brightness/-gamma N]；也可寫在 config.post，見 README
-// 沒給 --project 時使用內建範例。需要：Node.js、ffmpeg（在 PATH）、npx playwright install chromium
-import { chromium } from 'playwright';
+//   只出一段：--start 41 --end 0:52.5（秒或 分:秒）、--line 12 或 --line 12-14（第幾句，前後各留 --pad 秒，預設 0.5）；輸出檔名會加上時間範圍，不覆蓋整首的檔案
+//   抽格：--stills 12.5,0:30.2（輸出單張 PNG）；--sheet [間隔秒，預設 2] [--cols 4]（範圍內每隔幾秒一張，拼成一張附時間與句號的總覽圖）
+//   起點之前的格只快轉、不截圖（結果與從頭逐格渲染相同），所以只出一段或抽格幾乎不用等前面
+//   瀏覽器：--chrome 路徑（改用已安裝的 Chrome／Edge）；也會自動找全域安裝的 playwright（npm install -g）
+// 沒給 --project 時使用內建範例。需要：Node.js、ffmpeg（在 PATH）、npm ci、npx playwright install chromium（或用 --chrome）
+import { loadPlaywright, pickBrowser } from './pw.mjs';
 import { spawn, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { readFileSync, mkdirSync, writeFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
@@ -90,10 +94,17 @@ if (post) {
   console.log('後製（只影響預覽 MP4）：' + describePost(post));
 }
 
+let chromium, exePath = null;
+try {
+  const { pw, from } = await loadPlaywright(); chromium = pw.chromium;
+  if (from !== 'repo') console.log('使用全域安裝的 Playwright：' + from);
+  exePath = pickBrowser(chromium, args.chrome);
+  if (exePath) console.log('瀏覽器：' + exePath);
+} catch (e) { die(e.message); }
 let audioData = null, builtOnce = false;
 async function open() {
-  const browser = await chromium.launch({ args: ['--font-render-hinting=none', '--disable-lcd-text', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] }).catch(e =>
-    die('無法啟動 Chromium：' + e.message + '\n請先執行 npx playwright install chromium'));
+  const browser = await chromium.launch({ ...(exePath ? { executablePath: exePath } : {}), args: ['--font-render-hinting=none', '--disable-lcd-text', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] }).catch(e =>
+    die('無法啟動 Chromium：' + e.message + '\n請先執行 npx playwright install chromium，或用 --chrome 指定已安裝的 Chrome／Edge 執行檔路徑'));
   const page = await (await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1 })).newPage();
   page.on('pageerror', e => console.error('頁面錯誤：', e.message));
   // 渲染永遠吃「剛從 core/＋carts/ 建置出的 dist/index.html」：每次執行都重建一次（很快，只需 Node），避免換了原始碼卻還用舊的 dist
@@ -107,78 +118,172 @@ async function open() {
   return { browser, page, meta };
 }
 
-// 依序渲染第 0 ~ n-1 格；必須依序（粒子等狀態會累積），不能跳格
-async function renderAll(page, n, onFrame, bgOf = () => null) {
-  const t0 = Date.now();
-  for (let i = 0; i < n; i++) {
+// 依序渲染第 f0 ~ f1-1 格；狀態（粒子等）會累積，所以 f0 之前的格先用 __advance 快轉（只推進、不畫，結果與從頭逐格渲染相同）
+async function renderAll(page, f0, f1, onFrame, bgOf = () => null) {
+  const t0 = Date.now(), n = f1 - f0;
+  if (f0 > 0) await page.evaluate(([a, b]) => window.__advance(a, b), [0, f0]);
+  for (let i = f0; i < f1; i++) {
     await page.evaluate(([t, b]) => window.__renderFrame(t, b), [i / rfps, bgOf(i)]);
-    await onFrame(i, await page.screenshot({ type: fmt, omitBackground: needAlpha, ...(fmt === 'jpeg' ? { quality: 95 } : {}) }));
-    if (i % 30 === 29 || i === n - 1) {
-      const el = (Date.now() - t0) / 1000, per = el / (i + 1);
-      process.stdout.write(`\r  ${i + 1}/${n} 格　每格 ${per.toFixed(2)} 秒　預估剩餘 ${Math.round(per * (n - i - 1))} 秒   `);
+    await onFrame(i - f0, await page.screenshot({ type: fmt, omitBackground: needAlpha, ...(fmt === 'jpeg' ? { quality: 95 } : {}) }));
+    const k = i - f0;
+    if (k % 30 === 29 || k === n - 1) {
+      const el = (Date.now() - t0) / 1000, per = el / (k + 1);
+      process.stdout.write(`\r  ${k + 1}/${n} 格　每格 ${per.toFixed(2)} 秒　預估剩餘 ${Math.round(per * (n - k - 1))} 秒   `);
     }
   }
   process.stdout.write('\n');
 }
 
 // 分層渲染：同一格的狀態（粒子、閃電等）只推進一次，連截兩張：文字透明層（PNG）與氛圍層（無文字）
-async function renderLayers(page, n, onFrame, bgOf = () => null) {
-  const t0 = Date.now();
-  for (let i = 0; i < n; i++) {
+async function renderLayers(page, f0, f1, onFrame, bgOf = () => null) {
+  const t0 = Date.now(), n = f1 - f0;
+  if (f0 > 0) await page.evaluate(([a, b]) => window.__advance(a, b), [0, f0]);
+  for (let i = f0; i < f1; i++) {
     await page.evaluate(([t, b]) => window.__renderFrame(t, b), [i / rfps, bgOf(i)]);
     await page.evaluate(() => window.__layer('text'));
     const tx = await page.screenshot({ type: 'png', omitBackground: true });
     await page.evaluate(() => window.__layer('amb'));
     const am = await page.screenshot({ type: fmt, ...(fmt === 'jpeg' ? { quality: 95 } : {}) });
     await page.evaluate(() => window.__layer(''));
-    await onFrame(i, tx, am);
-    if (i % 30 === 29 || i === n - 1) {
-      const el = (Date.now() - t0) / 1000, per = el / (i + 1);
-      process.stdout.write(`\r  ${i + 1}/${n} 格（兩層）　每格 ${per.toFixed(2)} 秒　預估剩餘 ${Math.round(per * (n - i - 1))} 秒   `);
+    await onFrame(i - f0, tx, am);
+    const k = i - f0;
+    if (k % 30 === 29 || k === n - 1) {
+      const el = (Date.now() - t0) / 1000, per = el / (k + 1);
+      process.stdout.write(`\r  ${k + 1}/${n} 格（兩層）　每格 ${per.toFixed(2)} 秒　預估剩餘 ${Math.round(per * (n - k - 1))} 秒   `);
     }
   }
   process.stdout.write('\n');
 }
 
+// 時間：秒數（41.5）或 分:秒（0:41.5、1:02:03.5）
+function parseTime(v, label) {
+  const m = String(v).trim().match(/^(?:(\d+):)?(?:(\d+):)?(\d+(?:\.\d+)?)$/);
+  if (!m || v === true) die(`${label} 的時間格式不對：${v}（例：41.5 或 0:41.5）`);
+  const p = [m[1], m[2], m[3]].filter(x => x !== undefined).map(Number);
+  return p.reduce((s, x) => s * 60 + x, 0);
+}
+const tLabel = t => { const m = Math.floor(t / 60), s = t - m * 60; return `${m}m${s.toFixed(2).padStart(5, '0')}s`; };
+
 const { browser, page, meta } = await open();
 const needAlpha = await page.evaluate(() => !!(CONFIG.alphaOnly || CONFIG.bgMode === 'transparent'));
 const fmt = needAlpha || args.png ? 'png' : 'jpeg';   // 預設 JPEG（1080p 比 PNG 快 4 倍以上）；透明必須用 PNG
-const limit = args.seconds ? Math.min(meta.frames, Math.ceil(Number(args.seconds) * rfps)) : meta.frames;
+
+// ---- 範圍：--start／--end（秒或 分:秒）、--line N 或 N-M（第幾句，前後各留 --pad 秒，預設 0.5）、--seconds（長度）----
+const subT = await page.evaluate(() => window.__subTimes());
+let segS = null, segE = null;
+if (args.line !== undefined) {
+  const ns = String(args.line).split(/[-~,]/).map(x => parseInt(x, 10));
+  if (args.line === true || ns.some(x => !(x >= 1 && x <= subT.length))) die(`--line 要接第幾句（1～${subT.length}），例如 --line 12 或 --line 12-14`);
+  const pad = args.pad !== undefined ? Math.max(0, Number(args.pad) || 0) : 0.5;
+  segS = Math.max(0, subT[Math.min(...ns) - 1][0] - pad); segE = subT[Math.max(...ns) - 1][1] + pad;
+}
+if (args.start !== undefined) segS = parseTime(args.start, '--start');
+if (args.end !== undefined) segE = parseTime(args.end, '--end');
+// 起點對齊到輸出格（動態模糊時 blur 格子格合成一格），分段輸出才能與整首輸出逐格對上
+const f0 = segS != null ? Math.min(meta.frames, Math.round(segS * fps) * blur) : 0;
+let f1 = segE != null ? Math.min(meta.frames, Math.round(segE * fps) * blur) : meta.frames;
+if (args.seconds) f1 = Math.min(f1, f0 + Math.ceil(Number(args.seconds) * rfps));
+if (f1 <= f0) die(`範圍是空的：開始 ${(f0 / rfps).toFixed(2)} 秒、結束 ${(f1 / rfps).toFixed(2)} 秒（全長 ${meta.duration.toFixed(2)} 秒）`);
+const segment = f0 > 0 || f1 < meta.frames && (segE != null || args.line !== undefined);
+const suffix = segment ? `_${tLabel(f0 / rfps)}-${tLabel(f1 / rfps)}` : '';
+const limit = f1;
+
+// ---- 抽格：--stills 12.5,0:30.2（單張 PNG）；--sheet [間隔秒，預設 2]（範圍內每隔幾秒一張，拼成一張總覽圖）----
+let stillT = null;
+if (args.stills !== undefined) {
+  if (args.stills === true) die('--stills 要接時間，例如 --stills 12.5,0:30.2');
+  stillT = String(args.stills).split(',').filter(Boolean).map(x => parseTime(x, '--stills'));
+}
+if (args.sheet !== undefined) {
+  const step = args.sheet === true ? 2 : Number(args.sheet);
+  if (!(step > 0)) die('--sheet 的間隔要是正數（秒），例如 --sheet 2');
+  stillT = [...(stillT || [])];
+  for (let t = f0 / rfps; t < f1 / rfps - 1e-6; t += step) stillT.push(+t.toFixed(4));
+}
+if (stillT) stillT = [...new Set(stillT)].sort((a, b) => a - b).filter(t => { if (t < 0 || t > meta.duration) { console.warn(`警告：${t} 秒超出全長 ${meta.duration.toFixed(2)} 秒，略過`); return false; } return true; });
+if (stillT && !stillT.length) die('沒有可輸出的時間點');
+
 const audioSrc = args.audio && args.audio !== true ? resolve(args.audio) : (args.video && args.video !== true ? resolve(args.video) : null);
+const lastFrame = stillT ? Math.round(stillT[stillT.length - 1] * rfps) + 1 : limit;
 if (audioSrc) {
   process.stdout.write('分析音樂節拍…');
-  audioData = analyzeAudio(audioSrc, rfps, limit);
+  audioData = analyzeAudio(audioSrc, rfps, lastFrame);
   if (audioData) { await page.evaluate(a => window.__setAudio(a), audioData); console.log(' 完成'); } else console.log(' 沒有可分析的音軌，略過');
 }
 const missFont = await page.evaluate(() => FONTS[CONFIG.font] ? null : CONFIG.font);
 if (missFont) console.warn(`警告：設定使用字體「${missFont}」，但 input/fonts 裡沒有同名字體檔（檔名需為 ${missFont}.ttf／.otf 等），輸出會改用系統字體。`);
 const bgDir = join(outDir, '_bg'); let bgCount = 0;
+let videoDur = 0;
 if (bgVideo) {
+  const r = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', resolve(args.video)], { encoding: 'utf8' });
+  videoDur = parseFloat(r.stdout) || 0;
+}
+const bgStart = videoDur > 0 ? (f0 / rfps) % videoDur : f0 / rfps;   // 背景影片比總長度短時會自動循環
+if (bgVideo && !stillT) {
   rmSync(bgDir, { recursive: true, force: true }); mkdirSync(bgDir, { recursive: true });
   process.stdout.write('擷取背景影片的每一格…');
-  const x = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-stream_loop', '-1', '-i', resolve(args.video), '-t', String(limit / rfps + 1), '-vf', `fps=${fps},scale=${W}:${H}:force_original_aspect_ratio=decrease`,
-    '-frames:v', String(Math.ceil(limit / blur)), '-q:v', '3', join(bgDir, '%06d.jpg')], { stdio: ['ignore', 'inherit', 'inherit'] });
+  const x = spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-stream_loop', '-1', ...(bgStart > 0 ? ['-ss', bgStart.toFixed(4)] : []), '-i', resolve(args.video), '-t', String((limit - f0) / rfps + 1), '-vf', `fps=${fps},scale=${W}:${H}:force_original_aspect_ratio=decrease`,
+    '-frames:v', String(Math.ceil((limit - f0) / blur)), '-q:v', '3', join(bgDir, '%06d.jpg')], { stdio: ['ignore', 'inherit', 'inherit'] });
   bgCount = existsSync(bgDir) ? readdirSync(bgDir).length : 0;
   if (x.status || !bgCount) die('無法讀取背景影片，請確認檔案可正常播放。');
   console.log(` ${bgCount} 格`);
 }
-const bgOf = i => bgVideo ? pathToFileURL(join(bgDir, String(Math.min(Math.floor(i / blur) + 1, bgCount)).padStart(6, '0') + '.jpg')).href : null;   // 背景影片比總長度短時會自動循環
-console.log(`專案：${meta.subs} 句，${meta.duration.toFixed(1)} 秒，${W}×${H}，${fps}fps${blur > 1 ? `（動態模糊 ×${blur}，以 ${rfps}fps 渲染）` : ''}，共渲染 ${limit} 格`);
+const bgOf = i => bgVideo && !stillT ? pathToFileURL(join(bgDir, String(Math.min(Math.floor((i - f0) / blur) + 1, bgCount)).padStart(6, '0') + '.jpg')).href : null;
+console.log(`專案：${meta.subs} 句，${meta.duration.toFixed(1)} 秒，${W}×${H}，${fps}fps${blur > 1 ? `（動態模糊 ×${blur}，以 ${rfps}fps 渲染）` : ''}，`
+  + (stillT ? `抽格 ${stillT.length} 張` : segment ? `範圍 ${(f0 / rfps).toFixed(2)}～${(f1 / rfps).toFixed(2)} 秒，共渲染 ${limit - f0} 格（之前的 ${f0} 格只快轉不畫）` : `共渲染 ${limit} 格`));
+
+if (stillT) {                              // 抽格：快轉到每個時間點，只畫那一格
+  mkdirSync(outDir, { recursive: true });
+  const shots = []; let at = 0;
+  for (const t of stillT) {
+    const fi = Math.round(t * rfps);
+    if (fi > at) await page.evaluate(([a, b]) => window.__advance(a, b), [at, fi]);
+    let bg = null;
+    if (bgVideo) {
+      mkdirSync(bgDir, { recursive: true }); const f = join(bgDir, `still_${fi}.jpg`);
+      spawnSync('ffmpeg', ['-y', '-loglevel', 'error', '-ss', String(videoDur > 0 ? (fi / rfps) % videoDur : fi / rfps), '-i', resolve(args.video), '-frames:v', '1', '-vf', `scale=${W}:${H}:force_original_aspect_ratio=decrease`, '-q:v', '3', f]);
+      if (existsSync(f)) bg = pathToFileURL(f).href;
+    }
+    await page.evaluate(([x, b]) => window.__renderFrame(x, b), [fi / rfps, bg]);
+    at = fi + 1;
+    const buf = await page.screenshot({ type: 'png', omitBackground: needAlpha });
+    const line = subT.findIndex(([s, e]) => fi / rfps >= s && fi / rfps < e);
+    shots.push({ t: fi / rfps, buf, line: line + 1 });
+    if (args.sheet === undefined || (args.stills !== undefined && String(args.stills).split(',').some(x => Math.abs(parseTime(x, '--stills') - t) < 1e-6))) {
+      const f = join(outDir, `still_${tLabel(fi / rfps)}.png`); writeFileSync(f, buf); console.log('  ' + f + (line >= 0 ? `（第 ${line + 1} 句）` : '（句間空檔）'));
+    }
+  }
+  if (args.sheet !== undefined) {           // 總覽圖：在同一個瀏覽器裡排版後截圖，不依賴 ffmpeg 的文字濾鏡
+    const cols = Math.max(1, Math.min(12, parseInt(args.cols, 10) || 4)), tw = Math.round(Math.min(480, 1920 / cols)), th = Math.round(tw * H / W);
+    const sp = await (await browser.newContext({ viewport: { width: cols * (tw + 8) + 8, height: 200 }, deviceScaleFactor: 1 })).newPage();
+    const esc = x => String(x).replace(/[<&>]/g, c => ({ '<': '&lt;', '&': '&amp;', '>': '&gt;' })[c]);
+    await sp.setContent(`<body style="margin:0;padding:8px;background:#111;color:#ddd;font:13px sans-serif;display:grid;grid-template-columns:repeat(${cols},${tw}px);gap:8px">`
+      + shots.map(s => `<figure style="margin:0"><img style="display:block;width:${tw}px;height:${th}px;background:repeating-conic-gradient(#333 0 25%,#222 0 50%) 0 0/16px 16px" src="data:image/png;base64,${s.buf.toString('base64')}"><figcaption style="padding:3px 2px">${esc(tLabel(s.t))}${s.line ? `　第 ${s.line} 句` : '　（空檔）'}</figcaption></figure>`).join('') + '</body>');
+    const f = join(outDir, `sheet${suffix || '_all'}.jpg`);
+    writeFileSync(f, await sp.screenshot({ type: 'jpeg', quality: 88, fullPage: true }));
+    console.log('完成總覽圖：' + f + `（${shots.length} 張，每 ${args.sheet === true ? 2 : args.sheet} 秒一張）`);
+  }
+  await browser.close();
+  if (bgVideo && !args['keep-bg']) rmSync(bgDir, { recursive: true, force: true });
+  process.exit(0);
+}
 
 if (args.selftest) {                       // 決定論自我測試：同一專案渲染兩次，逐格比對雜湊
   const sha = x => createHash('sha1').update(x).digest('hex');
   const run = async () => { const { browser: b, page: p } = await open(); const h = [];
-    if (layers) await renderLayers(p, limit, async (i, tx, am) => h.push(sha(tx) + sha(am)), bgOf);
-    else await renderAll(p, limit, async (i, buf) => h.push(sha(buf)), bgOf); await b.close(); return h; };
+    if (layers) await renderLayers(p, f0, limit, async (i, tx, am) => h.push(sha(tx) + sha(am)), bgOf);
+    else await renderAll(p, f0, limit, async (i, buf) => h.push(sha(buf)), bgOf); await b.close(); return h; };
   const a = await run(), b = await run(), bad = a.map((x, i) => x === b[i] ? -1 : i).filter(i => i >= 0);
   await browser.close();
-  console.log(bad.length ? `✗ 不一致的格：${bad.slice(0, 20).join(', ')}${bad.length > 20 ? ' …共 ' + bad.length + ' 格' : ''}` : `✓ 兩次渲染 ${limit} 格完全相同`);
+  console.log(bad.length ? `✗ 不一致的格：${bad.slice(0, 20).join(', ')}${bad.length > 20 ? ' …共 ' + bad.length + ' 格' : ''}` : `✓ 兩次渲染 ${limit - f0} 格完全相同`);
   process.exit(bad.length ? 2 : 0);
 }
 
 mkdirSync(outDir, { recursive: true });
 const dump = args['frames-dir'] ? resolve(args['frames-dir']) : null;
 dump && mkdirSync(dump, { recursive: true });
+const audioIn = a => f0 > 0 ? ['-ss', (f0 / rfps).toFixed(4), '-i', a] : ['-i', a];   // 分段輸出：音訊從同一時間點開始
+const outName = (base, ext) => join(outDir, base + suffix + ext);
 const audio = args.audio && args.audio !== true ? resolve(args.audio) : (args.video && args.video !== true ? resolve(args.video) : null);
 if (layers) {      // 分層輸出：text_alpha.mov（透明文字）＋ambient.mp4（背景與氛圍特效，含音訊）
   if (post) { console.warn(`警告：分層輸出不套用後製（${describePost(post)}），後製請在剪輯軟體疊合後處理。`); post = null; }
@@ -187,42 +292,42 @@ if (layers) {      // 分層輸出：text_alpha.mov（透明文字）＋ambient.
   const selL = `select=eq(mod(n+1\\,${blur})\\,0),setpts=N/(${fps}*TB)`;
   const mbT = `format=gbrap16le,premultiply=inplace=1,tmix=frames=${blur},unpremultiply=inplace=1,${selL}`, mbA = `tmix=frames=${blur},${selL}`;
   const rate = blur > 1 ? ['-r', String(fps)] : [];
-  const tArgs = [...tIn, '-map', '0:v', ...(blur > 1 ? ['-vf', mbT, ...rate] : []), '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le', '-vendor', 'apl0', '-t', String(limit / rfps), join(outDir, 'text_alpha.mov')];
-  const aArgs = [...aIn, ...(audio ? ['-i', audio] : []), '-map', '0:v', ...(audio ? ['-map', '1:a?', '-c:a', 'aac', '-b:a', '192k'] : []), ...(blur > 1 ? ['-vf', mbA, ...rate] : []),
-    '-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-t', String(limit / rfps), join(outDir, 'ambient.mp4')];
+  const tArgs = [...tIn, '-map', '0:v', ...(blur > 1 ? ['-vf', mbT, ...rate] : []), '-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le', '-vendor', 'apl0', '-t', String((limit - f0) / rfps), outName('text_alpha', '.mov')];
+  const aArgs = [...aIn, ...(audio ? audioIn(audio) : []), '-map', '0:v', ...(audio ? ['-map', '1:a?', '-c:a', 'aac', '-b:a', '192k'] : []), ...(blur > 1 ? ['-vf', mbA, ...rate] : []),
+    '-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', '-t', String((limit - f0) / rfps), outName('ambient', '.mp4')];
   if (args['debug-ffmpeg']) { console.log(tArgs.join(' ')); console.log(aArgs.join(' ')); }
   const mk = a => { const f = spawn('ffmpeg', a, { stdio: ['pipe', 'inherit', 'inherit'] }); const o = { f, dead: false }; f.stdin.on('error', () => { o.dead = true; }); o.done = new Promise(r => f.on('close', c => { o.dead = true; r(c); })); return o; };
   const T = mk(tArgs), A = mk(aArgs);
   const wr = async (o, buf) => { if (!o.f.stdin.write(buf)) await new Promise(r => o.f.stdin.once('drain', r)); };
-  await renderLayers(page, limit, async (i, tx, am) => {
+  await renderLayers(page, f0, limit, async (i, tx, am) => {
     if (T.dead || A.dead) { await browser.close(); die('ffmpeg 已中止（上方應有 ffmpeg 的錯誤訊息），停止渲染。'); }
     if (dump) { writeFileSync(join(dump, 'text_' + String(i).padStart(6, '0') + '.png'), tx); writeFileSync(join(dump, 'amb_' + String(i).padStart(6, '0') + '.' + (fmt === 'png' ? 'png' : 'jpg')), am); }
     await wr(T, tx); await wr(A, am); }, bgOf);
   T.f.stdin.end(); A.f.stdin.end(); const [c1, c2] = await Promise.all([T.done, A.done]); await browser.close();
   if (bgVideo && !args['keep-bg']) rmSync(bgDir, { recursive: true, force: true });
   if (c1 || c2) die('ffmpeg 失敗（代碼 ' + (c1 || c2) + '）。分層輸出需要 prores_ks 與 libx264。');
-  console.log('完成：' + join(outDir, 'text_alpha.mov') + '、' + join(outDir, 'ambient.mp4') + '\n（疊合：text_alpha.mov 放在 ambient.mp4 上方；注意依賴背景的效果如整頁反白閃光無法還原）');
+  console.log('完成：' + outName('text_alpha', '.mov') + '、' + outName('ambient', '.mp4') + '\n（疊合：text_alpha.mov 放在 ambient.mp4 上方；注意依賴背景的效果如整頁反白閃光無法還原）');
   process.exit(0);
 }
 const inArgs = ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(rfps), '-c:v', fmt === 'png' ? 'png' : 'mjpeg', '-i', '-'];
 const outs = [];
 if (needAlpha) {       // 透明字層：不含音訊與背景
-  outs.push({ file: join(outDir, 'text_alpha.mov'), a: ['-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le', '-vendor', 'apl0'] });
-  if (args.webm) outs.push({ file: join(outDir, 'text_alpha.webm'), a: ['-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p', '-b:v', '0', '-crf', '24', '-auto-alt-ref', '0'] });
+  outs.push({ file: outName('text_alpha', '.mov'), a: ['-c:v', 'prores_ks', '-profile:v', '4444', '-pix_fmt', 'yuva444p10le', '-vendor', 'apl0'] });
+  if (args.webm) outs.push({ file: outName('text_alpha', '.webm'), a: ['-c:v', 'libvpx-vp9', '-pix_fmt', 'yuva420p', '-b:v', '0', '-crf', '24', '-auto-alt-ref', '0'] });
 } else {
-  outs.push({ file: join(outDir, 'preview.mp4'), a: ['-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart'] });
+  outs.push({ file: outName('preview', '.mp4'), a: ['-c:v', 'libx264', '-crf', '18', '-pix_fmt', 'yuv420p', '-movflags', '+faststart'] });
 }
 const sel = `select=eq(mod(n+1\\,${blur})\\,0),setpts=N/(${fps}*TB)`;
 const mbVF = needAlpha ? `format=gbrap16le,premultiply=inplace=1,tmix=frames=${blur},unpremultiply=inplace=1,${sel}` : `tmix=frames=${blur},${sel}`;
 const postVF = post && !needAlpha ? postFilter(post, W, H) : '';   // 接在動態模糊之後，與 mbVF 合併成單一 -vf
 const vf = [blur > 1 ? mbVF : '', postVF].filter(Boolean).join(',');
-const ffArgs = [...inArgs, ...(audio && !needAlpha ? ['-i', audio] : [])];
-for (const o of outs) ffArgs.push('-map', '0:v', ...(audio && !needAlpha ? ['-map', '1:a?', '-c:a', 'aac', '-b:a', '192k'] : []), ...(vf ? ['-vf', vf, ...(blur > 1 ? ['-r', String(fps)] : [])] : []), ...o.a, '-t', String(limit / rfps), o.file);
+const ffArgs = [...inArgs, ...(audio && !needAlpha ? audioIn(audio) : [])];
+for (const o of outs) ffArgs.push('-map', '0:v', ...(audio && !needAlpha ? ['-map', '1:a?', '-c:a', 'aac', '-b:a', '192k'] : []), ...(vf ? ['-vf', vf, ...(blur > 1 ? ['-r', String(fps)] : [])] : []), ...o.a, '-t', String((limit - f0) / rfps), o.file);
 if (args['debug-ffmpeg']) console.log(ffArgs.join(' '));
 const ff = spawn('ffmpeg', ffArgs, { stdio: ['pipe', 'inherit', 'inherit'] });
 let ffDead = false; ff.stdin.on('error', () => { ffDead = true; });
 const done = new Promise(r => ff.on('close', c => { ffDead = true; r(c); }));
-await renderAll(page, limit, async (i, buf) => {
+await renderAll(page, f0, limit, async (i, buf) => {
   if (ffDead) { await browser.close(); die('ffmpeg 已中止（上方應有 ffmpeg 的錯誤訊息），停止渲染。'); }
   if (dump) writeFileSync(join(dump, String(i).padStart(6, '0') + '.' + (fmt === 'png' ? 'png' : 'jpg')), buf);
   if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r)); }, bgOf);

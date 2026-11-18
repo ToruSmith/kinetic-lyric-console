@@ -9,8 +9,11 @@ Console.cart({
     const txtEl = ctx.text;
     const A = ctx.anim;
     const D = ctx.enterMs;
+    const SWd = ctx.sw;
     const t=[...sb.plain],n=Math.min(3,Math.max(1,t.length)),k=Math.ceil(t.length/n);
-    const e=txtEl(`inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8cqw;font-size:${big*.9}px;line-height:1.05;letter-spacing:.05em`);c.appendChild(e);
+    /* 每行不再自動折行：字級最多讓最長的一行放進 84% 寬（長句時縮小；短句與原本相同） */
+    const fz=Math.min(big*.9,SWd()*.84/(k*1.08));
+    const e=txtEl(`inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 8cqw;font-size:${fz}px;white-space:nowrap;line-height:1.05;letter-spacing:.05em`);c.appendChild(e);
     for(let i=0;i<n;i++){const r=document.createElement("div");r.textContent=t.slice(i*k,i*k+k).join("");r.style.textAlign=i%2?"right":"left";e.appendChild(r);A(r,[{opacity:0,transform:`translateX(${i%2?8:-8}cqw)`},{opacity:1,transform:"none"}],{duration:D(),delay:i*150})}
   },
 });

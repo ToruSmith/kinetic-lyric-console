@@ -2,6 +2,7 @@
  "core/kernel/legacy-file-map.js",
  "core/kernel/render-mode.js",
  "core/kernel/config.js",
+ "core/kernel/size-calib.js",
  "core/kernel/parse.js",
  "core/kernel/anim.js",
  "core/kernel/build-sentence.js",

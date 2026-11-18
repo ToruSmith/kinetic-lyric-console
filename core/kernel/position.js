@@ -7,6 +7,7 @@ function resolvePos(sb){
  let a=CONFIG.posAnchor||"",x=+CONFIG.posX||0,y=+CONFIG.posY||0;
  /* 句子自己有位置（^錨點:X:Y）時完全以它為準，不再疊加全域微調：X／Y＝相對「錨點」（auto＝版型原位）的偏移 %。
     錨點留空（^:X:Y）＝沿用全域錨點；沒有位置標記的句子才跟隨全域錨點與全域微調 */
+ if(isBoxPos(sb.pos))return null;   /* ^box:… 限定區域另外處理（resolveBox），不再套用錨點 */
  if(sb.pos){const q=sb.pos.split(":");a=q[0]==="auto"?"":ANCH[q[0]]?q[0]:a;x=+q[1]||0;y=+q[2]||0}
  if(!ANCH[a])a="";
  return(a||x||y)?{a,x,y}:null}
@@ -54,3 +55,37 @@ function placePos(PS,sb,host,fw,content,small){
  return true}
 const beatMs=()=>60000/CONFIG.bpm,beatPh=sb=>{const p=beatMs();let ph=((CONFIG.offset-sb.s)*1000)%p;return ph<0?ph+p:ph};
 
+
+/* ===== [BOX] 限定區域：^box:X:Y:寬:高（畫面 %）或 ^box:名稱（CONFIG.regions 裡的具名區域）=====
+   build() 把整句放進一個「區域框」（container-type:size），並在排版期間讓 SWd()/SHd() 回傳框的大小，
+   所以版型用畫面寬高或 cqw/cqh 排出來的東西都會落在框裡。框外的場景、粒子不受影響。 */
+const isBoxPos=p=>/^box:/.test(p||"");
+function regionOf(name){const R=(CONFIG.regions||{})[name];if(Array.isArray(R))return R;if(typeof R==="string")return R.split(/[\s,:]+/);return null}
+function resolveBox(sb){
+ if(!sb||!isBoxPos(sb.pos))return null;
+ const q=sb.pos.slice(4).split(":").filter(x=>x!=="");const r=q.length===1?regionOf(q[0]):q;
+ if(!r||r.length<4)return null;const n=r.slice(0,4).map(Number);if(n.some(x=>!isFinite(x)))return null;
+ const cl=(v,a,b)=>Math.max(a,Math.min(b,v)),w=cl(n[2],5,100),h=cl(n[3],5,100);
+ return{x:cl(n[0],0,100-w),y:cl(n[1],0,100-h),w,h}}
+/* ===== [FIT] 自動縮放：整句（含 {} 強調字，不含副文）超出畫面或 ^box 區域時，整句等比縮小並推回範圍內 =====
+   沒有超出時完全不介入。量測時刻與 placePos 相同（進場完成、退場未開始）。滿版版型與 FIT_SKIP 不處理。 */
+const FIT_SKIP=new Set(["split","outline-big"]);   /* split 的左右大字本來就貼齊畫面兩側，小字可以穿過；outline-big 的背景描邊大字本來就超出畫面 */
+function fitContent(sb,content,area){
+ const T0=Math.max(0,(sb.e-sb.s)*1000-CONFIG.exit*1000*tK-1);
+ anims.forEach(a=>{try{a.currentTime=T0}catch(e){}});
+ /* 裝飾元素（data-nm：游標棒、殘影複本、※ 等）會掃到字外，不算進整句範圍；量測時暫時隱藏 */
+ const nm=[...content.querySelectorAll("[data-nm]")].map(e=>[e,e.style.display]);nm.forEach(([e])=>e.style.display="none");
+ const G=groupRect(content);
+ nm.forEach(([e,d])=>e.style.display=d);
+ anims.forEach(a=>{try{a.currentTime=0}catch(e){}});
+ if(!G)return 1;
+ const tol=2,uw=G.r-G.l,uh=G.b-G.t,aw=area.r-area.l,ah=area.b-area.t;
+ if(G.l>=area.l-tol&&G.t>=area.t-tol&&G.r<=area.r+tol&&G.b<=area.b+tol)return 1;
+ const k=Math.max(.2,Math.min(1,aw/uw,ah/uh)),cx=(G.l+G.r)/2,cy=(G.t+G.b)/2;
+ const nl=cx-uw*k/2,nt=cy-uh*k/2,nr=nl+uw*k,nb=nt+uh*k;
+ const dx=nl<area.l?area.l-nl:nr>area.r?area.r-nr:0,dy=nt<area.t?area.t-nt:nb>area.b?area.b-nb:0;
+ const o=$("#stage").getBoundingClientRect(),c=content.getBoundingClientRect();
+ content.style.transformOrigin=`${(cx-(c.left-o.left)).toFixed(1)}px ${(cy-(c.top-o.top)).toFixed(1)}px`;
+ if(k<.999)content.style.scale=k.toFixed(4);
+ if(dx||dy)content.style.translate=`${dx.toFixed(1)}px ${dy.toFixed(1)}px`;
+ return k}

@@ -15,7 +15,7 @@ const edMk=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=
 const fmtT=t=>{const m=Math.floor(t/60),s=(t-m*60).toFixed(2);return m+":"+(s<10?"0":"")+s};
 const defLay=x=>x.br&&x.br.length?"split":"lowerleft";
 const edClean=s=>String(s).replace(/\r/g,"").replace(/\|{2,}/g,"|").replace(/\n\s*\n+/g,"\n").trim();   /* 空行會讓 SRT 斷句、|| 是副文分隔，所以先清掉 */
-const ED_COPY=["lay","en","ex","fx","st","font","scene","pos","bigR","txtS"];   /* 「外觀」＝這些欄位（不含文字與時間） */
+const ED_COPY=["lay","en","ex","fx","st","font","scene","pos","bigR","txtS","capH"];   /* 「外觀」＝這些欄位（不含文字與時間） */
 
 /* ---------- 列表 ---------- */
 function edTags(i){const x=subs[i],a=[],pv=subs[i-1];
@@ -25,6 +25,7 @@ function edTags(i){const x=subs[i],a=[],pv=subs[i-1];
  if(x.scene){const t=x.scene.split(",").filter(z=>!/^(bfx-|trans-|none)/.test(z));a.push(["c","場景 "+(t.length?t[0].split(":")[0]+(t.length>1?"+"+(t.length-1):""):"…")])}
  if(x.pos)a.push(["p","位置 "+x.pos]);
  if(x.font)a.push(["","字 "+x.font]);
+ if(x.capH>0)a.push(["","字高 "+x.capH+"%"]);
  if(x.bigR>0||x.txtS>0)a.push(["","字級 "+[x.bigR>0?"大"+x.bigR:"",x.txtS>0?x.txtS+"%":""].filter(Boolean).join("·")]);
  if(pv&&x.s<pv.e-.001)a.push(["w","⚠ 重疊"]);
  return a}
@@ -124,18 +125,20 @@ function edDetail(i){const d=$("#edm"),sd=d&&d.querySelector(".edside");if(!sd)r
   b.append(btn("🎲 隨機這一句",()=>edRandomize([i],edRandOpt),"重抽勾選的項目（可復原）；再按一次再抽一次"))});
  /* 3. 樣式・字體 */
  G("sty","樣式・字體",b=>{
-  const si=inp("text",x.st,"neon,outline"),setSt=v=>{if(v.split(",").filter(Boolean).length>3){note("樣式最多 3 個");si.value=x.st||"";return false}E(()=>{x.st=v;if(v)x.auto=false},"st"+i);si.value=v;return true};
+  const si=inp("text",x.st,"neon,outline"),setSt=v=>{if(v.split(",").filter(z=>z&&!z.includes("=")).length>3){note("樣式最多 3 個（c=、a= 等顏色鍵不算）");si.value=x.st||"";return false}E(()=>{x.st=v;if(v)x.auto=false},"st"+i);si.value=v;return true};
   si.onchange=()=>setSt(si.value.replace(/\s/g,""));
-  F("樣式 @（最多 3 個，可疊加）",chipBox([...Object.keys(ST),...Object.keys(STC)],()=>x.st||"",v=>{setSt(v)},n=>"樣式 @"+n),b);F("",si,b);
+  F("樣式 @（最多 3 個，可疊加；顏色寫 c=字色、a=強調色、sh=陰影色或 none、plate=底板色、pal=色組，例 neon,c=2a1d14）",chipBox([...Object.keys(ST),...Object.keys(STC)],()=>x.st||"",v=>{setSt(v)},n=>"樣式 @"+n),b);F("",si,b);
   const fs=edMk("select"),fill=()=>{const v=x.font||"";fs.innerHTML="";fs.add(new Option("（跟隨全域字體）",""));Object.keys(FONTS).forEach(k=>fs.add(new Option(k,k)));fs.value=FONTS[v]?v:""};fill();fs.onmousedown=fill;   /* 展開前重建：之後才上傳的字體也看得到 */
   fs.onchange=()=>E(()=>{x.font=fs.value},"font"+i);F("這一句的字體",fs,b);
   /* 文字大小：這一句自己的「大字高度比例」與「文字整體縮放%」，取代全域值（不是相乘）；留空＝跟隨全域。寫進標記 $大字比例,縮放% */
   const mkSz=(key,lo,hi,step,ph)=>{const e=inp("number",x[key]>0?x[key]:"",ph);Object.assign(e,{min:lo,max:hi,step});e.title=ph;
-   e.onchange=()=>{let v=parseFloat(e.value);v=v>0&&isFinite(v)?Math.max(lo,Math.min(hi,v)):0;e.value=v||"";if(v===(x[key]>0?x[key]:0))return;E(()=>{x[key]=v},"sz"+key+i);hint()};return e},
-   bi=mkSz("bigR",.03,.8,.01,"大字高度比例 .03–.8"),ti=mkSz("txtS",20,300,5,"整體縮放 20–300%"),szh=edMk("div","edhint"),
+   e.onchange=()=>{let v=parseFloat(e.value);v=v>0&&isFinite(v)?Math.max(lo,Math.min(hi,v)):0;e.value=v||"";if(v===(x[key]>0?x[key]:0))return;
+    /* 絕對字高 $h 與「大字比例／縮放」擇一：填了一邊就清掉另一邊 */
+    E(()=>{x[key]=v;if(v&&key==="capH"){x.bigR=0;x.txtS=0}else if(v){x.capH=0}},"sz"+key+i);if(v&&key==="capH")bi.value=ti.value="";else if(v)hi2.value="";hint()};return e},
+   bi=mkSz("bigR",.03,.8,.01,"大字高度比例 .03–.8"),ti=mkSz("txtS",20,300,5,"整體縮放 20–300%"),hi2=mkSz("capH",.5,60,.5,"絕對字高 .5–60（畫面高 %）"),szh=edMk("div","edhint"),
    hint=()=>{szh.textContent="留空＝跟隨全域（目前：大字高度比例 "+CONFIG.bigRatio+"、整體縮放 "+(+CONFIG.textScale||100)+"%）。這一句填了就取代全域值，不是相乘。"};
-  const sr2=edMk("div","edrow2");F("大字高度比例（.03–.8）",bi,sr2);F("整體縮放 %（20–300）",ti,sr2);b.append(sr2,szh);hint();
-  b.append(btn("文字大小回到跟隨全域",()=>{E(()=>{x.bigR=0;x.txtS=0},"sz"+i);bi.value=ti.value=""}));
+  const sr2=edMk("div","edrow2");F("大字高度比例（.03–.8）",bi,sr2);F("整體縮放 %（20–300）",ti,sr2);b.append(sr2);F("絕對字高 %（$h；各版型看起來一樣大，取代上面兩項）",hi2,b);b.append(szh);hint();
+  b.append(btn("文字大小回到跟隨全域",()=>{E(()=>{x.bigR=0;x.txtS=0;x.capH=0},"sz"+i);bi.value=ti.value=hi2.value=""}));
   if(["scroll","marquee","page-flip"].includes(layOf(x)))b.append(edMk("div","edhint edwarn","此版型自行讀取全域「整體縮放」，這一句的縮放不生效（大字高度比例與其他版型照常）。"))});
  /* 4. 場景層 */
  G("scn","場景層（&）",b=>{
@@ -148,10 +151,12 @@ function edDetail(i){const d=$("#edm"),sd=d&&d.querySelector(".edside");if(!sd)r
  /* 5. 位置 */
  G("pos","位置",b=>{
   const pS=sel([["auto","版型原位"],...Object.entries(ANCH)],"",()=>commit(),"跟隨全域"),mkN=ph=>{const e=inp("number","",ph);Object.assign(e,{step:.5,min:-100,max:100});e.title=ph+"（畫面寬／高的 %；相對這句的錨點，不與全域微調相加）";return e},pX=mkN("X%"),pY=mkN("Y%");
-  const syncPos=()=>{const p=(x.pos||"").split(":");pS.value=(p[0]===""||p[0]==="auto"||ANCH[p[0]])?p[0]:"";pX.value=p[1]||"";pY.value=p[2]||""};
+  const syncPos=()=>{const bx=isBoxPos(x.pos),p=bx?[""]:(x.pos||"").split(":");pS.value=(p[0]===""||p[0]==="auto"||ANCH[p[0]])?p[0]:"";pX.value=p[1]||"";pY.value=p[2]||"";pB.value=bx?x.pos.slice(4):""};
+  /* 限定區域 ^box：區域名稱（面板「限定區域」設定）或 X:Y:寬:高（畫面 %）；填了就取代錨點與微調 */
+  const pB=inp("text","","右下 或 55:55:40:35");pB.onchange=()=>{const v=pB.value.replace(/\s/g,"").replace(/^box:/,"").replace(/,/g,":");if(v&&!resolveBox({pos:"box:"+v})){note("區域格式不對：要寫區域名稱，或 X:Y:寬:高 四個數字");syncPos();return}E(()=>{x.pos=v?"box:"+v:"";if(v)x.auto=false},"pos"+i);syncPos()};
   const commit=()=>{const a=pS.value,xs=pX.value,ys=pY.value;E(()=>{x.pos=[a,...(xs!==""||ys!==""?[xs||0,ys||0]:[])].join(":");if(x.pos)x.auto=false},"pos"+i)};
   pX.onchange=pY.onchange=commit;syncPos();edCurUI={i,syncPos};
-  F("錨點",pS,b);const r=edMk("div","edrow2");F("水平 X%",pX,r);F("垂直 Y%",pY,r);b.append(r);
+  F("錨點",pS,b);const r=edMk("div","edrow2");F("水平 X%",pX,r);F("垂直 Y%",pY,r);b.append(r);F("限定區域（^box；整句排在框內）",pB,b);
   const ps=sel(POSPRE,"",v=>{if(!v)return;E(()=>{x.pos=presetPos(v,i);x.auto=false},"pos"+i);syncPos();ps.value=""},"位置預設 → 套用到這一句…");F("",ps,b);
   b.append(btn("這句回到跟隨全域",()=>{E(()=>{x.pos=""},"pos"+i);syncPos()}));
   if(FULLBLEED.has(layOf(x)))b.append(edMk("div","edhint edwarn","此版型為滿版，位置不生效。"));
@@ -160,7 +165,7 @@ function edDetail(i){const d=$("#edm"),sd=d&&d.querySelector(".edside");if(!sd)r
  G("pack","風格包（一鍵套用到這一句）",b=>{
   b.append(edMk("div","edhint","勾選要套用的內容後，按風格包名稱：版型從該包的版型池挑（再按一次換下一個）、場景層＋節拍後製、字體。色彩、粒子、後製等全域項目請用面板「風格包・場景層・後製」整套套用。"));
   edPackOptBoxes(b);edPackBtns(b,()=>[i]);
-  b.append(btn("這句回到自動（清除所有逐句設定）",()=>{pushHist();Object.assign(x,{auto:true,en:"",ex:"",fx:"",pos:"",st:"",font:"",scene:"",bigR:0,txtS:0});reparse(x);cur=-2;edRender();posRef&&posRef()},"清除版型、進退場、特效、位置、樣式、字體、文字大小、場景；文字與時間不動"))});
+  b.append(btn("這句回到自動（清除所有逐句設定）",()=>{pushHist();Object.assign(x,{auto:true,en:"",ex:"",fx:"",pos:"",st:"",font:"",scene:"",bigR:0,capH:0,txtS:0});reparse(x);cur=-2;edRender();posRef&&posRef()},"清除版型、進退場、特效、位置、樣式、字體、文字大小、場景；文字與時間不動"))});
  sd.scrollTop=top}
 
 /* 逐句轉場：下拉選單只增減 trans-* 這一個記號，其他場景與節拍後製原樣保留 */

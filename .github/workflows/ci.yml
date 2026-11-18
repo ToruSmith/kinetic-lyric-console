@@ -27,7 +27,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run lint            # 不需瀏覽器，最先跑，卡帶違規在這裡就擋下
-      - run: node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node tools/gen-effect-index.mjs --check && node test/srt-check.mjs && node test/meta.mjs   # 不需瀏覽器；清單與 AI 速查表必須與卡帶同步
+      - run: node tools/gen-catalog.mjs --check && node tools/gen-cheatsheet.mjs --check && node tools/gen-effect-index.mjs --check && node tools/gen-size-calib.mjs --check && node test/srt-check.mjs && node test/meta.mjs   # 不需瀏覽器；清單與 AI 速查表必須與卡帶同步
       - name: 安裝 Chromium（快取）
         uses: actions/cache@v4
         id: pw
@@ -46,6 +46,8 @@ jobs:
         run: node test/transition.mjs
       - name: 效果可見性
         run: node test/effects-visible.mjs
+      - name: 限定區域、每句顏色、絕對字高、快轉
+        run: node test/region-color.mjs
       - name: 完整測試與新舊像素對照（僅手動）
         if: github.event_name == 'workflow_dispatch' && inputs.full
         run: |
